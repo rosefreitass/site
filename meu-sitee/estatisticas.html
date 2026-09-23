@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estatísticas — Rose Freitas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#EFE9DC;--ink-soft:#C7BEAC;--paper:#1B1811;--paper-raised:#242019;
+  --sand:#332C21;--brass:#D3A548;--brass-deep:#E8BE68;--line:#3A3327;--radius:2px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Public Sans',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,56px)}
+header{position:sticky;top:0;z-index:10;background:rgba(27,24,17,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:0 auto;padding:16px clamp(20px,5vw,56px)}
+.brand{font-family:'Newsreader',serif;font-size:1.45rem;font-weight:500}
+.nav-back{font-size:.9rem;color:var(--ink-soft);border-bottom:1px solid transparent;padding-bottom:3px;transition:.2s}
+.nav-back:hover{color:var(--brass-deep);border-color:var(--brass)}
+main{padding:clamp(64px,9vw,110px) 0 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.85rem;color:var(--brass-deep);margin-bottom:20px}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--brass)}
+h1,h2,h3{font-family:'Newsreader',serif;font-weight:500;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(2.8rem,5.5vw,4.7rem);line-height:1.03;max-width:12ch}
+.intro{margin-top:22px;max-width:650px;font-size:1.08rem;line-height:1.7;color:var(--ink-soft)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:54px}
+.card{border:1px solid var(--line);background:var(--paper-raised);padding:28px 26px;min-height:145px}
+.card .label{font-size:.85rem;color:var(--brass-deep);margin-bottom:18px}
+.card strong{display:block;font-family:'Newsreader',serif;font-size:2.5rem;font-weight:500;margin-bottom:7px}
+.card span{font-size:.9rem;color:var(--ink-soft)}
+.section{border-top:1px solid var(--line);margin-top:70px;padding-top:34px}
+.section-head{display:grid;grid-template-columns:150px 1fr;gap:30px;align-items:start}
+.section h2{font-size:clamp(2rem,3.5vw,2.8rem)}
+.placeholder{margin-top:28px;border:1px dashed var(--line);padding:30px;color:var(--ink-soft);line-height:1.7;background:rgba(255,255,255,.015)}
+footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--ink-soft);font-size:.85rem}
+.footer-row{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}
+.footer-accent{color:var(--brass-deep)}
+@media(max-width:700px){.stats{grid-template-columns:1fr}.section-head{grid-template-columns:1fr;gap:12px}.nav-back{font-size:.82rem}}
+</style>
+<script>
+function voltarAoSite(event){
+  if (window.opener && !window.opener.closed) {
+    event.preventDefault();
+    window.opener.location.href = 'index.html';
+    window.opener.focus();
+    window.close();
+  }
+}
+</script>
+</head>
+<body>
+<header>
+  <nav>
+    <a class="brand" href="index.html" onclick="voltarAoSite(event)">Rose Freitas</a>
+    <a class="nav-back" href="index.html" onclick="voltarAoSite(event)">Voltar para o site</a>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>Parcerias &amp; Publicidade</div>
+    <h1>Estatísticas<br>Rose Freitas BTS</h1>
+    <p class="intro">Criadora de conteúdo digital com foco em BTS, K-pop e cultura coreana, com atuação em YouTube, TikTok e Instagram. O conteúdo combina notícias, comentários, lives, entretenimento e comunidade.</p>
+    <p class="intro" style="font-size:.82rem;margin-top:12px">Métricas atualizadas em setembro de 2026.</p>
+
+    <section class="stats" aria-label="Principais estatísticas">
+      <article class="card"><div class="label">Instagram</div><strong>895 mil</strong><span>visualizações</span></article>
+      <article class="card"><div class="label">Instagram</div><strong>113 mil</strong><span>interações</span></article>
+      <article class="card"><div class="label">Instagram</div><strong>1.900</strong><span>novos seguidores</span></article>
+      <article class="card"><div class="label">TikTok</div><strong>27,54 mil</strong><span>seguidores</span></article>
+      <article class="card"><div class="label">YouTube</div><strong>17,3 mil</strong><span>inscritos · canal monetizado</span></article>
+      <article class="card"><div class="label">Instagram</div><strong>708 mil</strong><span>views em Reels</span></article>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="eyebrow">Instagram</div>
+        <div>
+          <h2>@roselayne_2123</h2>
+          <div class="placeholder"><strong>895 mil</strong> visualizações · <strong>113 mil</strong> interações · <strong>+43%</strong> crescimento · <strong>56%</strong> de não seguidores.<br><br>Reels: 708 mil (79,1%) · Stories: 16 mil (1,8%) · Outras visualizações: 171 mil (19,1%).<br><br>9.276 visitas ao perfil · 152 toques no link da bio · 259 conteúdos compartilhados · 160 mil toques registrados.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="eyebrow">TikTok</div>
+        <div>
+          <h2>@roselayne.freitas.23</h2>
+          <div class="placeholder"><strong>27,54 mil</strong> seguidores · <strong>1,79 mi</strong> curtidas · <strong>2,53 mil</strong> vídeos · <strong>14,02%</strong> de engajamento.<br><br>Média pública: 10,46 mil visualizações por vídeo · 1,35 mil curtidas por vídeo · 76 comentários por vídeo · 18 vídeos/mês.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="eyebrow">YouTube</div>
+        <div>
+          <h2>@roselaynefreitas</h2>
+          <div class="placeholder"><strong>17,3 mil</strong> inscritos atuais · canal monetizado · vídeos + Shorts · lives + comunidade.<br><br>Em relação ao kit anterior (10,6 mil), foram adicionados <strong>+6,7 mil inscritos</strong>, uma variação aproximada de <strong>+63,2%</strong>.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="eyebrow">Conteúdo</div>
+        <div>
+          <h2>BTS · K-pop · Cultura coreana</h2>
+          <div class="placeholder">O universo de conteúdo inclui BTS, Jimin, notícias e atualizações, lives e comunidade. As métricas e descrições desta página foram organizadas a partir do Mídia Kit 2026.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>Rose Freitas — Negócios &amp; Marketing Digital</span>
+    <a class="footer-accent" href="index.html" onclick="voltarAoSite(event)">Voltar ao site</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -7,9 +7,26 @@
 .finance-card .finance-count{font-size:12px;color:#9f9889;margin-top:7px}
 .finance-total{margin-top:14px;padding-top:14px;border-top:1px solid #382d1d;display:flex;justify-content:space-between;gap:10px;font-weight:800}
 @media(max-width:650px){.finance-grid{grid-template-columns:1fr}}@media(max-width:850px){.shell{grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid #3d321f}.cards{grid-template-columns:1fr 1fr}}@media(max-width:520px){.main{padding:18px}.cards{grid-template-columns:1fr}.top{display:block}.user{margin-top:8px}.item,.request{display:block}.actions{margin-top:12px}}
-</style></head><body>
+
+.report-controls{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+.report-controls .field{min-width:190px}
+.report-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+.report-box{background:#17140f;border:1px solid #382d1d;border-radius:14px;padding:18px}
+.report-box small{display:block;color:#9f9889;margin-bottom:7px}
+.report-box strong{font-size:25px}
+.report-note{font-size:12px;color:#9f9889;line-height:1.55;margin-top:10px}
+.report-preview{margin-top:18px}
+.report-preview table{width:100%;border-collapse:collapse;font-size:12px}
+.report-preview th,.report-preview td{padding:9px 8px;border-bottom:1px solid #382d1d;text-align:left;vertical-align:top}
+.report-preview th{color:#d6a84b;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+@media(max-width:760px){.report-summary{grid-template-columns:1fr}}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
+</head><body>
 <section id="login" class="login"><div class="card"><div class="brand">ROSE FREITAS</div><h1>Painel ADM</h1><p class="muted">Área administrativa protegida.</p><label class="label">E-mail</label><input id="email" class="input" type="email"><label class="label">Senha</label><input id="password" class="input" type="password"><button id="loginBtn" class="btn primary" style="width:100%;margin-top:18px">Entrar</button><div id="loginMsg" class="loginmsg"></div></div></section>
-<section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
+<section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button><button data-view="relatorios">📄 Relatórios</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
 <div id="dashboard" class="view active"><div class="cards"><div class="stat"><small>Produtos</small><strong id="np">0</strong></div><div class="stat"><small>Cursos</small><strong id="nc">0</strong></div><div class="stat"><small>VIP</small><strong id="nv">0</strong></div><div class="stat"><small>Solicitações VIP</small><strong id="nr">0</strong></div></div>
 <div class="panel"><div class="panel-head"><div><h2>Estimativa VIP do mês</h2><div class="meta">Conta 1 vez cada solicitação que clicou em “enviar comprovante”. Não significa pagamento confirmado.</div></div></div>
 <div class="finance-grid">
@@ -21,7 +38,59 @@
 <div class="panel"><h2>Solicitações VIP recentes</h2><div id="recentes" class="request-grid"></div></div></div>
 <div id="produtos" class="view"><div class="panel"><div class="panel-head"><h2>Produtos</h2><button class="btn primary add" data-key="produto">+ Adicionar</button></div><div id="lp" class="items"></div></div></div>
 <div id="cursos" class="view"><div class="panel"><div class="panel-head"><h2>Cursos</h2><button class="btn primary add" data-key="curso">+ Adicionar</button></div><div id="lc" class="items"></div></div></div>
-<div id="vip" class="view"><div class="panel"><div class="panel-head"><h2>VIP / Assinaturas</h2><button class="btn primary add" data-key="vip">+ Adicionar</button></div><div id="lv" class="items"></div></div><div class="panel"><div class="panel-head"><h2>Solicitações de acesso</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><select id="filterVip" class="input" style="max-width:180px"><option value="">Todos os VIPs</option><option value="whatsapp">Somente WhatsApp</option><option value="telegram">Somente Telegram</option></select><select id="filter" class="input" style="max-width:180px"><option value="">Todos os status</option><option value="pendente">Pendentes</option><option value="confirmado">Confirmados</option><option value="cancelado">Cancelados</option></select></div></div><div id="requests" class="request-grid"></div></div></div></main></section>
+<div id="vip" class="view"><div class="panel"><div class="panel-head"><h2>VIP / Assinaturas</h2><button class="btn primary add" data-key="vip">+ Adicionar</button></div><div id="lv" class="items"></div></div><div class="panel"><div class="panel-head"><h2>Solicitações de acesso</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><select id="filterVip" class="input" style="max-width:180px"><option value="">Todos os VIPs</option><option value="whatsapp">Somente WhatsApp</option><option value="telegram">Somente Telegram</option></select><select id="filter" class="input" style="max-width:180px"><option value="">Todos os status</option><option value="pendente">Pendentes</option><option value="confirmado">Confirmados</option><option value="cancelado">Cancelados</option></select></div></div><div id="requests" class="request-grid"></div></div></div>
+<div id="relatorios" class="view">
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Relatório mensal</h2>
+        <div class="meta">Clientes VIP, valores e visualizações do site reunidos em um PDF.</div>
+      </div>
+    </div>
+
+    <div class="report-controls">
+      <div class="field">
+        <label class="label" for="reportMes">Mês</label>
+        <input id="reportMes" class="input" type="month">
+      </div>
+      <button id="previewReport" class="btn secondary">Visualizar dados</button>
+      <button id="generatePdf" class="btn primary">Gerar PDF</button>
+    </div>
+
+    <div class="report-summary">
+      <div class="report-box">
+        <small>Visualizações do site</small>
+        <strong id="relViews">0</strong>
+      </div>
+      <div class="report-box">
+        <small>Clientes / solicitações VIP</small>
+        <strong id="relClients">0</strong>
+      </div>
+      <div class="report-box">
+        <small>Valor estimado</small>
+        <strong id="relValue">R$ 0,00</strong>
+      </div>
+    </div>
+
+    <div class="finance-grid">
+      <div class="finance-card">
+        <div class="finance-name">Telegram VIP · R$ 10</div>
+        <div id="relTelegramValue" class="finance-value">R$ 0,00</div>
+        <div id="relTelegramCount" class="finance-count">0 registros</div>
+      </div>
+      <div class="finance-card">
+        <div class="finance-name">WhatsApp VIP · R$ 15</div>
+        <div id="relWhatsappValue" class="finance-value">R$ 0,00</div>
+        <div id="relWhatsappCount" class="finance-count">0 registros</div>
+      </div>
+    </div>
+
+    <div id="reportStatus" class="report-note">Selecione um mês e clique em “Visualizar dados”.</div>
+    <div id="reportPreview" class="report-preview"></div>
+    <div class="report-note">O PDF contém nomes e telefones dos clientes. Guarde esse arquivo em local privado.</div>
+  </div>
+</div>
+</main></section>
 <div id="modal" class="modal"><div class="modal-card"><div class="modal-head"><h2 id="mt">Adicionar</h2><button id="close" class="close">×</button></div><div id="mb"></div></div></div>
 <script>
 const URL_SB='https://mezvkqebymofkcroilwa.supabase.co',KEY='sb_publishable_w8Ft4-d55Ie5Bjf49fNO-A_k1dg5Qo8';let session=null,editing=null;
@@ -67,8 +136,198 @@ async function loadFinanceiro(){
   $('valorTotalMes').textContent=moeda(valorTg+valorWa);
 }
 
+
+let ultimoRelatorio=null;
+
+function periodoDoMes(valor){
+  if(!valor) throw new Error('Selecione o mês do relatório.');
+  const [ano,mes]=valor.split('-').map(Number);
+  const inicio=new Date(ano,mes-1,1,0,0,0,0);
+  const fim=new Date(ano,mes,1,0,0,0,0);
+  return {ano,mes,inicio,fim};
+}
+
+function nomeMes(ano,mes){
+  return new Date(ano,mes-1,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+}
+
+function esc(v){
+  return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+
+async function carregarRelatorioMensal(){
+  const valor=$('reportMes').value;
+  const {ano,mes,inicio,fim}=periodoDoMes(valor);
+  $('reportStatus').textContent='Carregando dados...';
+
+  const ini=encodeURIComponent(inicio.toISOString());
+  const end=encodeURIComponent(fim.toISOString());
+
+  const [clientes,comprovantes,visitas]=await Promise.all([
+    api('/rest/v1/vip_solicitacoes?select=id,nome_completo,celular,tipo_vip,status,criado_em&criado_em=gte.'+ini+'&criado_em=lt.'+end+'&order=criado_em.asc'),
+    api('/rest/v1/vip_comprovantes?select=solicitacao_id,tipo_vip,valor,criado_em&criado_em=gte.'+ini+'&criado_em=lt.'+end+'&order=criado_em.asc'),
+    api('/rest/v1/site_visitas?select=id,pagina,criado_em&criado_em=gte.'+ini+'&criado_em=lt.'+end)
+  ]);
+
+  const tg=comprovantes.filter(x=>x.tipo_vip==='telegram');
+  const wa=comprovantes.filter(x=>x.tipo_vip==='whatsapp');
+  const valorTg=tg.reduce((s,x)=>s+Number(x.valor||0),0);
+  const valorWa=wa.reduce((s,x)=>s+Number(x.valor||0),0);
+
+  const status={
+    pendente:clientes.filter(x=>x.status==='pendente').length,
+    confirmado:clientes.filter(x=>x.status==='confirmado').length,
+    cancelado:clientes.filter(x=>x.status==='cancelado').length
+  };
+
+  ultimoRelatorio={
+    ano,mes,periodo:nomeMes(ano,mes),
+    clientes,comprovantes,visitas,
+    qtdTelegram:tg.length,qtdWhatsapp:wa.length,
+    valorTelegram:valorTg,valorWhatsapp:valorWa,
+    valorTotal:valorTg+valorWa,status
+  };
+
+  $('relViews').textContent=visitas.length;
+  $('relClients').textContent=clientes.length;
+  $('relValue').textContent=moeda(ultimoRelatorio.valorTotal);
+  $('relTelegramValue').textContent=moeda(valorTg);
+  $('relTelegramCount').textContent=tg.length+' envio'+(tg.length===1?'':'s')+' de comprovante';
+  $('relWhatsappValue').textContent=moeda(valorWa);
+  $('relWhatsappCount').textContent=wa.length+' envio'+(wa.length===1?'':'s')+' de comprovante';
+
+  const linhas=clientes.map(c=>`<tr>
+    <td>${esc(c.nome_completo)}</td>
+    <td>${esc(c.celular)}</td>
+    <td>${c.tipo_vip==='telegram'?'Telegram':'WhatsApp'}</td>
+    <td><span class="badge ${esc(c.status)}">${esc(c.status)}</span></td>
+    <td>${new Date(c.criado_em).toLocaleString('pt-BR')}</td>
+  </tr>`).join('');
+
+  $('reportPreview').innerHTML=`
+    <div class="meta" style="margin-bottom:10px">
+      Status: ${status.confirmado} confirmados · ${status.pendente} pendentes · ${status.cancelado} cancelados
+    </div>
+    <table>
+      <thead><tr><th>Cliente</th><th>Celular</th><th>VIP</th><th>Status</th><th>Data</th></tr></thead>
+      <tbody>${linhas||'<tr><td colspan="5">Nenhum cliente nesse mês.</td></tr>'}</tbody>
+    </table>`;
+
+  $('reportStatus').textContent='Dados de '+ultimoRelatorio.periodo+' carregados.';
+  return ultimoRelatorio;
+}
+
+function pdfFallback(rel){
+  const w=window.open('','_blank');
+  if(!w){alert('O navegador bloqueou a janela do relatório. Libere pop-ups e tente novamente.');return}
+  const linhas=rel.clientes.map(c=>`<tr><td>${esc(c.nome_completo)}</td><td>${esc(c.celular)}</td><td>${c.tipo_vip==='telegram'?'Telegram':'WhatsApp'}</td><td>${esc(c.status)}</td><td>${new Date(c.criado_em).toLocaleString('pt-BR')}</td></tr>`).join('');
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Relatório ${esc(rel.periodo)}</title><style>body{font-family:Arial;padding:32px;color:#222}h1{margin-bottom:4px}small{color:#666}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.box{border:1px solid #ccc;padding:14px;border-radius:8px}table{width:100%;border-collapse:collapse;font-size:12px}th,td{border-bottom:1px solid #ddd;padding:8px;text-align:left}@media print{button{display:none}}</style></head><body>
+  <h1>Rose Freitas - Relatório mensal</h1><small>${esc(rel.periodo)}</small>
+  <div class="grid"><div class="box"><b>Visualizações</b><br>${rel.visitas.length}</div><div class="box"><b>Clientes VIP</b><br>${rel.clientes.length}</div><div class="box"><b>Valor estimado</b><br>${esc(moeda(rel.valorTotal))}</div></div>
+  <p><b>Telegram:</b> ${rel.qtdTelegram} registros - ${esc(moeda(rel.valorTelegram))}<br><b>WhatsApp:</b> ${rel.qtdWhatsapp} registros - ${esc(moeda(rel.valorWhatsapp))}</p>
+  <p><b>Status:</b> ${rel.status.confirmado} confirmados · ${rel.status.pendente} pendentes · ${rel.status.cancelado} cancelados</p>
+  <table><thead><tr><th>Cliente</th><th>Celular</th><th>VIP</th><th>Status</th><th>Data</th></tr></thead><tbody>${linhas||'<tr><td colspan="5">Nenhum cliente.</td></tr>'}</tbody></table>
+  <button onclick="print()">Salvar como PDF</button></body></html>`);
+  w.document.close();
+}
+
+async function gerarPdfMensal(){
+  try{
+    const rel=await carregarRelatorioMensal();
+    if(!window.jspdf?.jsPDF){
+      pdfFallback(rel);
+      return;
+    }
+
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({unit:'mm',format:'a4'});
+    const gold=[169,121,31];
+    const dark=[33,29,23];
+
+    doc.setTextColor(...dark);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(19);
+    doc.text('ROSE FREITAS - RELATORIO MENSAL',14,18);
+
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(11);
+    doc.setTextColor(90,90,90);
+    doc.text(rel.periodo.toUpperCase(),14,25);
+
+    doc.setDrawColor(...gold);
+    doc.line(14,29,196,29);
+
+    doc.setTextColor(...dark);
+    doc.setFontSize(11);
+    doc.setFont('helvetica','bold');
+    doc.text('RESUMO',14,38);
+
+    doc.setFont('helvetica','normal');
+    doc.text('Visualizacoes do site: '+rel.visitas.length,14,46);
+    doc.text('Clientes / solicitacoes VIP: '+rel.clientes.length,14,52);
+    doc.text('Confirmados: '+rel.status.confirmado+' | Pendentes: '+rel.status.pendente+' | Cancelados: '+rel.status.cancelado,14,58);
+
+    doc.setFont('helvetica','bold');
+    doc.text('VALORES ESTIMADOS',14,69);
+    doc.setFont('helvetica','normal');
+    doc.text('Telegram VIP: '+rel.qtdTelegram+' x R$ 10,00 = '+moeda(rel.valorTelegram),14,77);
+    doc.text('WhatsApp VIP: '+rel.qtdWhatsapp+' x R$ 15,00 = '+moeda(rel.valorWhatsapp),14,83);
+    doc.setFont('helvetica','bold');
+    doc.text('Total estimado: '+moeda(rel.valorTotal),14,91);
+
+    const rows=rel.clientes.map(c=>[
+      c.nome_completo||'',
+      c.celular||'',
+      c.tipo_vip==='telegram'?'Telegram':'WhatsApp',
+      c.status||'',
+      new Date(c.criado_em).toLocaleDateString('pt-BR')
+    ]);
+
+    if(typeof doc.autoTable==='function'){
+      doc.autoTable({
+        startY:101,
+        head:[['Cliente','Celular','VIP','Status','Data']],
+        body:rows.length?rows:[['Nenhum cliente','','','','']],
+        styles:{fontSize:8,cellPadding:2.4},
+        headStyles:{fillColor:gold,textColor:[255,255,255]},
+        alternateRowStyles:{fillColor:[247,244,237]},
+        margin:{left:14,right:14}
+      });
+    }else{
+      doc.setFontSize(10);
+      doc.text('Lista de clientes:',14,104);
+      let y=111;
+      rows.slice(0,32).forEach(r=>{
+        doc.text((r[0]+' | '+r[2]+' | '+r[3]).slice(0,90),14,y);
+        y+=5;
+      });
+    }
+
+    const paginas=doc.getNumberOfPages();
+    for(let i=1;i<=paginas;i++){
+      doc.setPage(i);
+      doc.setFontSize(7);
+      doc.setTextColor(120,120,120);
+      doc.text('Relatorio administrativo - dados pessoais. Uso interno.',14,290);
+      doc.text('Pagina '+i+' de '+paginas,180,290,{align:'right'});
+    }
+
+    const mes=String(rel.mes).padStart(2,'0');
+    doc.save(`relatorio-rose-freitas-${rel.ano}-${mes}.pdf`);
+  }catch(e){
+    $('reportStatus').textContent=e.message||'Não foi possível gerar o relatório.';
+    alert(e.message||'Não foi possível gerar o relatório.');
+  }
+}
+
 async function refresh(){await loadMain();await loadReq();await loadFinanceiro()}
 $('loginBtn').onclick=login;$('password').onkeydown=e=>{if(e.key==='Enter')login()};$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;
+
+const agoraRel=new Date();
+$('reportMes').value=agoraRel.getFullYear()+'-'+String(agoraRel.getMonth()+1).padStart(2,'0');
+$('previewReport').onclick=()=>carregarRelatorioMensal().catch(e=>{$('reportStatus').textContent=e.message});
+$('generatePdf').onclick=gerarPdfMensal;
+
 document.querySelectorAll('.add').forEach(b=>b.onclick=()=>form(b.dataset.key));$('nav').onclick=e=>{let b=e.target.closest('button[data-view]');if(!b)return;document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(b.dataset.view).classList.add('active');document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('title').textContent=b.textContent.trim()};
 document.addEventListener('click',async e=>{let b=e.target.closest('.edit');if(b){let k=b.dataset.key,d=await api('/rest/v1/'+cfg[k].table+'?select=*&id=eq.'+b.dataset.id);form(k,d[0])}let del=e.target.closest('.del');if(del&&confirm('Excluir este item?')){await api('/rest/v1/'+del.dataset.table+'?id=eq.'+del.dataset.id,{method:'DELETE'});await loadMain()}let st=e.target.closest('.status');if(st){await api('/rest/v1/vip_solicitacoes?id=eq.'+st.dataset.id,{method:'PATCH',body:JSON.stringify({status:st.dataset.status})});await loadReq();await loadFinanceiro()}});
 (async()=>{try{let s=JSON.parse(sessionStorage.getItem('rf_admin_session')||'null');if(s?.access_token){session=s;if(await isAdmin())await enter()}}catch{sessionStorage.removeItem('rf_admin_session')}})();

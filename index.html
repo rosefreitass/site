@@ -439,7 +439,9 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
 <div id="produtos-area" aria-hidden="true"></div>
 <div id="produtos-dinamicos"></div>
 
-<section id="metodo" class="contact">
+<div id="cursos-dinamicos"></div>
+
+<section id="metodo" class="contact curso-estatico">
   <div class="wrap contact-grid">
     <div>
       <div class="tag" style="color:var(--brass-deep); font-size:.85rem; margin-bottom:14px;">Garanta sua vaga</div>
@@ -462,7 +464,7 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
   </div>
 </section>
 
-<section id="coragem-falar" class="contact">
+<section id="coragem-falar" class="contact curso-estatico">
   <div class="wrap contact-grid">
     <div>
       <div class="tag" style="color:var(--brass-deep); font-size:.85rem; margin-bottom:14px;">Novo curso</div>
@@ -730,7 +732,97 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
     }
   }
 
+  // ---------- Integração Cursos ↔ Supabase ----------
+  function cursoHtml(curso, indice) {
+    const nome = escapeHtml(curso.nome || 'Curso');
+    const descricao = escapeHtml(curso.descricao || '');
+    const preco = formatarPreco(curso.preco);
+    const aulas = curso.aulas !== null && curso.aulas !== undefined && curso.aulas !== ''
+      ? escapeHtml(curso.aulas)
+      : '';
+    const desafio = escapeHtml(curso.desafio || '');
+    const link = String(curso.link_pagamento || '').trim();
+    const linkSeguro = /^(https?:\/\/)/i.test(link) ? escapeHtml(link) : '';
+    const id = `curso-${indice + 1}`;
+
+    const itens = [];
+    if (aulas) itens.push(`${aulas} aula${String(aulas) === '1' ? '' : 's'}`);
+    if (desafio) itens.push(desafio);
+
+    return `
+      <section id="${id}" class="contact curso-supabase">
+        <div class="wrap contact-grid">
+          <div>
+            <div class="tag" style="color:var(--brass-deep); font-size:.85rem; margin-bottom:14px;">Curso</div>
+            <h2>${nome}</h2>
+            ${descricao ? `<p>${descricao}</p>` : ''}
+            <div class="contact-actions">
+              ${linkSeguro ? `<a href="${linkSeguro}" target="_blank" rel="noopener" class="btn btn-solid">Inscreva-se no curso!</a>` : ''}
+              <a href="#conteudo-curso" class="btn btn-line">Rever o conteúdo</a>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <div class="plan-badge" style="margin-bottom:6px;">${nome}</div>
+            ${preco ? `<div class="price" style="margin-bottom:22px; font-size:2rem;">${preco}</div>` : ''}
+            ${descricao ? `<p style="margin:0 0 22px;">${descricao}</p>` : ''}
+            ${itens.length ? `
+              <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+                ${itens.map(item => `
+                  <li style="font-size:.92rem; padding-left:18px; position:relative;">
+                    <span style="position:absolute; left:0; color:var(--brass-deep);">—</span>${item}
+                  </li>
+                `).join('')}
+              </ul>
+            ` : ''}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  async function carregarCursos() {
+    const container = document.getElementById('cursos-dinamicos');
+    if (!container) return;
+
+    try {
+      const resposta = await fetch(
+        `${SUPABASE_URL}/rest/v1/cursos?select=*&order=criado_em.asc`,
+        {
+          cache: 'no-store',
+          headers: {
+            apikey: SUPABASE_KEY
+          }
+        }
+      );
+
+      if (!resposta.ok) {
+        throw new Error(`Supabase respondeu ${resposta.status}`);
+      }
+
+      const cursos = await resposta.json();
+
+      if (!Array.isArray(cursos) || cursos.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      // Quando houver cursos no Supabase, escondemos os cursos antigos escritos no HTML.
+      document.querySelectorAll('.curso-estatico').forEach(el => {
+        el.style.display = 'none';
+      });
+
+      container.innerHTML = cursos.map(cursoHtml).join('');
+    } catch (erro) {
+      console.error('Não foi possível carregar os cursos:', erro);
+      // Se der erro, os cursos antigos do HTML continuam visíveis.
+      container.innerHTML = '';
+    }
+  }
+
+
   carregarProdutos();
+  carregarCursos();
 </script>
 
 </body>

@@ -16,7 +16,7 @@
     <div id="loginMsg" class="msg"></div>
     <label>E-mail</label><input id="email" type="email" autocomplete="username" placeholder="seu@email.com">
     <label>Senha</label><input id="password" type="password" autocomplete="current-password" placeholder="••••••••">
-    <button class="btn primary" style="width:100%;margin-top:18px" onclick="login()">Entrar</button>
+    <button id="loginBtn" class="btn primary" style="width:100%;margin-top:18px" type="button">Entrar</button>
     <p class="help">A conta do administrador deve ser criada no Supabase Authentication.</p>
   </div>
 </div>
@@ -47,6 +47,8 @@
 const SUPABASE_URL='https://mezvkqebymofkcroilwa.supabase.co';
 const SUPABASE_KEY='sb_publishable_w8Ft4-d55Ie5Bjf49fNO-A_k1dg5Qo8';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+document.getElementById('loginBtn').addEventListener('click',login);
+document.getElementById('password').addEventListener('keydown',e=>{if(e.key==='Enter') login()});
 let currentUser=null, editing=null;
 const configs={
  produto:{table:'produtos',title:'Produto',fields:[['nome','Nome','input'],['descricao','Descrição','textarea'],['preco','Preço','input'],['link_pagamento','Link de pagamento','input']]},
@@ -56,10 +58,27 @@ const configs={
  estatistica:{table:'estatisticas',title:'Estatística',fields:[['plataforma','Plataforma','input'],['metrica','Métrica','input'],['valor','Valor','input'],['observacao','Observação','textarea']]}
 };
 function msg(id,text,error=false){const el=document.getElementById(id);el.textContent=text;el.className='msg'+(error?' error':'');el.style.display='block';setTimeout(()=>el.style.display='none',4500)}
-async function login(){const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;const {data,error}=await sb.auth.signInWithPassword({email,password});if(error)return msg('loginMsg',error.message,true);currentUser=data.user;enterApp()}
+async function login(){
+ const email=document.getElementById('email').value.trim();
+ const password=document.getElementById('password').value;
+ if(!email||!password)return msg('loginMsg','Preencha o e-mail e a senha.',true);
+ const btn=document.getElementById('loginBtn'); btn.disabled=true; btn.textContent='Entrando...';
+ try {
+   const {data,error}=await sb.auth.signInWithPassword({email,password});
+   if(error){
+     let t=error.message;
+     if(/email not confirmed/i.test(t)) t='Este e-mail ainda não foi confirmado no Supabase. Confirme o usuário em Authentication → Users.';
+     else if(/invalid login credentials/i.test(t)) t='E-mail ou senha incorretos.';
+     return msg('loginMsg',t,true);
+   }
+   if(!data?.session){return msg('loginMsg','Login realizado, mas a sessão não foi criada. Verifique o Supabase.',true)}
+   currentUser=data.user; enterApp();
+ } catch(e){ msg('loginMsg','Não foi possível conectar ao Supabase: '+(e.message||e),true); }
+ finally {btn.disabled=false;btn.textContent='Entrar';}
+}
 async function logout(){await sb.auth.signOut();location.reload()}
 function enterApp(){document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');document.getElementById('userEmail').textContent=currentUser?.email||'';loadAll()}
-sb.auth.getSession().then(({data})=>{if(data.session){currentUser=data.session.user;enterApp()}})
+sb.auth.getSession().then(({data,error})=>{if(error)console.error(error); if(data?.session){currentUser=data.session.user;enterApp()}}).catch(e=>console.error(e));
 function showView(id,btn){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('title').textContent=btn.innerText.trim()}
 async function loadAll(){for(const [key,c] of Object.entries(configs)) await loadList(key,c);}
 async function loadList(key,c){const {data,error}=await sb.from(c.table).select('*').order('created_at',{ascending:false});const el=document.getElementById('lista'+key[0].toUpperCase()+key.slice(1));if(error){el.innerHTML='<div class="empty">Tabela ainda não configurada ou sem permissão.</div>';return}el.innerHTML=data.length?data.map(item=>`<div class="item"><div class="item-info"><strong>${esc(item.nome||item.titulo||item.metrica||'Sem título')}</strong><span>${esc(item.descricao||item.valor||item.preco||'')}</span></div><div class="actions"><button class="btn secondary" onclick='editItem("${key}",${JSON.stringify(item).replace(/'/g,"&#39;")})'>Editar</button><button class="btn danger" onclick='deleteItem("${c.table}","${item.id}","${key}")'>Excluir</button></div></div>`).join(''):'<div class="empty">Nenhum item cadastrado ainda.</div>';updateCounts()}

@@ -386,20 +386,22 @@
   .hero-aside.logo-aside::before{
     content:"";
     position:absolute;
-    width:min(540px, 92%);
-    height:min(540px, 92%);
+    width:min(560px, 94%);
+    height:min(560px, 94%);
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
     border-radius:50%;
     background:radial-gradient(
       circle at center,
-      rgba(211,165,72,.58) 0%,
-      rgba(211,165,72,.34) 30%,
-      rgba(169,121,31,.18) 55%,
-      transparent 82%
+      rgba(211,165,72,.52) 0%,
+      rgba(211,165,72,.34) 22%,
+      rgba(196,145,52,.22) 42%,
+      rgba(169,121,31,.12) 60%,
+      rgba(120,84,22,.06) 72%,
+      transparent 84%
     );
-    filter:blur(54px);
+    filter:blur(48px);
     z-index:-1;
     pointer-events:none;
   }
@@ -444,9 +446,9 @@
 
   @media (max-width:820px){
     .hero-aside.logo-aside::before{
-      width:min(420px, 96%);
-      height:min(420px, 96%);
-      filter:blur(42px);
+      width:min(430px, 98%);
+      height:min(430px, 98%);
+      filter:blur(38px);
     }
     .about-photo::before{
       inset:-22px;
@@ -904,6 +906,28 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
 
   carregarProdutos();
   carregarCursos();
+</script>
+
+
+<script>
+/* Contagem simples de visualizações do site para o relatório mensal.
+   Não envia IP, nome, telefone ou outros dados pessoais. */
+(() => {
+  const SB_URL = 'https://mezvkqebymofkcroilwa.supabase.co';
+  const SB_KEY = 'sb_publishable_w8Ft4-d55Ie5Bjf49fNO-A_k1dg5Qo8';
+
+  fetch(SB_URL + '/rest/v1/rpc/registrar_visita_site', {
+    method: 'POST',
+    keepalive: true,
+    headers: {
+      apikey: SB_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      p_pagina: location.pathname || '/'
+    })
+  }).catch(() => {});
+})();
 </script>
 
 </body>

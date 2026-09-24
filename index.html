@@ -383,7 +383,7 @@
     <div class="nav-links" id="navLinks">
       <a href="#">Início</a>
       <a href="#sobre">Sobre</a>
-      <a href="#metodo">Cursos e Produtos</a>
+      <a href="#produtos-area">Cursos e Produtos</a>
       <a href="#conteudo-curso">Conteúdos</a>
       <a href="#vip">VIP</a>
       <a href="#contato">Parceria &amp; Publicidade</a>
@@ -435,6 +435,9 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
     </div>
   </div>
 </section>
+
+<div id="produtos-area" aria-hidden="true"></div>
+<div id="produtos-dinamicos"></div>
 
 <section id="metodo" class="contact">
   <div class="wrap contact-grid">
@@ -630,12 +633,104 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
 <script>
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-  });
-  navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => navLinks.classList.remove('open'));
-  });
+
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  }
+
+  // ---------- Integração Produtos ↔ Supabase ----------
+  const SUPABASE_URL = 'https://mezvkqebymofkcroilwa.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_w8Ft4-d55Ie5Bjf49fNO-A_k1dg5Qo8';
+
+  const escapeHtml = (value = '') => String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+
+  function formatarPreco(valor) {
+    if (valor === null || valor === undefined || valor === '') return '';
+    const numero = Number(String(valor).replace(',', '.'));
+    if (Number.isNaN(numero)) return escapeHtml(valor);
+    return numero.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
+  }
+
+  function produtoHtml(produto) {
+    const nome = escapeHtml(produto.nome || 'Produto');
+    const descricao = escapeHtml(produto.descricao || '');
+    const preco = formatarPreco(produto.preco);
+    const link = String(produto.link_pagamento || '').trim();
+    const linkSeguro = /^(https?:\/\/)/i.test(link) ? escapeHtml(link) : '';
+
+    return `
+      <section class="contact produto-supabase">
+        <div class="wrap contact-grid">
+          <div>
+            <div class="tag" style="color:var(--brass-deep); font-size:.85rem; margin-bottom:14px;">Produto</div>
+            <h2>${nome}</h2>
+            ${descricao ? `<p>${descricao}</p>` : ''}
+            ${linkSeguro ? `
+              <div class="contact-actions">
+                <a href="${linkSeguro}" target="_blank" rel="noopener" class="btn btn-solid">Quero este produto</a>
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="contact-card">
+            <div class="plan-badge" style="margin-bottom:6px;">${nome}</div>
+            ${preco ? `<div class="price" style="margin-bottom:22px; font-size:2rem;">${preco}</div>` : ''}
+            ${descricao ? `<p>${descricao}</p>` : ''}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  async function carregarProdutos() {
+    const container = document.getElementById('produtos-dinamicos');
+    if (!container) return;
+
+    try {
+      const resposta = await fetch(
+        `${SUPABASE_URL}/rest/v1/produtos?select=*&order=criado_em.asc`,
+        {
+          cache: 'no-store',
+          headers: {
+            apikey: SUPABASE_KEY
+          }
+        }
+      );
+
+      if (!resposta.ok) {
+        throw new Error(`Supabase respondeu ${resposta.status}`);
+      }
+
+      const produtos = await resposta.json();
+
+      if (!Array.isArray(produtos) || produtos.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = produtos.map(produtoHtml).join('');
+    } catch (erro) {
+      console.error('Não foi possível carregar os produtos:', erro);
+      // Se houver algum problema no Supabase, o restante do site continua funcionando.
+      container.innerHTML = '';
+    }
+  }
+
+  carregarProdutos();
 </script>
 
 </body>

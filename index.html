@@ -439,8 +439,6 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
 <div id="produtos-area" aria-hidden="true"></div>
 <div id="produtos-dinamicos"></div>
 
-<div id="cursos-dinamicos"></div>
-
 <section id="metodo" class="contact curso-estatico">
   <div class="wrap contact-grid">
     <div>
@@ -487,6 +485,8 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
     </div>
   </div>
 </section>
+
+<div id="cursos-dinamicos"></div>
 
 <section id="conteudo-curso">
   <div class="wrap">
@@ -807,9 +807,9 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
         return;
       }
 
-      // Quando houver cursos no Supabase, escondemos os cursos antigos escritos no HTML.
+      // Mantém os cursos originais do site visíveis e adiciona abaixo os cursos cadastrados no ADM.
       document.querySelectorAll('.curso-estatico').forEach(el => {
-        el.style.display = 'none';
+        el.style.display = '';
       });
 
       container.innerHTML = cursos.map(cursoHtml).join('');

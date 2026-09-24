@@ -1,1 +1,154 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TELEGRAM VIP</title><style>*{box-sizing:border-box}body{margin:0;background:#191710;color:#eee8da;font-family:Arial,sans-serif}.wrap{width:min(960px,calc(100% - 28px));margin:auto}.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-bottom:1px solid #4b3b20}.brand{font:26px Georgia;color:#eee8da;text-decoration:none}.back{padding:9px 14px;border:1px solid #5a4825;border-radius:999px;text-decoration:none;color:#eee8da}.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:55px 0}.eyebrow{color:#d6a84b;text-transform:uppercase;letter-spacing:2px;font-size:12px}h1,h2{font-family:Georgia}h1{font-size:clamp(44px,7vw,76px);line-height:.95}.lead,.note{color:#bdb5a5;line-height:1.7}.card{background:#211e17;border:1px solid #4b3b20;border-radius:18px;padding:26px}label{display:block;color:#bdb5a5;font-size:13px;margin:14px 0 7px}input{width:100%;padding:13px;border-radius:10px;border:1px solid #5a4825;background:#12110d;color:#fff}.cons{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.5}.cons input{width:auto}.btn{width:100%;margin-top:16px;padding:13px;border:0;border-radius:10px;background:#d6a84b;font-weight:800;cursor:pointer}.msg{color:#d6a84b;min-height:20px;margin-top:10px}#payment{display:none}.pix{background:#12110d;border:1px dashed #d6a84b;padding:16px;border-radius:10px;color:#d6a84b;font-weight:800;word-break:break-all}.pay{display:block;margin-top:18px;padding:13px;border-radius:10px;background:#d6a84b;color:#17130b;text-align:center;text-decoration:none;font-weight:800}@media(max-width:700px){.grid{grid-template-columns:1fr}}</style></head><body><header><div class="wrap top"><a class="brand" href="index.html">Rose Freitas</a><a class="back" href="index.html">← Voltar</a></div></header><main class="wrap grid"><section><div class="eyebrow">Comunidade exclusiva</div><h1>TELEGRAM VIP</h1><p class="lead">Tenha acesso a um espaço mais próximo da Rose, com transmissões exclusivas, bate-papo direto com a Rose, lives, novidades e outros momentos especiais da comunidade.</p><div class="card"><div class="eyebrow">Primeiro passo</div><h2>Informe seus dados</h2><p class="note">Preencha seu nome completo e celular. Depois de enviar, a chave Pix será liberada.</p><label>Nome completo</label><input id="nome" maxlength="120" autocomplete="name" placeholder="Seu nome completo"><label>Número de celular</label><input id="celular" maxlength="30" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000"><label class="cons"><input id="ok" type="checkbox"> <span>Concordo que meu nome e celular sejam usados para processar minha solicitação de acesso ao VIP.</span></label><button id="go" class="btn">Continuar para o pagamento</button><div id="msg" class="msg"></div></div></section><section id="payment" class="card"><div class="eyebrow">Pagamento via Pix</div><h2>Chave Pix</h2><p class="note">Faça o pagamento usando a chave abaixo:</p><div class="pix">roselaynes@yahoo.com.br</div><button id="copy" class="btn">Copiar chave Pix</button><div id="copymsg" class="msg"></div><p class="note">Após o pagamento, envie o comprovante pelo WhatsApp para confirmar seu acesso.</p><a class="pay" target="_blank" rel="noopener" href="https://wa.me/5531975219757?text=Ol%C3%A1%21%20Fiz%20o%20pagamento%20do%20TELEGRAM%20VIP%20e%20quero%20enviar%20meu%20comprovante.">Já fiz o pagamento — enviar comprovante</a></section></main><script>const U='https://mezvkqebymofkcroilwa.supabase.co',K='sb_publishable_w8Ft4-d55Ie5Bjf49fNO-A_k1dg5Qo8',TIPO='telegram';const $=id=>document.getElementById(id);$("go").onclick=async()=>{let n=$("nome").value.trim(),c=$("celular").value.trim();if(n.length<3)return $("msg").textContent="Digite seu nome completo.";if(c.length<8)return $("msg").textContent="Digite um número de celular válido.";if(!$("ok").checked)return $("msg").textContent="Marque o consentimento para continuar.";$("go").disabled=true;$("msg").textContent="Registrando...";try{let r=await fetch(U+"/rest/v1/vip_solicitacoes",{method:"POST",headers:{apikey:K,"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify({nome_completo:n,celular:c,tipo_vip:TIPO})});if(!r.ok)throw 0;$("msg").textContent="Solicitação registrada. A chave Pix foi liberada.";$("payment").style.display="block";$("payment").scrollIntoView({behavior:"smooth"})}catch(e){$("msg").textContent="Não foi possível registrar. Tente novamente.";$("go").disabled=false}};$("copy").onclick=async()=>{try{await navigator.clipboard.writeText('roselaynes@yahoo.com.br');$("copymsg").textContent="Chave copiada!"}catch{$("copymsg").textContent="Copie a chave manualmente."}};</script></body></html>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TELEGRAM VIP — Rose Freitas</title><style>
+*{box-sizing:border-box}body{margin:0;background:#191710;color:#eee8da;font-family:Arial,sans-serif}.wrap{width:min(960px,calc(100% - 28px));margin:auto}header{padding:22px 0;border-bottom:1px solid #4b3b20}.top{display:flex;justify-content:space-between;align-items:center;gap:15px}.brand{font-family:Georgia,serif;font-size:26px;text-decoration:none;color:#eee8da}.back{padding:9px 14px;border:1px solid #5a4825;border-radius:999px;text-decoration:none;font-size:14px}main{padding:55px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}.eyebrow{color:#d6a84b;text-transform:uppercase;letter-spacing:2px;font-size:12px;margin-bottom:12px}h1,h2{font-family:Georgia,serif}h1{font-size:clamp(44px,7vw,76px);line-height:.95;margin:0 0 20px}h2{font-size:30px;margin:0 0 12px}.lead,.note{color:#bdb5a5;line-height:1.7}.card{background:#211e17;border:1px solid #4b3b20;border-radius:18px;padding:26px}label{display:block;color:#bdb5a5;font-size:13px;margin:14px 0 7px}input{width:100%;padding:13px;border-radius:10px;border:1px solid #5a4825;background:#12110d;color:#fff}.check{display:flex;gap:8px;align-items:flex-start;margin-top:14px;font-size:12px;line-height:1.5}.check input{width:auto;margin-top:3px}button,.paybtn{border:0;border-radius:10px;padding:13px 16px;font-weight:800;cursor:pointer;background:#d6a84b;color:#17130b}.full{width:100%;margin-top:16px}.msg{min-height:20px;color:#d6a84b;font-size:13px;margin-top:10px}#payment{display:none}#payment.show{display:block}.pix{background:#12110d;border:1px dashed #d6a84b;padding:16px;border-radius:10px;margin:18px 0;word-break:break-all;color:#d6a84b;font-weight:800}.paybtn{display:block;text-align:center;text-decoration:none;margin-top:18px}footer{border-top:1px solid #4b3b20;padding:25px 0;color:#8f887a;font-size:12px}@media(max-width:700px){.grid{grid-template-columns:1fr}main{padding:38px 0}}
+
+.price-highlight{
+  margin:22px 0 26px;
+  padding:18px 20px;
+  border:2px solid #d6a84b;
+  border-radius:14px;
+  background:rgba(214,168,75,.08);
+}
+.price-highlight .price-label{
+  display:block;
+  color:#d6a84b;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+.price-highlight .price-value{
+  display:block;
+  font-family:Georgia,serif;
+  font-size:38px;
+  font-weight:800;
+  color:#fff6df;
+  line-height:1;
+}
+.payment-price{
+  margin:0 0 18px;
+  padding:14px 16px;
+  border-radius:10px;
+  background:#12110d;
+  border:1px solid #d6a84b;
+  text-align:center;
+}
+.payment-price small{
+  display:block;
+  color:#bdb5a5;
+  margin-bottom:4px;
+}
+.payment-price strong{
+  display:block;
+  color:#d6a84b;
+  font-size:28px;
+}
+</style></head><body><header><div class="wrap top"><a class="brand" href="index.html">Rose Freitas</a><a class="back" href="index.html">← Voltar para o site</a></div></header><main><div class="wrap grid"><section><div class="eyebrow">Comunidade exclusiva</div><h1>TELEGRAM VIP</h1><p class="lead">Tenha acesso a um espaço mais próximo da Rose, com transmissões exclusivas, bate-papo direto com a Rose, lives, novidades e outros momentos especiais da comunidade.</p><div class="price-highlight">
+  <span class="price-label">Valor do acesso ao Telegram VIP</span>
+  <span class="price-value">R$ 10,00</span>
+</div>
+<div class="card"><div class="eyebrow">Antes do pagamento</div><h2>Seus dados</h2><p class="note">Informe seu nome completo e número de celular. Depois de enviar, a chave Pix será liberada.</p><label for="nome">Nome completo</label><input id="nome" maxlength="120" autocomplete="name" placeholder="Seu nome completo"><label for="celular">Número de celular</label><input id="celular" maxlength="30" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000"><label class="check"><input id="consent" type="checkbox"><span>Concordo que meu nome e celular sejam usados para identificar e processar minha solicitação de acesso ao VIP.</span></label><button id="continuar" class="full">Continuar para o pagamento</button><div id="formMsg" class="msg"></div></div></section><section id="payment" class="card"><div class="eyebrow">Pagamento via Pix</div><h2>Faça seu pagamento</h2>
+<div class="payment-price">
+  <small>Valor a pagar</small>
+  <strong>R$ 10,00</strong>
+</div><p class="note">Chave Pix:</p><div class="pix">roselaynes@yahoo.com.br</div><button id="copiar">Copiar chave Pix</button><div id="payMsg" class="msg"></div><p class="note">Depois de pagar, envie o comprovante pelo WhatsApp.</p><a id="enviarComprovante" class="paybtn" target="_blank" rel="noopener" href="https://wa.me/5531975219757?text=Ol%C3%A1%2C%20Rose%21%20Fiz%20o%20pagamento%20do%20TELEGRAM%20VIP%20e%20quero%20enviar%20meu%20comprovante%20para%20confirmar%20meu%20acesso%20ao%20grupo.">Já fiz o pagamento — enviar comprovante</a></section></div></main><footer><div class="wrap">© 2026 Rose Freitas — TELEGRAM VIP</div></footer>
+
+<script>
+const U='https://mezvkqebymofkcroilwa.supabase.co',
+      K='sb_publishable_w8Ft4-d55Ie5Bjf49fNO-A_k1dg5Qo8',
+      TIPO='telegram',
+      VALOR=10;
+
+const $=x=>document.getElementById(x);
+let solicitacaoId=sessionStorage.getItem('vip_solicitacao_'+TIPO)||'';
+
+$('continuar').onclick=async()=>{
+  let n=$('nome').value.trim(),
+      c=$('celular').value.trim(),
+      ok=$('consent').checked,
+      m=$('formMsg'),
+      b=$('continuar');
+
+  if(n.length<3){m.textContent='Digite seu nome completo.';return}
+  if(c.length<8){m.textContent='Digite um número de celular válido.';return}
+  if(!ok){m.textContent='Marque o consentimento para continuar.';return}
+
+  b.disabled=true;
+  b.textContent='Registrando...';
+
+  try{
+    let r=await fetch(U+'/rest/v1/vip_solicitacoes',{
+      method:'POST',
+      headers:{
+        apikey:K,
+        'Content-Type':'application/json',
+        Prefer:'return=representation'
+      },
+      body:JSON.stringify({
+        nome_completo:n,
+        celular:c,
+        tipo_vip:TIPO
+      })
+    });
+
+    if(!r.ok) throw new Error('erro');
+
+    let dados=await r.json();
+    solicitacaoId=dados?.[0]?.id||'';
+
+    if(!solicitacaoId) throw new Error('id');
+
+    sessionStorage.setItem('vip_solicitacao_'+TIPO,solicitacaoId);
+
+    $('payment').classList.add('show');
+    $('payment').scrollIntoView({behavior:'smooth'});
+    m.textContent='Solicitação registrada. A chave Pix foi liberada.';
+    b.textContent='Dados registrados';
+  }catch(e){
+    m.textContent='Não foi possível registrar agora. Tente novamente.';
+    b.disabled=false;
+    b.textContent='Continuar para o pagamento';
+  }
+};
+
+$('copiar').onclick=async()=>{
+  try{
+    await navigator.clipboard.writeText('roselaynes@yahoo.com.br');
+    $('payMsg').textContent='Chave Pix copiada!';
+  }catch{
+    $('payMsg').textContent='Copie a chave Pix manualmente.';
+  }
+};
+
+$('enviarComprovante').addEventListener('click',async e=>{
+  // Evita contar duas vezes: a tabela também possui UNIQUE por solicitação.
+  if(!solicitacaoId){
+    e.preventDefault();
+    $('payMsg').textContent='Preencha seus dados antes de enviar o comprovante.';
+    return;
+  }
+
+  e.preventDefault();
+  const destino=e.currentTarget.href;
+  const novaAba=window.open('', '_blank');
+
+  try{
+    const r=await fetch(U+'/rest/v1/rpc/registrar_vip_comprovante',{
+      method:'POST',
+      headers:{
+        apikey:K,
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({p_solicitacao_id:solicitacaoId})
+    });
+
+    if(!r.ok) throw new Error('registro');
+    $('payMsg').textContent='Comprovante iniciado. Abrindo WhatsApp...';
+  }catch(err){
+    $('payMsg').textContent='Abrindo WhatsApp. O registro do painel pode não ter sido concluído.';
+  }
+
+  if(novaAba) novaAba.location=destino;
+  else window.location.href=destino;
+});
+</script></body></html>

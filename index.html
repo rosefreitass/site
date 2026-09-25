@@ -644,6 +644,26 @@
     .course-actions .btn-solid{min-width:unset;width:100%}
   }
 
+
+/* ===== Cursos premium no INDEX PRINCIPAL ===== */
+#cursos-vitrine .course-card{
+  min-width:0;
+}
+#cursos-vitrine .course-supabase .course-headline{
+  max-width:18ch;
+}
+#cursos-vitrine .course-supabase .course-description{
+  min-height:3.5em;
+}
+#cursos-vitrine .course-meta:empty{
+  display:none;
+}
+@media (max-width:720px){
+  #cursos-vitrine .course-supabase .course-description{
+    min-height:auto;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -719,7 +739,7 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
     </div>
     
 <div id="cursos-vitrine" class="courses-grid">
-  <article class="course-card course-theme-1">
+  <article class="course-card course-theme-1 curso-estatico">
     <div class="course-hero">
       <div class="course-eyebrow">ESTRATÉGIA & CRIAÇÃO</div>
       <h3 class="course-title">Método YouTube 360°</h3>
@@ -746,7 +766,7 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
     </div>
   </article>
 
-  <article class="course-card course-theme-2">
+  <article class="course-card course-theme-2 curso-estatico">
     <div class="course-hero">
       <div class="course-eyebrow">COMUNICAÇÃO & PRESENÇA</div>
       <h3 class="course-title">Coragem de falar.</h3>
@@ -1039,41 +1059,55 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
     const desafio = escapeHtml(curso.desafio || '');
     const link = String(curso.link_pagamento || '').trim();
     const linkSeguro = /^(https?:\/\/)/i.test(link) ? escapeHtml(link) : '';
-    const id = `curso-${indice + 1}`;
+
+    // 2 cursos fixos já ocupam 01 e 02. Os novos começam em 03.
+    const numero = indice + 1;
+    const numeroVisual = String(numero).padStart(2, '0');
+
+    // Alterna automaticamente entre os 4 temas existentes.
+    const tema = ((numero - 1) % 4) + 1;
 
     const itens = [];
     if (aulas) itens.push(`${aulas} aula${String(aulas) === '1' ? '' : 's'}`);
     if (desafio) itens.push(desafio);
 
+    const categoria = escapeHtml(
+      curso.categoria ||
+      curso.tarja ||
+      curso.tipo ||
+      'CURSO & DESENVOLVIMENTO'
+    );
+
     return `
-      <section id="${id}" class="contact curso-supabase">
-        <div class="wrap contact-grid">
-          <div>
-            <div class="tag" style="color:var(--brass-deep); font-size:.85rem; margin-bottom:14px;">Curso</div>
-            <h2>${nome}</h2>
-            ${descricao ? `<p>${descricao}</p>` : ''}
-            <div class="contact-actions">
-              ${linkSeguro ? `<a href="${linkSeguro}" target="_blank" rel="noopener" class="btn btn-solid">Inscreva-se no curso!</a>` : ''}
-              <a href="#conteudo-curso" class="btn btn-line">Rever o conteúdo</a>
+      <article class="course-card course-theme-${tema} curso-supabase">
+        <div class="course-hero">
+          <div class="course-eyebrow">${categoria}</div>
+          <h3 class="course-title">${nome}</h3>
+          <div class="course-number">${numeroVisual}</div>
+        </div>
+
+        <div class="course-body">
+          <h4 class="course-headline">${nome}</h4>
+          ${descricao ? `<p class="course-description">${descricao}</p>` : ''}
+
+          ${itens.length ? `
+            <div class="course-meta">
+              ${itens.map(item => `<span>${item}</span>`).join('')}
+            </div>
+          ` : '<div class="course-meta"></div>'}
+
+          <div class="course-footer">
+            <div class="course-pricebox">
+              ${preco ? `<small>por</small><div class="course-price">${preco}</div>` : ''}
+            </div>
+
+            <div class="course-actions">
+              ${linkSeguro ? `<a href="${linkSeguro}" target="_blank" rel="noopener" class="btn btn-solid">Inscreva-se no curso! ↗</a>` : ''}
+              <a href="#conteudo-curso" class="course-review">Rever o conteúdo</a>
             </div>
           </div>
-
-          <div class="contact-card">
-            <div class="plan-badge" style="margin-bottom:6px;">${nome}</div>
-            ${preco ? `<div class="price" style="margin-bottom:22px; font-size:2rem;">${preco}</div>` : ''}
-            ${descricao ? `<p style="margin:0 0 22px;">${descricao}</p>` : ''}
-            ${itens.length ? `
-              <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
-                ${itens.map(item => `
-                  <li style="font-size:.92rem; padding-left:18px; position:relative;">
-                    <span style="position:absolute; left:0; color:var(--brass-deep);">—</span>${item}
-                  </li>
-                `).join('')}
-              </ul>
-            ` : ''}
-          </div>
         </div>
-      </section>
+      </article>
     `;
   }
 
@@ -1098,21 +1132,23 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
 
       const cursos = await resposta.json();
 
+      // Remove somente cursos dinâmicos carregados anteriormente.
+      container.querySelectorAll('.curso-supabase').forEach(el => el.remove());
+
+      // Os dois cursos originais (01 e 02) permanecem sempre.
       if (!Array.isArray(cursos) || cursos.length === 0) {
-        container.innerHTML = '';
         return;
       }
 
-      // Mantém os cursos originais do site visíveis e adiciona abaixo os cursos cadastrados no ADM.
-      document.querySelectorAll('.curso-estatico').forEach(el => {
-        el.style.display = '';
-      });
-
-      container.insertAdjacentHTML('beforeend', cursos.map((curso, indice) => cursoHtml(curso, indice + 2)).join(''));
+      // Novos cursos entram como 03, 04, 05... no mesmo visual premium.
+      container.insertAdjacentHTML(
+        'beforeend',
+        cursos.map((curso, indice) => cursoHtml(curso, indice + 2)).join('')
+      );
     } catch (erro) {
       console.error('Não foi possível carregar os cursos:', erro);
-      // Se der erro, os cursos antigos do HTML continuam visíveis.
-      container.innerHTML = '';
+      // Se der erro, mantém os dois cursos fixos do HTML visíveis.
+      container.querySelectorAll('.curso-supabase').forEach(el => el.remove());
     }
   }
 

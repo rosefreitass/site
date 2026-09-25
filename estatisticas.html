@@ -1,129 +1,576 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Estatísticas — Rose Freitas</title>
+<meta name="description" content="Estatísticas e mídia kit de Rose Freitas com visual futurista e profissional." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#EFE9DC;--ink-soft:#C7BEAC;--paper:#1B1811;--paper-raised:#242019;
-  --sand:#332C21;--brass:#D3A548;--brass-deep:#E8BE68;--line:#3A3327;--radius:2px;
+  --bg:#090909;
+  --bg-2:#11110f;
+  --panel:#141412;
+  --panel-2:rgba(20,20,18,.8);
+  --panel-3:#1a1916;
+  --text:#f6efe2;
+  --muted:#b3a999;
+  --line:rgba(255,216,143,.14);
+  --gold:#d7a544;
+  --gold-2:#ffd37a;
+  --gold-soft:rgba(215,165,68,.14);
+  --ig:#d7a544;
+  --tt:#8db4ff;
+  --yt:#ff7070;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:'Public Sans',sans-serif;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,56px)}
-header{position:sticky;top:0;z-index:10;background:rgba(27,24,17,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-nav{display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:0 auto;padding:16px clamp(20px,5vw,56px)}
-.brand{font-family:'Newsreader',serif;font-size:1.45rem;font-weight:500}
-.nav-back{font-size:.9rem;color:var(--ink-soft);border-bottom:1px solid transparent;padding-bottom:3px;transition:.2s}
-.nav-back:hover{color:var(--brass-deep);border-color:var(--brass)}
-main{padding:clamp(64px,9vw,110px) 0 90px}
-.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.85rem;color:var(--brass-deep);margin-bottom:20px}
-.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--brass)}
-h1,h2,h3{font-family:'Newsreader',serif;font-weight:500;letter-spacing:-.01em;margin:0}
-h1{font-size:clamp(2.8rem,5.5vw,4.7rem);line-height:1.03;max-width:12ch}
-.intro{margin-top:22px;max-width:650px;font-size:1.08rem;line-height:1.7;color:var(--ink-soft)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:54px}
-.card{border:1px solid var(--line);background:var(--paper-raised);padding:28px 26px;min-height:145px}
-.card .label{font-size:.85rem;color:var(--brass-deep);margin-bottom:18px}
-.card strong{display:block;font-family:'Newsreader',serif;font-size:2.5rem;font-weight:500;margin-bottom:7px}
-.card span{font-size:.9rem;color:var(--ink-soft)}
-.section{border-top:1px solid var(--line);margin-top:70px;padding-top:34px}
-.section-head{display:grid;grid-template-columns:150px 1fr;gap:30px;align-items:start}
-.section h2{font-size:clamp(2rem,3.5vw,2.8rem)}
-.placeholder{margin-top:28px;border:1px dashed var(--line);padding:30px;color:var(--ink-soft);line-height:1.7;background:rgba(255,255,255,.015)}
-footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--ink-soft);font-size:.85rem}
-.footer-row{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}
-.footer-accent{color:var(--brass-deep)}
-@media(max-width:700px){.stats{grid-template-columns:1fr}.section-head{grid-template-columns:1fr;gap:12px}.nav-back{font-size:.82rem}}
-</style>
-<script>
-function voltarAoSite(event){
-  if (window.opener && !window.opener.closed) {
-    event.preventDefault();
-    window.opener.location.href = 'index.html';
-    window.opener.focus();
-    window.close();
-  }
+body{
+  margin:0;
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(215,165,68,.18), transparent 24%),
+    radial-gradient(circle at 82% 14%, rgba(90,110,255,.08), transparent 22%),
+    radial-gradient(circle at 50% 120%, rgba(215,165,68,.10), transparent 28%),
+    linear-gradient(180deg,#090909 0%,#0e0d0b 36%,#0b0b0a 100%);
+  min-height:100vh;
+  overflow-x:hidden;
 }
-</script>
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:52px 52px;
+  mask-image:linear-gradient(180deg, rgba(0,0,0,.62), transparent 95%);
+  pointer-events:none;
+  opacity:.18;
+}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1280px, calc(100% - 40px)); margin:0 auto}
+header{
+  position:sticky; top:0; z-index:20;
+  background:rgba(9,9,9,.72);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+nav{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 0;
+}
+.brand{
+  display:flex; align-items:center; gap:12px;
+  font-weight:700; letter-spacing:.04em;
+}
+.brand-mark{
+  width:40px; height:40px; border-radius:12px;
+  display:grid; place-items:center;
+  background:linear-gradient(135deg, rgba(215,165,68,.32), rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 0 0 1px rgba(215,165,68,.1), 0 10px 26px rgba(0,0,0,.25);
+}
+.brand-mark span{
+  font-family:'Newsreader',serif; font-size:1.1rem; color:var(--gold-2)
+}
+.back{
+  color:var(--muted); font-size:.92rem;
+  padding:10px 14px; border:1px solid var(--line); border-radius:999px;
+  background:rgba(255,255,255,.02)
+}
+main{padding:42px 0 90px}
+.hero{
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:32px;
+  padding:42px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.01)),
+    radial-gradient(circle at 15% 12%, rgba(215,165,68,.18), transparent 24%),
+    radial-gradient(circle at 85% 18%, rgba(75,119,255,.12), transparent 18%),
+    linear-gradient(180deg, rgba(20,20,18,.94), rgba(11,11,10,.96));
+  box-shadow:0 20px 60px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.02);
+}
+.hero::after{
+  content:"SOCIAL DATA";
+  position:absolute;
+  right:-26px; top:26px;
+  font-size:clamp(2.8rem,9vw,7rem);
+  font-weight:800; letter-spacing:.08em;
+  color:rgba(255,255,255,.035);
+  pointer-events:none;
+}
+.hero-grid{display:grid; grid-template-columns:1.18fr .82fr; gap:34px; align-items:end}
+.kicker{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-2); font-weight:700;
+  margin-bottom:18px
+}
+.kicker::before{
+  content:""; width:26px; height:1px; background:linear-gradient(90deg, transparent, var(--gold-2));
+}
+h1,h2,h3{margin:0; font-family:'Newsreader',serif; font-weight:500; letter-spacing:-.03em}
+h1{font-size:clamp(3rem,6vw,6rem); line-height:.92; max-width:10ch}
+.hero-copy p{max-width:60ch; color:var(--muted); line-height:1.8; font-size:1rem; margin:18px 0 0}
+.updated{
+  margin-top:22px; display:inline-flex; align-items:center; gap:8px;
+  color:#e6d8b6; background:rgba(215,165,68,.09); border:1px solid rgba(215,165,68,.18);
+  padding:10px 14px; border-radius:999px; font-size:.84rem
+}
+.orbit{
+  position:relative; min-height:320px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(215,165,68,.14), transparent 33%),
+    radial-gradient(circle at 50% 50%, rgba(77,97,255,.07), transparent 54%),
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+  overflow:hidden;
+}
+.orbit::before,
+.orbit::after{
+  content:""; position:absolute; border:1px solid rgba(255,255,255,.08); border-radius:50%; inset:14% 12%;
+}
+.orbit::after{inset:28% 24%; border-color:rgba(215,165,68,.18)}
+.orbit-center{
+  position:absolute; inset:50% auto auto 50%; transform:translate(-50%,-50%);
+  width:120px; height:120px; border-radius:50%; display:grid; place-items:center;
+  background:radial-gradient(circle at 35% 30%, rgba(255,215,122,.22), rgba(215,165,68,.12) 45%, rgba(255,255,255,.02) 72%);
+  border:1px solid rgba(215,165,68,.2); box-shadow:0 0 40px rgba(215,165,68,.18)
+}
+.orbit-center strong{font-family:'Newsreader',serif; font-size:1.15rem; color:var(--gold-2)}
+.orbit-node{
+  position:absolute; display:flex; align-items:center; gap:10px; padding:12px 14px;
+  background:rgba(12,12,12,.74); border:1px solid rgba(255,255,255,.09); border-radius:16px;
+  backdrop-filter:blur(10px); box-shadow:0 12px 26px rgba(0,0,0,.28)
+}
+.orbit-node b{display:block; font-size:.98rem}
+.orbit-node span{display:block; color:var(--muted); font-size:.76rem; margin-top:2px}
+.orbit-node svg{width:18px; height:18px}
+.node-1{top:18px; left:18px}
+.node-2{top:50%; left:14px; transform:translateY(-50%)}
+.node-3{right:18px; top:22px}
+.node-4{right:16px; bottom:18px}
+.section-space{margin-top:34px}
+.overview{
+  display:grid; grid-template-columns:1.1fr .9fr; gap:18px; margin-top:22px;
+}
+.overview-panel,
+.quick-panel,
+.platform-card,
+.banner{
+  position:relative; overflow:hidden; border:1px solid var(--line); border-radius:28px;
+  background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.012)), var(--panel-2);
+  backdrop-filter:blur(10px);
+}
+.overview-panel{padding:24px}
+.overview-panel::before,
+.quick-panel::before,
+.platform-card::before,
+.banner::before{
+  content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,.035), transparent 24%); pointer-events:none;
+}
+.overview-head, .platform-head{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:18px; margin-bottom:18px;
+}
+.section-title{font-size:1.6rem}
+.section-sub{color:var(--muted); font-size:.92rem; margin-top:8px; line-height:1.7}
+.pill{
+  display:inline-flex; align-items:center; gap:8px; color:#f7e3b4; background:rgba(215,165,68,.10); border:1px solid rgba(215,165,68,.15);
+  border-radius:999px; padding:8px 12px; font-size:.76rem; white-space:nowrap
+}
+.metrics-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+.metric-card{
+  position:relative; overflow:hidden; min-height:165px;
+  padding:18px; border:1px solid rgba(255,255,255,.06); border-radius:22px;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+}
+.metric-card::after{content:""; position:absolute; inset:auto -28px -38px auto; width:110px; height:110px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,.12), transparent 60%); opacity:.22}
+.metric-top{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px}
+.social-tag{display:flex; align-items:center; gap:10px; font-size:.82rem; color:#f4ead4}
+.logo-box{
+  width:36px; height:36px; border-radius:12px; display:grid; place-items:center;
+  border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.03)
+}
+.logo-box svg{width:18px;height:18px}
+.metric-card strong{display:block; font-size:2.1rem; line-height:1.05; font-weight:800; letter-spacing:-.03em; margin-bottom:8px}
+.metric-card span{display:block; color:var(--muted); font-size:.84rem; line-height:1.6}
+.metric-ig{box-shadow:inset 0 0 0 1px rgba(215,165,68,.08)}
+.metric-tt{box-shadow:inset 0 0 0 1px rgba(141,180,255,.08)}
+.metric-yt{box-shadow:inset 0 0 0 1px rgba(255,112,112,.08)}
+.quick-panel{padding:24px}
+.quick-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px}
+.quick-box{
+  padding:18px; border:1px solid rgba(255,255,255,.06); border-radius:20px; background:rgba(255,255,255,.02)
+}
+.quick-box b{display:block; font-size:1.35rem; margin-bottom:8px}
+.quick-box span{display:block; color:var(--muted); font-size:.83rem; line-height:1.5}
+.banner{margin-top:18px; padding:20px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px}
+.banner strong{font-size:1.02rem}
+.banner span{color:var(--muted); font-size:.88rem; line-height:1.6}
+.platforms{margin-top:54px; display:grid; gap:18px}
+.platform-card{padding:28px}
+.platform-card.ig{background:
+  radial-gradient(circle at 88% 20%, rgba(215,165,68,.13), transparent 18%),
+  linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.012)), var(--panel-2)}
+.platform-card.tt{background:
+  radial-gradient(circle at 86% 18%, rgba(141,180,255,.13), transparent 18%),
+  linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.012)), var(--panel-2)}
+.platform-card.yt{background:
+  radial-gradient(circle at 86% 18%, rgba(255,112,112,.12), transparent 18%),
+  linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.012)), var(--panel-2)}
+.platform-name{display:flex; align-items:center; gap:14px}
+.platform-name .logo-box{width:46px; height:46px; border-radius:14px}
+.platform-name h2{font-size:2.2rem}
+.handle{color:#f8dfaa; font-size:.9rem}
+.platform-body{display:grid; grid-template-columns:1.04fr .96fr; gap:14px}
+.stat-block{
+  border:1px solid rgba(255,255,255,.06); border-radius:22px; padding:22px; background:rgba(255,255,255,.02)
+}
+.label{font-size:.76rem; letter-spacing:.16em; text-transform:uppercase; color:#f3d48e; margin-bottom:14px}
+.big-number{font-size:3rem; line-height:1; font-weight:800; letter-spacing:-.04em; margin-bottom:8px}
+.sub{color:var(--muted); line-height:1.7; font-size:.92rem}
+.info-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:18px}
+.info-item{padding:15px; border-radius:18px; border:1px solid rgba(255,255,255,.06); background:rgba(0,0,0,.18)}
+.info-item b{display:block; font-size:1.02rem; margin-bottom:6px}
+.info-item span{display:block; color:var(--muted); font-size:.8rem; line-height:1.5}
+.progress-list{display:grid; gap:14px}
+.progress-row{padding:14px 0; border-bottom:1px solid rgba(255,255,255,.06)}
+.progress-row:last-child{border-bottom:0; padding-bottom:0}
+.progress-head{display:flex; justify-content:space-between; gap:12px; margin-bottom:8px; color:var(--muted); font-size:.82rem}
+.track{height:10px; border-radius:999px; background:#25231d; overflow:hidden; box-shadow:inset 0 1px 2px rgba(0,0,0,.4)}
+.fill{height:100%; border-radius:inherit; background:linear-gradient(90deg, var(--gold), var(--gold-2))}
+.note{
+  margin-top:22px; padding:24px; border:1px solid var(--line); border-radius:24px;
+  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); color:var(--muted); line-height:1.75; font-size:.92rem
+}
+.note b{color:var(--text)}
+footer{padding:26px 0 40px; border-top:1px solid var(--line); margin-top:60px}
+.foot{display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; color:var(--muted); font-size:.85rem}
+@media (max-width: 1080px){
+  .hero-grid,.overview,.platform-body{grid-template-columns:1fr}
+  .orbit{min-height:280px}
+}
+@media (max-width: 860px){
+  .metrics-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width: 680px){
+  nav{flex-direction:column; gap:14px; align-items:flex-start}
+  .hero{padding:28px 20px}
+  .overview-panel,.quick-panel,.platform-card{padding:20px}
+  .metrics-grid,.quick-grid,.info-grid{grid-template-columns:1fr}
+  .platform-head{flex-direction:column; align-items:flex-start}
+  .banner{flex-direction:column; align-items:flex-start}
+  .orbit-node{position:static; margin:12px 14px 0}
+  .orbit{padding:14px; display:grid; gap:12px; min-height:auto}
+  .orbit-center{position:relative; inset:auto; transform:none; width:100%; height:110px; border-radius:22px}
+  .orbit::before,.orbit::after{display:none}
+}
+</style>
 </head>
 <body>
 <header>
-  <nav>
-    <a class="brand" href="index.html" onclick="voltarAoSite(event)">Rose Freitas</a>
-    <a class="nav-back" href="index.html" onclick="voltarAoSite(event)">Voltar para o site</a>
-  </nav>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="index.html">
+        <div class="brand-mark"><span>RF</span></div>
+        <div>Rose Freitas</div>
+      </a>
+      <a class="back" href="index.html">← Voltar ao site</a>
+    </nav>
+  </div>
 </header>
 
 <main>
   <div class="wrap">
-    <div class="eyebrow"><span class="dot"></span>Parcerias &amp; Publicidade</div>
-    <h1>Estatísticas<br>Rose Freitas BTS</h1>
-    <p class="intro">Criadora de conteúdo digital com foco em BTS, K-pop e cultura coreana, com atuação em YouTube, TikTok e Instagram. O conteúdo combina notícias, comentários, lives, entretenimento e comunidade.</p>
-    <p class="intro" style="font-size:.82rem;margin-top:12px">Métricas atualizadas em setembro de 2026.</p>
-
-    <section class="stats" aria-label="Principais estatísticas">
-      <article class="card"><div class="label">Instagram</div><strong>895 mil</strong><span>visualizações</span></article>
-      <article class="card"><div class="label">Instagram</div><strong>113 mil</strong><span>interações</span></article>
-      <article class="card"><div class="label">Instagram</div><strong>1.900</strong><span>novos seguidores</span></article>
-      <article class="card"><div class="label">TikTok</div><strong>27,54 mil</strong><span>seguidores</span></article>
-      <article class="card"><div class="label">YouTube</div><strong>17,3 mil</strong><span>inscritos · canal monetizado</span></article>
-      <article class="card"><div class="label">Instagram</div><strong>708 mil</strong><span>views em Reels</span></article>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div class="eyebrow">Instagram</div>
-        <div>
-          <h2>@roselayne_2123</h2>
-          <div class="placeholder"><strong>895 mil</strong> visualizações · <strong>113 mil</strong> interações · <strong>+43%</strong> crescimento · <strong>56%</strong> de não seguidores.<br><br>Reels: 708 mil (79,1%) · Stories: 16 mil (1,8%) · Outras visualizações: 171 mil (19,1%).<br><br>9.276 visitas ao perfil · 152 toques no link da bio · 259 conteúdos compartilhados · 160 mil toques registrados.</div>
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="kicker">Estatísticas & Mídia Kit</div>
+          <h1>Presença digital com leitura premium.</h1>
+          <p>Uma área de estatísticas mais moderna, futurista e profissional, pensada para apresentar força de audiência, posicionamento e potencial de divulgação nas principais plataformas da Rose Freitas.</p>
+          <div id="updated" class="updated">Sincronização mais recente: setembro de 2026</div>
+        </div>
+        <div class="orbit">
+          <div class="orbit-center"><strong>3 redes ativas</strong></div>
+          <div class="orbit-node node-1">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" stroke="#D7A544" stroke-width="1.8"/><circle cx="12" cy="12" r="3.8" stroke="#D7A544" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1" fill="#D7A544"/></svg>
+            <div><b>Instagram</b><span>alcance e interação</span></div>
+          </div>
+          <div class="orbit-node node-2">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 3v10.2c0 2.7-2.2 4.8-4.9 4.8-1.9 0-3.4-1.5-3.4-3.3 0-2.1 1.7-3.6 4.2-3.6 0-.1 0-.3 0-.4V6.7c2.5 0 4.2-.8 5.4-2.2V3Z" stroke="#8DB4FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div><b>TikTok</b><span>seguidores e curtidas</span></div>
+          </div>
+          <div class="orbit-node node-3">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 7.5a2 2 0 0 0-1.4-1.4C18.1 5.7 12 5.7 12 5.7s-6.1 0-7.6.4A2 2 0 0 0 3 7.5 21 21 0 0 0 2.6 12c0 1.5.1 3 .4 4.5a2 2 0 0 0 1.4 1.4c1.5.4 7.6.4 7.6.4s6.1 0 7.6-.4a2 2 0 0 0 1.4-1.4c.3-1.5.4-3 .4-4.5 0-1.5-.1-3-.4-4.5Z" stroke="#FF7070" stroke-width="1.8"/><path d="m10 15.3 5.2-3.3L10 8.7v6.6Z" fill="#FF7070"/></svg>
+            <div><b>YouTube</b><span>inscritos e autoridade</span></div>
+          </div>
+          <div class="orbit-node node-4">
+            <div class="logo-box" style="width:36px;height:36px;border-radius:50%;"><span style="color:var(--gold-2);font-weight:800;font-size:.85rem">RF</span></div>
+            <div><b>Marca pessoal</b><span>comunidade + conteúdo</span></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="section-head">
-        <div class="eyebrow">TikTok</div>
-        <div>
-          <h2>@roselayne.freitas.23</h2>
-          <div class="placeholder"><strong>27,54 mil</strong> seguidores · <strong>1,79 mi</strong> curtidas · <strong>2,53 mil</strong> vídeos · <strong>14,02%</strong> de engajamento.<br><br>Média pública: 10,46 mil visualizações por vídeo · 1,35 mil curtidas por vídeo · 76 comentários por vídeo · 18 vídeos/mês.</div>
+    <section class="overview section-space">
+      <div class="overview-panel">
+        <div class="overview-head">
+          <div>
+            <h2 class="section-title">Painel rápido</h2>
+            <div class="section-sub">Principais números reunidos em uma visão limpa, estratégica e mais visual.</div>
+          </div>
+          <div class="pill">Atualização automática via Supabase</div>
+        </div>
+        <div id="topMetrics" class="metrics-grid"></div>
+      </div>
+
+      <div class="quick-panel">
+        <div class="overview-head">
+          <div>
+            <h2 class="section-title">Leitura de valor</h2>
+            <div class="section-sub">Indicadores que ajudam a apresentar o tamanho e a qualidade da presença digital.</div>
+          </div>
+        </div>
+        <div class="quick-grid">
+          <div class="quick-box"><b>3 plataformas</b><span>Instagram, TikTok e YouTube integrados em um único painel visual.</span></div>
+          <div class="quick-box"><b>Comunidade ativa</b><span>Foco em BTS, K-pop, entretenimento, conteúdo e relacionamento com audiência.</span></div>
+          <div class="quick-box"><b>Visual premium</b><span>Design com aparência mais tecnológica, profissional e pronto para parcerias.</span></div>
+          <div class="quick-box"><b>Leitura comercial</b><span>Números organizados para facilitar apresentação a marcas e potenciais parceiros.</span></div>
+        </div>
+        <div class="banner">
+          <div>
+            <strong>Posicionamento profissional para mídia kit</strong>
+            <span>Logos das redes, fundos com profundidade e cartões com destaque visual mais moderno.</span>
+          </div>
+          <div class="pill">Rose Freitas • Estatísticas</div>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="section-head">
-        <div class="eyebrow">YouTube</div>
-        <div>
-          <h2>@roselaynefreitas</h2>
-          <div class="placeholder"><strong>17,3 mil</strong> inscritos atuais · canal monetizado · vídeos + Shorts · lives + comunidade.<br><br>Em relação ao kit anterior (10,6 mil), foram adicionados <strong>+6,7 mil inscritos</strong>, uma variação aproximada de <strong>+63,2%</strong>.</div>
+    <section class="platforms">
+      <article class="platform-card ig">
+        <div class="platform-head">
+          <div class="platform-name">
+            <div class="logo-box">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" stroke="#D7A544" stroke-width="1.8"/><circle cx="12" cy="12" r="3.8" stroke="#D7A544" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1" fill="#D7A544"/></svg>
+            </div>
+            <div>
+              <div class="kicker" style="margin-bottom:8px">Instagram</div>
+              <h2>Presença & impacto visual</h2>
+            </div>
+          </div>
+          <a class="handle" href="https://www.instagram.com/roselayne_2123/" target="_blank" rel="noopener">@roselayne_2123 ↗</a>
         </div>
-      </div>
+        <div class="platform-body">
+          <div class="stat-block">
+            <div class="label">Visão geral</div>
+            <div class="big-number" id="igViews">895 mil</div>
+            <div class="sub">visualizações totais em destaque, com forte peso em Reels e crescimento de alcance.</div>
+            <div class="info-grid">
+              <div class="info-item"><b id="igInteractions">113 mil</b><span>interações</span></div>
+              <div class="info-item"><b id="igFollowers">+1.900</b><span>novos seguidores</span></div>
+              <div class="info-item"><b id="igProfile">9.276</b><span>visitas ao perfil</span></div>
+              <div class="info-item"><b id="igBio">152</b><span>toques no link da bio</span></div>
+            </div>
+          </div>
+          <div class="stat-block">
+            <div class="label">Formato que mais entrega</div>
+            <div class="progress-list">
+              <div class="progress-row">
+                <div class="progress-head"><span>Reels</span><span>79,1%</span></div>
+                <div class="track"><div class="fill" style="width:79.1%"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-head"><span>Outras publicações</span><span>19,1%</span></div>
+                <div class="track"><div class="fill" style="width:19.1%"></div></div>
+              </div>
+              <div class="progress-row">
+                <div class="progress-head"><span>Stories</span><span>1,8%</span></div>
+                <div class="track"><div class="fill" style="width:1.8%"></div></div>
+              </div>
+            </div>
+            <div class="info-grid" style="margin-top:18px">
+              <div class="info-item"><b>+43%</b><span>crescimento</span></div>
+              <div class="info-item"><b>56%</b><span>não seguidores</span></div>
+              <div class="info-item"><b>259</b><span>compartilhamentos</span></div>
+              <div class="info-item"><b>708 mil</b><span>views em Reels</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="platform-card tt">
+        <div class="platform-head">
+          <div class="platform-name">
+            <div class="logo-box">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 3v10.2c0 2.7-2.2 4.8-4.9 4.8-1.9 0-3.4-1.5-3.4-3.3 0-2.1 1.7-3.6 4.2-3.6 0-.1 0-.3 0-.4V6.7c2.5 0 4.2-.8 5.4-2.2V3Z" stroke="#8DB4FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="kicker" style="margin-bottom:8px">TikTok</div>
+              <h2>Volume & engajamento</h2>
+            </div>
+          </div>
+          <a class="handle" href="https://www.tiktok.com/@roselayne.freitas.23" target="_blank" rel="noopener">@roselayne.freitas.23 ↗</a>
+        </div>
+        <div class="platform-body">
+          <div class="stat-block">
+            <div class="label">Base da audiência</div>
+            <div class="big-number" id="ttFollowers">27,54 mil</div>
+            <div class="sub">seguidores em uma rede de ritmo rápido, com boa força de retenção e descoberta.</div>
+            <div class="info-grid">
+              <div class="info-item"><b id="ttLikes">1,79 mi</b><span>curtidas</span></div>
+              <div class="info-item"><b>14,02%</b><span>engajamento</span></div>
+              <div class="info-item"><b>10,46 mil</b><span>views por vídeo</span></div>
+              <div class="info-item"><b>18</b><span>vídeos / mês</span></div>
+            </div>
+          </div>
+          <div class="stat-block">
+            <div class="label">Desempenho médio</div>
+            <div class="info-grid" style="margin-top:0">
+              <div class="info-item"><b>1,35 mil</b><span>curtidas por vídeo</span></div>
+              <div class="info-item"><b>76</b><span>comentários por vídeo</span></div>
+              <div class="info-item"><b>Comunidade</b><span>conteúdo recorrente e audiência fiel</span></div>
+              <div class="info-item"><b>Descoberta</b><span>boa capacidade de alcançar novos públicos</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="platform-card yt">
+        <div class="platform-head">
+          <div class="platform-name">
+            <div class="logo-box">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 7.5a2 2 0 0 0-1.4-1.4C18.1 5.7 12 5.7 12 5.7s-6.1 0-7.6.4A2 2 0 0 0 3 7.5 21 21 0 0 0 2.6 12c0 1.5.1 3 .4 4.5a2 2 0 0 0 1.4 1.4c1.5.4 7.6.4 7.6.4s6.1 0 7.6-.4a2 2 0 0 0 1.4-1.4c.3-1.5.4-3 .4-4.5 0-1.5-.1-3-.4-4.5Z" stroke="#FF7070" stroke-width="1.8"/><path d="m10 15.3 5.2-3.3L10 8.7v6.6Z" fill="#FF7070"/></svg>
+            </div>
+            <div>
+              <div class="kicker" style="margin-bottom:8px">YouTube</div>
+              <h2>Canal em crescimento</h2>
+            </div>
+          </div>
+          <a class="handle" href="https://www.youtube.com/@roselaynefreitas" target="_blank" rel="noopener">@roselaynefreitas ↗</a>
+        </div>
+        <div class="platform-body">
+          <div class="stat-block">
+            <div class="label">Canal</div>
+            <div class="big-number" id="ytSubs">17,3 mil</div>
+            <div class="sub">inscritos em um canal monetizado, com fortalecimento constante de autoridade.</div>
+            <div class="info-grid">
+              <div class="info-item"><b>Monetizado</b><span>estrutura pronta para expansão</span></div>
+              <div class="info-item"><b>Conteúdo contínuo</b><span>vídeos, shorts, lives e comunidade</span></div>
+            </div>
+          </div>
+          <div class="stat-block">
+            <div class="label">Crescimento registrado</div>
+            <div class="big-number">+6,7 mil</div>
+            <div class="sub">Evolução de 10,6 mil para 17,3 mil inscritos, aproximadamente <b>+63,2%</b>.</div>
+            <div class="info-grid">
+              <div class="info-item"><b>Vídeos + Shorts</b><span>formatos publicados</span></div>
+              <div class="info-item"><b>Lives + comunidade</b><span>aproximação com a audiência</span></div>
+              <div class="info-item"><b>Marca pessoal</b><span>crescimento orgânico e reconhecimento</span></div>
+              <div class="info-item"><b>Potencial comercial</b><span>ambiente favorável para ações e parcerias</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
     </section>
 
-    <section class="section">
-      <div class="section-head">
-        <div class="eyebrow">Conteúdo</div>
-        <div>
-          <h2>BTS · K-pop · Cultura coreana</h2>
-          <div class="placeholder">O universo de conteúdo inclui BTS, Jimin, notícias e atualizações, lives e comunidade. As métricas e descrições desta página foram organizadas a partir do Mídia Kit 2026.</div>
-        </div>
-      </div>
-    </section>
   </div>
 </main>
 
 <footer>
-  <div class="wrap footer-row">
-    <span>Rose Freitas — Negócios &amp; Marketing Digital</span>
-    <a class="footer-accent" href="index.html" onclick="voltarAoSite(event)">Voltar ao site</a>
+  <div class="wrap foot">
+    <span>Rose Freitas</span>
+    <span>Estatísticas • Mídia Kit • Parcerias</span>
   </div>
 </footer>
+
+<script>
+const SUPABASE_URL='https://mezvkqebymofkcroilwa.supabase.co';
+const SUPABASE_KEY='sb_publishable_w8Ft4-d55Ie5Bjf49fNO-A_k1dg5Qo8';
+
+const ICONS = {
+  instagram:`<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" stroke="#D7A544" stroke-width="1.8"/><circle cx="12" cy="12" r="3.8" stroke="#D7A544" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1" fill="#D7A544"/></svg>`,
+  tiktok:`<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 3v10.2c0 2.7-2.2 4.8-4.9 4.8-1.9 0-3.4-1.5-3.4-3.3 0-2.1 1.7-3.6 4.2-3.6 0-.1 0-.3 0-.4V6.7c2.5 0 4.2-.8 5.4-2.2V3Z" stroke="#8DB4FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  youtube:`<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 7.5a2 2 0 0 0-1.4-1.4C18.1 5.7 12 5.7 12 5.7s-6.1 0-7.6.4A2 2 0 0 0 3 7.5 21 21 0 0 0 2.6 12c0 1.5.1 3 .4 4.5a2 2 0 0 0 1.4 1.4c1.5.4 7.6.4 7.6.4s6.1 0 7.6-.4a2 2 0 0 0 1.4-1.4c.3-1.5.4-3 .4-4.5 0-1.5-.1-3-.4-4.5Z" stroke="#FF7070" stroke-width="1.8"/><path d="m10 15.3 5.2-3.3L10 8.7v6.6Z" fill="#FF7070"/></svg>`
+};
+
+const fallbackCards=[
+  ['instagram','895 mil','visualizações totais','metric-ig'],
+  ['instagram','113 mil','interações','metric-ig'],
+  ['tiktok','27,54 mil','seguidores','metric-tt'],
+  ['tiktok','1,79 mi','curtidas','metric-tt'],
+  ['youtube','17,3 mil','inscritos','metric-yt'],
+  ['instagram','708 mil','views em Reels','metric-ig']
+];
+
+function titleCase(str){return str.charAt(0).toUpperCase()+str.slice(1)}
+
+function renderCards(cards){
+  document.getElementById('topMetrics').innerHTML = cards.map(([platform,value,label,klass]) => `
+    <article class="metric-card ${klass}">
+      <div class="metric-top">
+        <div class="social-tag">
+          <div class="logo-box">${ICONS[platform] || ''}</div>
+          <span>${titleCase(platform)}</span>
+        </div>
+      </div>
+      <strong>${value}</strong>
+      <span>${label}</span>
+    </article>
+  `).join('');
+}
+renderCards(fallbackCards);
+
+async function atualizarDoSupabase(){
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/estatisticas?select=*&order=atualizado_em.desc`, {
+      headers:{apikey:SUPABASE_KEY},
+      cache:'no-store'
+    });
+    if(!r.ok) return;
+    const dados = await r.json();
+    if(!Array.isArray(dados) || !dados.length) return;
+
+    const find = (plataforma, metrica) => {
+      const x = dados.find(i => String(i.plataforma||'').toLowerCase() === plataforma && String(i.metrica||'').toLowerCase() === metrica);
+      return x?.valor || null;
+    };
+
+    const igViews = find('instagram','visualizacoes');
+    const igInt = find('instagram','interacoes');
+    const igFol = find('instagram','novos seguidores');
+    const ttFol = find('tiktok','seguidores');
+    const ttLikes = find('tiktok','curtidas');
+    const ytSubs = find('youtube','inscritos');
+
+    if(igViews) document.getElementById('igViews').textContent = igViews;
+    if(igInt) document.getElementById('igInteractions').textContent = igInt;
+    if(igFol) document.getElementById('igFollowers').textContent = igFol;
+    if(ttFol) document.getElementById('ttFollowers').textContent = ttFol;
+    if(ttLikes) document.getElementById('ttLikes').textContent = ttLikes;
+    if(ytSubs) document.getElementById('ytSubs').textContent = ytSubs;
+
+    renderCards([
+      ['instagram', igViews || '895 mil', 'visualizações totais', 'metric-ig'],
+      ['instagram', igInt || '113 mil', 'interações', 'metric-ig'],
+      ['tiktok', ttFol || '27,54 mil', 'seguidores', 'metric-tt'],
+      ['tiktok', ttLikes || '1,79 mi', 'curtidas', 'metric-tt'],
+      ['youtube', ytSubs || '17,3 mil', 'inscritos', 'metric-yt'],
+      ['instagram', find('instagram','reels views') || '708 mil', 'views em Reels', 'metric-ig']
+    ]);
+
+    const ultima = dados.map(x => x.atualizado_em).filter(Boolean).sort().at(-1);
+    if(ultima){
+      document.getElementById('updated').textContent = 'Sincronização mais recente: ' + new Date(ultima).toLocaleString('pt-BR');
+    }
+  }catch(e){}
+}
+atualizarDoSupabase();
+</script>
 </body>
 </html>

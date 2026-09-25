@@ -21,6 +21,12 @@
 .report-preview th{color:#d6a84b;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
 @media(max-width:760px){.report-summary{grid-template-columns:1fr}}
 
+
+.finance-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.finance-actions .btn{padding:8px 11px;font-size:12px}
+.btn.addmoney{border-color:#277a46;color:#7ee2a3;background:rgba(39,122,70,.12)}
+.btn.removemoney{border-color:#8e3d35;color:#ff9b90;background:rgba(142,61,53,.12)}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
@@ -30,8 +36,8 @@
 <div id="dashboard" class="view active"><div class="cards"><div class="stat"><small>Produtos</small><strong id="np">0</strong></div><div class="stat"><small>Cursos</small><strong id="nc">0</strong></div><div class="stat"><small>VIP</small><strong id="nv">0</strong></div><div class="stat"><small>Solicitações VIP</small><strong id="nr">0</strong></div></div>
 <div class="panel"><div class="panel-head"><div><h2>Estimativa VIP do mês</h2><div class="meta">Conta 1 vez cada solicitação que clicou em “enviar comprovante”. Não significa pagamento confirmado.</div></div></div>
 <div class="finance-grid">
-  <div class="finance-card"><div class="finance-name">Telegram VIP · R$ 10 por acesso</div><div id="valorTelegram" class="finance-value">R$ 0,00</div><div id="qtdTelegram" class="finance-count">0 envios de comprovante</div></div>
-  <div class="finance-card"><div class="finance-name">WhatsApp VIP · R$ 15 por acesso</div><div id="valorWhatsapp" class="finance-value">R$ 0,00</div><div id="qtdWhatsapp" class="finance-count">0 envios de comprovante</div></div>
+  <div class="finance-card"><div class="finance-name">Telegram VIP · renovação R$ 10 / nova R$ 13</div><div id="valorTelegram" class="finance-value">R$ 0,00</div><div id="qtdTelegram" class="finance-count">0 envios de comprovante</div><div id="ajusteTelegram" class="finance-count">Ajustes manuais: R$ 0,00</div><div class="finance-actions"><button class="btn addmoney money-adjust" data-tipo="telegram" data-operacao="add">+ Adicionar valor</button><button class="btn removemoney money-adjust" data-tipo="telegram" data-operacao="remove">− Remover valor</button></div></div>
+  <div class="finance-card"><div class="finance-name">WhatsApp VIP · renovação R$ 15 / nova R$ 18</div><div id="valorWhatsapp" class="finance-value">R$ 0,00</div><div id="qtdWhatsapp" class="finance-count">0 envios de comprovante</div><div id="ajusteWhatsapp" class="finance-count">Ajustes manuais: R$ 0,00</div><div class="finance-actions"><button class="btn addmoney money-adjust" data-tipo="whatsapp" data-operacao="add">+ Adicionar valor</button><button class="btn removemoney money-adjust" data-tipo="whatsapp" data-operacao="remove">− Remover valor</button></div></div>
 </div>
 <div class="finance-total"><span>Total estimado do mês</span><span id="valorTotalMes">R$ 0,00</span></div>
 </div>
@@ -74,12 +80,12 @@
 
     <div class="finance-grid">
       <div class="finance-card">
-        <div class="finance-name">Telegram VIP · R$ 10</div>
+        <div class="finance-name">Telegram VIP · renovação R$ 10 / nova R$ 13</div>
         <div id="relTelegramValue" class="finance-value">R$ 0,00</div>
         <div id="relTelegramCount" class="finance-count">0 registros</div>
       </div>
       <div class="finance-card">
-        <div class="finance-name">WhatsApp VIP · R$ 15</div>
+        <div class="finance-name">WhatsApp VIP · renovação R$ 15 / nova R$ 18</div>
         <div id="relWhatsappValue" class="finance-value">R$ 0,00</div>
         <div id="relWhatsappCount" class="finance-count">0 registros</div>
       </div>
@@ -107,8 +113,14 @@ function render(el,data,key){$(el).innerHTML=data.length?data.map(x=>`<div class
 async function loadMain(){let [p,c,v]=await Promise.all([list('produtos'),list('cursos'),list('assinaturas')]);$('np').textContent=p.length;$('nc').textContent=c.length;$('nv').textContent=v.length;render('lp',p,'produto');render('lc',c,'curso');render('lv',v,'vip')}
 function form(key,data){editing=data?.id||null;let c=cfg[key],html='<form id="entityForm">';c.fields.forEach(f=>{let v=data?.[f[0]]??'';html+=`<label class="label">${f[1]}</label>`+(f[2]==='ta'?`<textarea class="input" name="${f[0]}">${String(v).replaceAll('<','&lt;')}</textarea>`:`<input class="input" name="${f[0]}" value="${String(v).replaceAll('"','&quot;')}">`)});html+='<div class="form-actions"><button type="button" class="btn secondary" id="cancel">Cancelar</button><button class="btn primary">Salvar</button></div></form>';$('mt').textContent=(data?'Editar ':'Adicionar ')+c.label;$('mb').innerHTML=html;$('modal').classList.add('show');$('cancel').onclick=closeModal;$('entityForm').onsubmit=async e=>{e.preventDefault();let b={};new FormData(e.target).forEach((v,k)=>b[k]=v);try{if(editing)await api('/rest/v1/'+c.table+'?id=eq.'+editing,{method:'PATCH',body:JSON.stringify(b)});else await api('/rest/v1/'+c.table,{method:'POST',body:JSON.stringify(b)});closeModal();await loadMain()}catch(x){alert(x.message)}}}
 function closeModal(){$('modal').classList.remove('show')}
-function reqCard(x,actions){return `<div class="request"><div><strong>${x.nome_completo}</strong><div class="meta">📱 ${x.celular}</div><div class="meta">💎 ${x.tipo_vip==='telegram'?'Telegram VIP':'WhatsApp VIP'} · ${new Date(x.criado_em).toLocaleString('pt-BR')}</div><div class="meta">Status: <span class="badge ${x.status}">${x.status}</span></div></div>${actions?`<div class="actions"><button class="btn secondary status" data-id="${x.id}" data-status="confirmado">Confirmar</button><button class="btn danger status" data-id="${x.id}" data-status="cancelado">Cancelar</button></div>`:''}</div>`}
-async function loadReq(){let path='/rest/v1/vip_solicitacoes?select=*&order=criado_em.desc';let f=$('filter').value;let v=$('filterVip').value;if(f)path+='&status=eq.'+encodeURIComponent(f);if(v)path+='&tipo_vip=eq.'+encodeURIComponent(v);let d=await api(path);$('nr').textContent=d.length;$('requests').innerHTML=d.length?d.map(x=>reqCard(x,true)).join(''):'<div class="empty">Nenhuma solicitação encontrada.</div>';$('recentes').innerHTML=d.slice(0,6).map(x=>reqCard(x,false)).join('')||'<div class="empty">Nenhuma solicitação ainda.</div>'}
+function reqCard(x,mode='full'){
+  const statusBtns=mode==='full'
+    ? `<button class="btn secondary status" data-id="${x.id}" data-status="confirmado">Confirmar</button><button class="btn danger status" data-id="${x.id}" data-status="cancelado">Cancelar</button>`
+    : '';
+  const deleteBtn=`<button class="btn danger reqdel" data-id="${x.id}">Excluir</button>`;
+  return `<div class="request"><div><strong>${x.nome_completo}</strong><div class="meta">📱 ${x.celular}</div><div class="meta">💎 ${x.tipo_vip==='telegram'?'Telegram VIP':'WhatsApp VIP'} · ${new Date(x.criado_em).toLocaleString('pt-BR')}</div><div class="meta">Status: <span class="badge ${x.status}">${x.status}</span></div></div><div class="actions">${statusBtns}${deleteBtn}</div></div>`
+}
+async function loadReq(){let path='/rest/v1/vip_solicitacoes?select=*&order=criado_em.desc';let f=$('filter').value;let v=$('filterVip').value;if(f)path+='&status=eq.'+encodeURIComponent(f);if(v)path+='&tipo_vip=eq.'+encodeURIComponent(v);let d=await api(path);$('nr').textContent=d.length;$('requests').innerHTML=d.length?d.map(x=>reqCard(x,'full')).join(''):'<div class="empty">Nenhuma solicitação encontrada.</div>';$('recentes').innerHTML=d.slice(0,6).map(x=>reqCard(x,'recent')).join('')||'<div class="empty">Nenhuma solicitação ainda.</div>'}
 
 function moeda(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 async function loadFinanceiro(){
@@ -119,19 +131,30 @@ async function loadFinanceiro(){
   const ini=encodeURIComponent(inicio.toISOString());
   const end=encodeURIComponent(fim.toISOString());
 
-  let d=await api('/rest/v1/vip_comprovantes?select=tipo_vip,valor,criado_em&criado_em=gte.'+ini+'&criado_em=lt.'+end);
+  const [d,ajustes]=await Promise.all([
+    api('/rest/v1/vip_comprovantes?select=tipo_vip,valor,criado_em&criado_em=gte.'+ini+'&criado_em=lt.'+end),
+    api('/rest/v1/vip_ajustes_financeiros?select=tipo_vip,valor,criado_em&criado_em=gte.'+ini+'&criado_em=lt.'+end)
+  ]);
 
   const tg=d.filter(x=>x.tipo_vip==='telegram');
   const wa=d.filter(x=>x.tipo_vip==='whatsapp');
 
-  const valorTg=tg.reduce((s,x)=>s+Number(x.valor||0),0);
-  const valorWa=wa.reduce((s,x)=>s+Number(x.valor||0),0);
+  const baseTg=tg.reduce((s,x)=>s+Number(x.valor||0),0);
+  const baseWa=wa.reduce((s,x)=>s+Number(x.valor||0),0);
+
+  const ajusteTg=ajustes.filter(x=>x.tipo_vip==='telegram').reduce((s,x)=>s+Number(x.valor||0),0);
+  const ajusteWa=ajustes.filter(x=>x.tipo_vip==='whatsapp').reduce((s,x)=>s+Number(x.valor||0),0);
+
+  const valorTg=baseTg+ajusteTg;
+  const valorWa=baseWa+ajusteWa;
 
   $('valorTelegram').textContent=moeda(valorTg);
   $('qtdTelegram').textContent=tg.length+' envio'+(tg.length===1?'':'s')+' de comprovante';
+  $('ajusteTelegram').textContent='Ajustes manuais: '+moeda(ajusteTg);
 
   $('valorWhatsapp').textContent=moeda(valorWa);
   $('qtdWhatsapp').textContent=wa.length+' envio'+(wa.length===1?'':'s')+' de comprovante';
+  $('ajusteWhatsapp').textContent='Ajustes manuais: '+moeda(ajusteWa);
 
   $('valorTotalMes').textContent=moeda(valorTg+valorWa);
 }
@@ -270,8 +293,8 @@ async function gerarPdfMensal(){
     doc.setFont('helvetica','bold');
     doc.text('VALORES ESTIMADOS',14,69);
     doc.setFont('helvetica','normal');
-    doc.text('Telegram VIP: '+rel.qtdTelegram+' x R$ 10,00 = '+moeda(rel.valorTelegram),14,77);
-    doc.text('WhatsApp VIP: '+rel.qtdWhatsapp+' x R$ 15,00 = '+moeda(rel.valorWhatsapp),14,83);
+    doc.text('Telegram VIP: '+rel.qtdTelegram+' registro(s) = '+moeda(rel.valorTelegram),14,77);
+    doc.text('WhatsApp VIP: '+rel.qtdWhatsapp+' registro(s) = '+moeda(rel.valorWhatsapp),14,83);
     doc.setFont('helvetica','bold');
     doc.text('Total estimado: '+moeda(rel.valorTotal),14,91);
 
@@ -320,6 +343,33 @@ async function gerarPdfMensal(){
   }
 }
 
+
+async function ajustarValorVip(tipo,operacao){
+  const nome=tipo==='telegram'?'Telegram VIP':'WhatsApp VIP';
+  const entrada=prompt(`${operacao==='add'?'Adicionar':'Remover'} quanto em ${nome}? Ex.: 25,50`);
+  if(entrada===null)return;
+
+  const numero=Number(String(entrada).replace(/\./g,'').replace(',','.'));
+  if(!Number.isFinite(numero)||numero<=0){
+    alert('Digite um valor maior que zero.');
+    return;
+  }
+
+  const observacao=prompt('Observação opcional para esse ajuste:')||'';
+  const valor=operacao==='remove' ? -Math.abs(numero) : Math.abs(numero);
+
+  await api('/rest/v1/vip_ajustes_financeiros',{
+    method:'POST',
+    body:JSON.stringify({
+      tipo_vip:tipo,
+      valor,
+      observacao
+    })
+  });
+
+  await loadFinanceiro();
+}
+
 async function refresh(){await loadMain();await loadReq();await loadFinanceiro()}
 $('loginBtn').onclick=login;$('password').onkeydown=e=>{if(e.key==='Enter')login()};$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;
 
@@ -329,6 +379,47 @@ $('previewReport').onclick=()=>carregarRelatorioMensal().catch(e=>{$('reportStat
 $('generatePdf').onclick=gerarPdfMensal;
 
 document.querySelectorAll('.add').forEach(b=>b.onclick=()=>form(b.dataset.key));$('nav').onclick=e=>{let b=e.target.closest('button[data-view]');if(!b)return;document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(b.dataset.view).classList.add('active');document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('title').textContent=b.textContent.trim()};
-document.addEventListener('click',async e=>{let b=e.target.closest('.edit');if(b){let k=b.dataset.key,d=await api('/rest/v1/'+cfg[k].table+'?select=*&id=eq.'+b.dataset.id);form(k,d[0])}let del=e.target.closest('.del');if(del&&confirm('Excluir este item?')){await api('/rest/v1/'+del.dataset.table+'?id=eq.'+del.dataset.id,{method:'DELETE'});await loadMain()}let st=e.target.closest('.status');if(st){await api('/rest/v1/vip_solicitacoes?id=eq.'+st.dataset.id,{method:'PATCH',body:JSON.stringify({status:st.dataset.status})});await loadReq();await loadFinanceiro()}});
+document.addEventListener('click',async e=>{
+  let b=e.target.closest('.edit');
+  if(b){
+    let k=b.dataset.key,d=await api('/rest/v1/'+cfg[k].table+'?select=*&id=eq.'+b.dataset.id);
+    form(k,d[0]);
+  }
+
+  let del=e.target.closest('.del');
+  if(del&&confirm('Excluir este item?')){
+    await api('/rest/v1/'+del.dataset.table+'?id=eq.'+del.dataset.id,{method:'DELETE'});
+    await loadMain();
+  }
+
+  let st=e.target.closest('.status');
+  if(st){
+    await api('/rest/v1/vip_solicitacoes?id=eq.'+st.dataset.id,{
+      method:'PATCH',
+      body:JSON.stringify({status:st.dataset.status})
+    });
+    await loadReq();
+    await loadFinanceiro();
+  }
+
+  let reqdel=e.target.closest('.reqdel');
+  if(reqdel){
+    const ok=confirm('Excluir esta solicitação VIP? Isso também remove o lançamento financeiro ligado a ela.');
+    if(ok){
+      await api('/rest/v1/vip_solicitacoes?id=eq.'+reqdel.dataset.id,{method:'DELETE'});
+      await loadReq();
+      await loadFinanceiro();
+    }
+  }
+
+  let money=e.target.closest('.money-adjust');
+  if(money){
+    try{
+      await ajustarValorVip(money.dataset.tipo,money.dataset.operacao);
+    }catch(err){
+      alert(err.message||'Não foi possível aplicar o ajuste.');
+    }
+  }
+});await loadMain()}let st=e.target.closest('.status');if(st){await api('/rest/v1/vip_solicitacoes?id=eq.'+st.dataset.id,{method:'PATCH',body:JSON.stringify({status:st.dataset.status})});await loadReq();await loadFinanceiro()}});
 (async()=>{try{let s=JSON.parse(sessionStorage.getItem('rf_admin_session')||'null');if(s?.access_token){session=s;if(await isAdmin())await enter()}}catch{sessionStorage.removeItem('rf_admin_session')}})();
 </script></body></html>

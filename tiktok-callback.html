@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TikTok conectado | Rose Freitas</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{
+  --bg:#1b1811;
+  --card:#242018;
+  --text:#f3eee4;
+  --muted:#cfc4b2;
+  --gold:#d3a548;
+  --line:rgba(211,165,72,.22);
+  --ok:#67c98a;
+  --bad:#ef7b73;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(211,165,72,.10), transparent 38%),
+    var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+.card{
+  width:min(620px,100%);
+  padding:40px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:var(--card);
+  box-shadow:0 24px 80px rgba(0,0,0,.28);
+}
+.brand{
+  color:var(--gold);
+  letter-spacing:.14em;
+  font-size:.75rem;
+  font-weight:700;
+  text-transform:uppercase;
+}
+h1{
+  margin:10px 0 14px;
+  font-family:Georgia,serif;
+  font-size:clamp(2rem,7vw,3.5rem);
+  line-height:1.02;
+  font-weight:400;
+}
+p{color:var(--muted);line-height:1.65}
+.status{
+  margin:28px 0 0;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+.status strong{display:block;margin-bottom:4px}
+.ok strong{color:var(--ok)}
+.error strong{color:var(--bad)}
+button,a.button{
+  display:inline-block;
+  margin-top:20px;
+  padding:12px 18px;
+  border:1px solid var(--gold);
+  border-radius:9px;
+  background:transparent;
+  color:var(--text);
+  text-decoration:none;
+  cursor:pointer;
+}
+small{display:block;margin-top:18px;color:#958a78}
+@media(max-width:600px){.card{padding:28px 22px}}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="brand">Rose Freitas • TikTok</div>
+  <h1 id="title">Conectando sua conta…</h1>
+  <p id="description">Aguarde enquanto verificamos a resposta enviada pelo TikTok.</p>
+  <div id="status" class="status">
+    <strong>Processando autorização</strong>
+    <span>Não feche esta página ainda.</span>
+  </div>
+  <a class="button" href="/" id="home" style="display:none">Voltar ao site</a>
+  <small>Nenhuma senha do TikTok é exibida nesta página.</small>
+</main>
+
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const code = params.get("code");
+  const error = params.get("error");
+  const errorDescription = params.get("error_description");
+  const returnedState = params.get("state");
+  const savedState = sessionStorage.getItem("tiktok_oauth_state");
+
+  const title = document.getElementById("title");
+  const description = document.getElementById("description");
+  const status = document.getElementById("status");
+  const home = document.getElementById("home");
+
+  function showError(message) {
+    title.textContent = "Não foi possível conectar.";
+    description.textContent = "O TikTok não concluiu a autorização.";
+    status.className = "status error";
+    status.innerHTML = "<strong>Autorização não concluída</strong><span></span>";
+    status.querySelector("span").textContent = message;
+    home.style.display = "inline-block";
+  }
+
+  if (error) {
+    showError(errorDescription || error);
+    return;
+  }
+
+  if (!code) {
+    showError("O TikTok não enviou o código de autorização.");
+    return;
+  }
+
+  if (savedState && returnedState && savedState !== returnedState) {
+    showError("A validação de segurança da autorização não corresponde.");
+    return;
+  }
+
+  // Mantemos o código apenas nesta sessão para o próximo passo seguro no backend.
+  sessionStorage.setItem("tiktok_oauth_code", code);
+  if (returnedState) sessionStorage.setItem("tiktok_returned_state", returnedState);
+
+  // Limpa o código da barra do navegador para evitar exposição acidental.
+  history.replaceState({}, document.title, location.pathname);
+
+  title.textContent = "Autorização recebida.";
+  description.textContent = "O TikTok retornou a autorização corretamente. Agora o código pode ser trocado por um token com segurança no servidor.";
+  status.className = "status ok";
+  status.innerHTML = "<strong>Callback funcionando</strong><span>Esta página já está pronta para a próxima etapa da integração.</span>";
+  home.style.display = "inline-block";
+})();
+</script>
+</body>
+</html>

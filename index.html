@@ -478,6 +478,196 @@
     box-shadow:0 14px 40px rgba(0,0,0,.08);
   }
 
+
+  /* ===== Cursos em vitrine editorial ===== */
+  .courses-editorial{
+    padding:96px 0 48px;
+    border-top:1px solid var(--line);
+    background:var(--paper);
+  }
+  .courses-intro{
+    display:grid;
+    grid-template-columns:minmax(0,1.45fr) minmax(280px,.7fr);
+    gap:28px;
+    align-items:end;
+    margin-bottom:34px;
+  }
+  .courses-intro h2{
+    margin:0;
+    font-size:clamp(3rem,6vw,5.8rem);
+    line-height:.95;
+    letter-spacing:-.045em;
+    max-width:11ch;
+  }
+  .courses-intro p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:1.1rem;
+    line-height:1.65;
+    max-width:34ch;
+    justify-self:end;
+  }
+  .courses-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:28px;
+  }
+  .course-card{
+    border:1px solid rgba(214,168,75,.18);
+    background:rgba(255,255,255,.02);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    min-height:100%;
+  }
+  .course-hero{
+    position:relative;
+    min-height:270px;
+    padding:38px 38px 34px;
+    border-bottom:1px solid rgba(214,168,75,.14);
+    overflow:hidden;
+  }
+  .course-eyebrow{
+    position:relative;
+    z-index:2;
+    font-size:.9rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:#e0bc6f;
+    font-weight:700;
+    margin-bottom:28px;
+  }
+  .course-title{
+    position:relative;
+    z-index:2;
+    margin:0;
+    max-width:8.4ch;
+    font-family:var(--serif);
+    font-size:clamp(2.8rem,4.6vw,4.9rem);
+    line-height:.95;
+    letter-spacing:-.05em;
+  }
+  .course-number{
+    position:absolute;
+    right:26px;
+    bottom:10px;
+    z-index:1;
+    font-family:var(--serif);
+    font-size:clamp(4.8rem,10vw,7.6rem);
+    line-height:1;
+    color:rgba(244,234,217,.08);
+    letter-spacing:-.06em;
+    user-select:none;
+    pointer-events:none;
+  }
+  .course-theme-1 .course-hero{
+    background:
+      linear-gradient(90deg, rgba(90,108,96,.56) 0%, rgba(24,40,43,.82) 100%),
+      radial-gradient(circle at 20% 30%, rgba(187,203,181,.16), transparent 46%);
+  }
+  .course-theme-2 .course-hero{
+    background:
+      linear-gradient(90deg, rgba(111,66,53,.68) 0%, rgba(62,39,34,.84) 100%),
+      radial-gradient(circle at 20% 30%, rgba(218,174,132,.12), transparent 46%);
+  }
+  .course-theme-3 .course-hero{
+    background:
+      linear-gradient(90deg, rgba(77,58,79,.68) 0%, rgba(40,27,43,.84) 100%),
+      radial-gradient(circle at 20% 30%, rgba(190,155,212,.14), transparent 46%);
+  }
+  .course-theme-4 .course-hero{
+    background:
+      linear-gradient(90deg, rgba(47,59,78,.7) 0%, rgba(18,27,41,.86) 100%),
+      radial-gradient(circle at 20% 30%, rgba(149,184,223,.14), transparent 46%);
+  }
+  .course-body{
+    padding:34px 38px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    flex:1;
+  }
+  .course-headline{
+    margin:0;
+    font-family:var(--serif);
+    font-size:clamp(1.9rem,2.4vw,3rem);
+    line-height:1.02;
+    letter-spacing:-.04em;
+    max-width:16ch;
+  }
+  .course-description{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:1rem;
+    line-height:1.75;
+    max-width:39ch;
+  }
+  .course-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+    padding-bottom:18px;
+    border-bottom:1px solid rgba(214,168,75,.14);
+    color:var(--ink-soft);
+    font-size:1rem;
+  }
+  .course-meta span{white-space:nowrap}
+  .course-footer{
+    margin-top:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  .course-pricebox{
+    display:flex;
+    align-items:flex-end;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .course-pricebox small{
+    color:var(--ink-soft);
+    font-size:1rem;
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .course-price{
+    font-size:clamp(2.1rem,3.1vw,3.6rem);
+    line-height:.95;
+    letter-spacing:-.05em;
+    color:var(--ink);
+  }
+  .course-actions{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    align-items:flex-start;
+  }
+  .course-actions .btn-solid{
+    min-width:270px;
+    justify-content:center;
+  }
+  .course-review{
+    color:var(--ink);
+    text-decoration:underline;
+    text-decoration-thickness:1px;
+    text-underline-offset:6px;
+    font-size:.98rem;
+  }
+  @media (max-width: 980px){
+    .courses-intro,
+    .courses-grid{grid-template-columns:1fr}
+    .courses-intro p{justify-self:start}
+  }
+  @media (max-width: 720px){
+    .courses-editorial{padding:72px 0 24px}
+    .course-hero,.course-body{padding:28px 22px}
+    .course-hero{min-height:230px}
+    .course-number{right:18px}
+    .course-actions .btn-solid{min-width:unset;width:100%}
+  }
+
 </style>
 </head>
 <body>
@@ -544,54 +734,72 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
 <div id="produtos-area" aria-hidden="true"></div>
 <div id="produtos-dinamicos"></div>
 
-<section id="metodo" class="contact curso-estatico">
-  <div class="wrap contact-grid">
-    <div>
-      <div class="tag" style="color:var(--brass-deep); font-size:.85rem; margin-bottom:14px;">Garanta sua vaga</div>
-      <h2>Método YouTube 360°</h2>
-      <p>Fale com a Rose pelo WhatsApp para confirmar sua inscrição no Método YouTube 360° e tirar qualquer dúvida antes de começar.</p>
-      <div class="contact-actions">
-        <a href="https://pay.kiwify.com.br/1PDza0Q" target="_blank" rel="noopener" class="btn btn-solid">Inscreva-se no curso!</a>
-        <a href="#conteudo-curso" class="btn btn-line">Rever o conteúdo</a>
+
+<section id="cursos" class="courses-editorial">
+  <div class="wrap">
+    <div class="courses-intro">
+      <h2>Seu próximo capítulo começa aqui.</h2>
+      <p>Cursos para fortalecer sua presença, encontrar sua voz e criar novas possibilidades no digital.</p>
+    </div>
+    
+<div id="cursos-vitrine" class="courses-grid">
+  <article class="course-card course-theme-1">
+    <div class="course-hero">
+      <div class="course-eyebrow">ESTRATÉGIA & CRIAÇÃO</div>
+      <h3 class="course-title">Método YouTube 360°</h3>
+      <div class="course-number">01</div>
+    </div>
+    <div class="course-body">
+      <h4 class="course-headline">Seu canal, com direção.</h4>
+      <p class="course-description">Da criação à monetização: desenvolva sua presença no YouTube com estratégia.</p>
+      <div class="course-meta">
+        <span>10 aulas em vídeo</span>
+        <span>5 bônus</span>
+        <span>Suporte WhatsApp</span>
+      </div>
+      <div class="course-footer">
+        <div class="course-pricebox">
+          <small>por</small>
+          <div class="course-price">R$ 39,90</div>
+        </div>
+        <div class="course-actions">
+          <a href="https://pay.kiwify.com.br/1PDza0Q" target="_blank" rel="noopener" class="btn btn-solid">Inscreva-se no curso! ↗</a>
+          <a href="#conteudo-curso" class="course-review">Rever o conteúdo</a>
+        </div>
       </div>
     </div>
-    <div class="contact-card">
-      <div class="plan-badge" style="margin-bottom:6px;">Método YouTube 360°</div>
-      <div class="price" style="margin-bottom:22px; font-size:2rem;">R$ 39,90</div>
-      <ul style="list-style:none; padding:0; margin:0 0 26px; display:flex; flex-direction:column; gap:10px;">
-        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>10 aulas em vídeo</li>
-        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>5 bônus inclusos</li>
-        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Suporte direto pelo WhatsApp</li>
-      </ul>
+  </article>
+
+  <article class="course-card course-theme-2">
+    <div class="course-hero">
+      <div class="course-eyebrow">COMUNICAÇÃO & PRESENÇA</div>
+      <h3 class="course-title">Coragem de falar.</h3>
+      <div class="course-number">02</div>
     </div>
+    <div class="course-body">
+      <h4 class="course-headline">O despertar da sua presença autêntica</h4>
+      <p class="course-description">Encontre sua voz e dê espaço à sua expressão com mais confiança e autenticidade.</p>
+      <div class="course-meta">
+        <span>7 aulas</span>
+        <span>1 desafio final</span>
+      </div>
+      <div class="course-footer">
+        <div class="course-pricebox">
+          <small>por</small>
+          <div class="course-price">R$ 49,90</div>
+        </div>
+        <div class="course-actions">
+          <a href="https://pay.kiwify.com.br/ntgCTUk" target="_blank" rel="noopener" class="btn btn-solid">Inscreva-se no curso! ↗</a>
+          <a href="#conteudo-curso" class="course-review">Rever o conteúdo</a>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+
   </div>
 </section>
 
-<section id="coragem-falar" class="contact curso-estatico">
-  <div class="wrap contact-grid">
-    <div>
-      <div class="tag" style="color:var(--brass-deep); font-size:.85rem; margin-bottom:14px;">Novo curso</div>
-      <h2>CORAGEM DE FALAR: O DESPERTAR DA SUA PRESENÇA AUTÊNTICA</h2>
-      <p>Desperte sua presença autêntica, supere o medo de falar e desenvolva uma comunicação mais confiante, natural e verdadeira.</p>
-      <div class="contact-actions">
-        <a href="https://pay.kiwify.com.br/ntgCTUk" class="btn btn-solid" target="_blank" rel="noopener">Inscreva-se no curso!</a>
-        <a href="#coragem-falar" class="btn btn-line">Rever o conteúdo</a>
-      </div>
-    </div>
-    <div class="contact-card">
-      <div class="plan-badge" style="margin-bottom:6px;">Coragem de Falar</div>
-      <div class="price" style="margin-bottom:22px; font-size:2rem;">R$ 49,90</div>
-      <h3 style="font-family:var(--serif); font-size:1.8rem; line-height:1.1; margin:0 0 14px;">O Despertar da sua Presença Autêntica</h3>
-      <p style="margin:0 0 22px; color:var(--muted);">Um curso para desenvolver confiança para se expressar, posicionar suas ideias e comunicar-se com mais naturalidade e autenticidade.</p>
-      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
-        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>7 aulas</li>
-        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>1 desafio final</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<div id="cursos-dinamicos"></div>
 
 <section id="conteudo-curso">
   <div class="wrap">
@@ -894,7 +1102,7 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
   }
 
   async function carregarCursos() {
-    const container = document.getElementById('cursos-dinamicos');
+    const container = document.getElementById('cursos-vitrine');
     if (!container) return;
 
     try {
@@ -924,7 +1132,7 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
         el.style.display = '';
       });
 
-      container.innerHTML = cursos.map(cursoHtml).join('');
+      container.insertAdjacentHTML('beforeend', cursos.map((curso, indice) => cursoHtml(curso, indice + 2)).join(''));
     } catch (erro) {
       console.error('Não foi possível carregar os cursos:', erro);
       // Se der erro, os cursos antigos do HTML continuam visíveis.

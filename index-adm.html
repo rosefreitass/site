@@ -27,12 +27,20 @@
 .btn.addmoney{border-color:#277a46;color:#7ee2a3;background:rgba(39,122,70,.12)}
 .btn.removemoney{border-color:#8e3d35;color:#ff9b90;background:rgba(142,61,53,.12)}
 
+
+.text-section{background:#17140f;border:1px solid #382d1d;border-radius:12px;padding:18px;margin:14px 0}
+.text-section h3{font-family:Georgia;margin:0 0 12px;color:#d6a84b}
+.site-text-input{margin-bottom:8px}
+textarea.site-text-input{min-height:110px;resize:vertical;line-height:1.5}
+textarea.site-textarea-lg{min-height:220px}
+@media(max-width:650px){#textos .panel-head{align-items:flex-start;flex-direction:column}#saveSiteTexts{width:100%}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
 </head><body>
 <section id="login" class="login"><div class="card"><div class="brand">ROSE FREITAS</div><h1>Painel ADM</h1><p class="muted">Área administrativa protegida.</p><label class="label">E-mail</label><input id="email" class="input" type="email"><label class="label">Senha</label><input id="password" class="input" type="password"><button id="loginBtn" type="button" class="btn primary" style="width:100%;margin-top:18px">Entrar</button><div id="loginMsg" class="loginmsg"></div></div></section>
-<section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button><button data-view="relatorios">📄 Relatórios</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
+<section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button><button data-view="textos">✏️ Textos do Site</button><button data-view="relatorios">📄 Relatórios</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
 <div id="dashboard" class="view active"><div class="cards"><div class="stat"><small>Produtos</small><strong id="np">0</strong></div><div class="stat"><small>Cursos</small><strong id="nc">0</strong></div><div class="stat"><small>VIP</small><strong id="nv">0</strong></div><div class="stat"><small>Solicitações VIP</small><strong id="nr">0</strong></div></div>
 <div class="panel"><div class="panel-head"><div><h2>Estimativa VIP do mês</h2><div class="meta">Conta 1 vez cada solicitação que clicou em “enviar comprovante”. Não significa pagamento confirmado.</div></div></div>
 <div class="finance-grid">
@@ -45,6 +53,82 @@
 <div id="produtos" class="view"><div class="panel"><div class="panel-head"><h2>Produtos</h2><button class="btn primary add" data-key="produto">+ Adicionar</button></div><div id="lp" class="items"></div></div></div>
 <div id="cursos" class="view"><div class="panel"><div class="panel-head"><h2>Cursos</h2><button class="btn primary add" data-key="curso">+ Adicionar</button></div><div id="lc" class="items"></div></div></div>
 <div id="vip" class="view"><div class="panel"><div class="panel-head"><h2>VIP / Assinaturas</h2><button class="btn primary add" data-key="vip">+ Adicionar</button></div><div id="lv" class="items"></div></div><div class="panel"><div class="panel-head"><h2>Solicitações de acesso</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><select id="filterVip" class="input" style="max-width:180px"><option value="">Todos os VIPs</option><option value="whatsapp">Somente WhatsApp</option><option value="telegram">Somente Telegram</option></select><select id="filter" class="input" style="max-width:180px"><option value="">Todos os status</option><option value="pendente">Pendentes</option><option value="confirmado">Confirmados</option><option value="cancelado">Cancelados</option></select></div></div><div id="requests" class="request-grid"></div></div></div>
+
+<div id="textos" class="view">
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Textos do Site</h2>
+        <div class="meta">Edite os principais textos do site sem mexer no código. O site usa o HTML original como reserva caso o banco fique indisponível.</div>
+      </div>
+      <button id="saveSiteTexts" class="btn primary">Salvar alterações</button>
+    </div>
+    <div id="siteTextStatus" class="meta" style="margin-bottom:16px"></div>
+
+    <div class="text-section">
+      <h3>Início</h3>
+      <label class="label">Título principal</label>
+      <input class="input site-text-input" data-chave="hero_titulo">
+      <label class="label">Texto principal</label>
+      <textarea class="input site-text-input site-textarea-lg" data-chave="hero_texto"></textarea>
+    </div>
+
+    <div class="text-section">
+      <h3>Sobre</h3>
+      <label class="label">Título</label>
+      <input class="input site-text-input" data-chave="sobre_titulo">
+      <label class="label">Parágrafo 1</label>
+      <textarea class="input site-text-input" data-chave="sobre_texto_1"></textarea>
+      <label class="label">Parágrafo 2</label>
+      <textarea class="input site-text-input" data-chave="sobre_texto_2"></textarea>
+      <label class="label">Parágrafo 3</label>
+      <textarea class="input site-text-input" data-chave="sobre_texto_3"></textarea>
+    </div>
+
+    <div class="text-section">
+      <h3>Cursos</h3>
+      <label class="label">Título da seção</label>
+      <input class="input site-text-input" data-chave="cursos_titulo">
+      <label class="label">Descrição da seção</label>
+      <textarea class="input site-text-input" data-chave="cursos_texto"></textarea>
+    </div>
+
+    <div class="text-section">
+      <h3>Conteúdos</h3>
+      <label class="label">Título da seção</label>
+      <input class="input site-text-input" data-chave="conteudos_titulo">
+    </div>
+
+    <div class="text-section">
+      <h3>Telegram VIP</h3>
+      <label class="label">Título</label>
+      <input class="input site-text-input" data-chave="telegram_vip_titulo">
+      <label class="label">Texto 1</label>
+      <textarea class="input site-text-input" data-chave="telegram_vip_texto_1"></textarea>
+      <label class="label">Texto 2</label>
+      <textarea class="input site-text-input" data-chave="telegram_vip_texto_2"></textarea>
+    </div>
+
+    <div class="text-section">
+      <h3>WhatsApp VIP</h3>
+      <label class="label">Título</label>
+      <input class="input site-text-input" data-chave="whatsapp_vip_titulo">
+      <label class="label">Texto 1</label>
+      <textarea class="input site-text-input" data-chave="whatsapp_vip_texto_1"></textarea>
+      <label class="label">Texto 2</label>
+      <textarea class="input site-text-input" data-chave="whatsapp_vip_texto_2"></textarea>
+    </div>
+
+    <div class="text-section">
+      <h3>Parcerias</h3>
+      <label class="label">Título</label>
+      <input class="input site-text-input" data-chave="parcerias_titulo">
+      <label class="label">Descrição</label>
+      <textarea class="input site-text-input" data-chave="parcerias_texto"></textarea>
+    </div>
+  </div>
+</div>
+
 <div id="relatorios" class="view">
   <div class="panel">
     <div class="panel-head">
@@ -408,8 +492,60 @@ async function ajustarValorVip(tipo,operacao){
   await loadFinanceiro();
 }
 
-async function refresh(){await loadMain();await loadReq();await loadFinanceiro()}
-$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;
+
+async function loadSiteTexts(){
+  const status=$('siteTextStatus');
+  if(status) status.textContent='Carregando textos...';
+  try{
+    const dados=await api('/rest/v1/site_textos?select=chave,conteudo&order=chave.asc');
+    const mapa={};
+    (dados||[]).forEach(x=>mapa[x.chave]=x.conteudo??'');
+    document.querySelectorAll('.site-text-input').forEach(el=>{
+      const chave=el.dataset.chave;
+      if(Object.prototype.hasOwnProperty.call(mapa,chave)) el.value=mapa[chave];
+    });
+    if(status) status.textContent='Textos carregados.';
+  }catch(e){
+    console.error(e);
+    if(status) status.textContent='Não foi possível carregar os textos: '+e.message;
+  }
+}
+
+async function saveSiteTexts(){
+  const btn=$('saveSiteTexts');
+  const status=$('siteTextStatus');
+  const itens=[...document.querySelectorAll('.site-text-input')].map(el=>({
+    chave:el.dataset.chave,
+    conteudo:el.value
+  }));
+
+  if(btn){btn.disabled=true;btn.textContent='Salvando...'}
+  if(status) status.textContent='Salvando alterações...';
+
+  try{
+    for(const item of itens){
+      await api('/rest/v1/site_textos?on_conflict=chave',{
+        method:'POST',
+        headers:{Prefer:'resolution=merge-duplicates,return=minimal'},
+        body:JSON.stringify({
+          chave:item.chave,
+          conteudo:item.conteudo,
+          atualizado_em:new Date().toISOString()
+        })
+      });
+    }
+    if(status) status.textContent='Alterações salvas. O site principal já pode exibir os novos textos.';
+  }catch(e){
+    console.error(e);
+    if(status) status.textContent='Erro ao salvar: '+e.message;
+    alert('Erro ao salvar os textos: '+e.message);
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='Salvar alterações'}
+  }
+}
+
+async function refresh(){await loadMain();await loadReq();await loadFinanceiro();await loadSiteTexts()}
+$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;$('saveSiteTexts').onclick=saveSiteTexts;
 
 const agoraRel=new Date();
 $('reportMes').value=agoraRel.getFullYear()+'-'+String(agoraRel.getMonth()+1).padStart(2,'0');

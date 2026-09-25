@@ -753,6 +753,280 @@
   border-bottom:1px solid rgba(255,255,255,.03);
 }
 
+
+
+/* ===== Controles globais de tema + idioma ===== */
+.site-controls{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-left:6px;
+}
+.site-control-group{
+  display:flex;
+  align-items:center;
+  gap:3px;
+  padding:3px;
+  border:1px solid var(--line);
+  background:color-mix(in srgb,var(--paper-raised) 62%,transparent);
+  border-radius:5px;
+}
+.site-control-btn{
+  appearance:none;
+  border:0;
+  background:transparent;
+  color:var(--ink-soft);
+  padding:7px 8px;
+  border-radius:3px;
+  cursor:pointer;
+  font:600 .68rem/1 'Public Sans',sans-serif;
+  white-space:nowrap;
+  transition:.18s ease;
+}
+.site-control-btn:hover{
+  background:color-mix(in srgb,var(--brass) 10%,transparent);
+  color:var(--ink);
+}
+.site-control-btn.active{
+  background:var(--brass);
+  color:#fffaf1;
+}
+.site-control-btn::after{display:none!important}
+
+/* ===== TEMA ESCURO: site inteiro ===== */
+html[data-site-theme="dark"]{
+  --ink:#F2EBDD;
+  --ink-soft:#C6BAA9;
+  --paper:#17130F;
+  --paper-raised:#211B15;
+  --sand:#2B231B;
+  --brass:#D3A548;
+  --brass-deep:#E3B85F;
+  --forest:#93B3A0;
+  --line:#3B3025;
+}
+html[data-site-theme="dark"] body,
+html[data-site-theme="dark"] .hero,
+html[data-site-theme="dark"] #sobre,
+html[data-site-theme="dark"] #cursos,
+html[data-site-theme="dark"] #conteudo-curso,
+html[data-site-theme="dark"] #depoimentos,
+html[data-site-theme="dark"] #vip,
+html[data-site-theme="dark"] #whatsapp-vip,
+html[data-site-theme="dark"] #contato,
+html[data-site-theme="dark"] .courses-editorial,
+html[data-site-theme="dark"] .testimonials,
+html[data-site-theme="dark"] footer{
+  background:#17130F!important;
+  color:#F2EBDD!important;
+}
+html[data-site-theme="dark"] #sobre p,
+html[data-site-theme="dark"] #conteudo-curso p,
+html[data-site-theme="dark"] #conteudo-curso li,
+html[data-site-theme="dark"] #sobre .credential,
+html[data-site-theme="dark"] #sobre .credential span{
+  color:#C6BAA9!important;
+}
+html[data-site-theme="dark"] #sobre h2,
+html[data-site-theme="dark"] #sobre h3,
+html[data-site-theme="dark"] #conteudo-curso h2,
+html[data-site-theme="dark"] #conteudo-curso h3{
+  color:#F2EBDD!important;
+}
+html[data-site-theme="dark"] #sobre .about-photo,
+html[data-site-theme="dark"] #sobre .credential,
+html[data-site-theme="dark"] #conteudo-curso .bonus-card,
+html[data-site-theme="dark"] #conteudo-curso .t-card,
+html[data-site-theme="dark"] #conteudo-curso .contact-card{
+  background:#211B15!important;
+  color:#F2EBDD!important;
+  border-color:#3B3025!important;
+}
+html[data-site-theme="dark"] header{
+  background:rgba(23,19,15,.92)!important;
+}
+
+/* ===== TEMA CLARO: site inteiro ===== */
+html[data-site-theme="light"]{
+  --ink:#241E18;
+  --ink-soft:#66594B;
+  --paper:#F3EDE4;
+  --paper-raised:#FBF7F1;
+  --sand:#E7DBCB;
+  --brass:#A9791F;
+  --brass-deep:#8A6318;
+  --forest:#3A5747;
+  --line:#D7C9B7;
+}
+html[data-site-theme="light"] body,
+html[data-site-theme="light"] .hero,
+html[data-site-theme="light"] #sobre,
+html[data-site-theme="light"] #cursos,
+html[data-site-theme="light"] #conteudo-curso,
+html[data-site-theme="light"] #depoimentos,
+html[data-site-theme="light"] #vip,
+html[data-site-theme="light"] #whatsapp-vip,
+html[data-site-theme="light"] #contato,
+html[data-site-theme="light"] .courses-editorial,
+html[data-site-theme="light"] .testimonials,
+html[data-site-theme="light"] footer{
+  background:#F3EDE4!important;
+  color:#241E18!important;
+}
+html[data-site-theme="light"] .course-card,
+html[data-site-theme="light"] #vip .contact-card,
+html[data-site-theme="light"] #whatsapp-vip .contact-card,
+html[data-site-theme="light"] #contato .contact-card,
+html[data-site-theme="light"] .t-card,
+html[data-site-theme="light"] .bonus-card{
+  background:#FBF7F1!important;
+  color:#241E18!important;
+  border-color:#D7C9B7!important;
+}
+html[data-site-theme="light"] .course-card p,
+html[data-site-theme="light"] .course-card .course-description,
+html[data-site-theme="light"] #vip p,
+html[data-site-theme="light"] #vip li,
+html[data-site-theme="light"] #whatsapp-vip p,
+html[data-site-theme="light"] #whatsapp-vip li,
+html[data-site-theme="light"] #contato p,
+html[data-site-theme="light"] .t-card p,
+html[data-site-theme="light"] .bonus-card p{
+  color:#66594B!important;
+}
+html[data-site-theme="light"] #vip h2,
+html[data-site-theme="light"] #vip h3,
+html[data-site-theme="light"] #whatsapp-vip h2,
+html[data-site-theme="light"] #whatsapp-vip h3,
+html[data-site-theme="light"] #contato h2,
+html[data-site-theme="light"] #contato h3{
+  color:#241E18!important;
+}
+html[data-site-theme="light"] header{
+  background:rgba(243,237,228,.93)!important;
+}
+
+/* Mesclado = nenhum atributo; mantém a aparência original do site */
+
+@media(max-width:1180px) and (min-width:821px){
+  .nav-links{gap:15px!important;font-size:.83rem!important}
+  .site-control-btn span{display:none}
+  .site-control-btn{padding:7px 6px}
+}
+@media(max-width:820px){
+  .site-controls{
+    margin:14px 0 0;
+    padding-top:12px;
+    border-top:1px solid var(--line);
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+  }
+  .site-control-group{
+    justify-content:center;
+    width:100%;
+  }
+  .site-control-btn{
+    flex:1;
+    min-height:38px;
+  }
+  .site-control-btn span{display:inline}
+}
+
+/* ===== Ajuste do modo claro: textos e botões brancos ficam pretos ===== */
+html[data-site-theme="light"],
+html[data-site-theme="light"] body{
+  color:#111!important;
+}
+
+html[data-site-theme="light"] h1,
+html[data-site-theme="light"] h2,
+html[data-site-theme="light"] h3,
+html[data-site-theme="light"] h4,
+html[data-site-theme="light"] h5,
+html[data-site-theme="light"] h6,
+html[data-site-theme="light"] p,
+html[data-site-theme="light"] span,
+html[data-site-theme="light"] li,
+html[data-site-theme="light"] strong,
+html[data-site-theme="light"] b,
+html[data-site-theme="light"] small,
+html[data-site-theme="light"] label,
+html[data-site-theme="light"] .tag,
+html[data-site-theme="light"] .eyebrow,
+html[data-site-theme="light"] .section-head,
+html[data-site-theme="light"] .section-head *,
+html[data-site-theme="light"] .course-title,
+html[data-site-theme="light"] .course-headline,
+html[data-site-theme="light"] .course-description,
+html[data-site-theme="light"] .course-meta,
+html[data-site-theme="light"] .course-price,
+html[data-site-theme="light"] .price,
+html[data-site-theme="light"] .contact-card,
+html[data-site-theme="light"] .contact-card *,
+html[data-site-theme="light"] .t-card,
+html[data-site-theme="light"] .t-card *,
+html[data-site-theme="light"] .bonus-card,
+html[data-site-theme="light"] .bonus-card *,
+html[data-site-theme="light"] footer,
+html[data-site-theme="light"] footer *{
+  color:#111!important;
+}
+
+/* Links e botões no tema claro */
+html[data-site-theme="light"] a,
+html[data-site-theme="light"] button,
+html[data-site-theme="light"] .btn,
+html[data-site-theme="light"] .btn-solid,
+html[data-site-theme="light"] .btn-line,
+html[data-site-theme="light"] .course-review,
+html[data-site-theme="light"] .course-actions a,
+html[data-site-theme="light"] .nav-cta,
+html[data-site-theme="light"] .social-btn,
+html[data-site-theme="light"] .footer-social,
+html[data-site-theme="light"] .admin-footer-link,
+html[data-site-theme="light"] .site-control-btn{
+  color:#111!important;
+}
+
+/* Botões antes claros/brancos ganham fundo claro e borda escura */
+html[data-site-theme="light"] .btn-solid,
+html[data-site-theme="light"] .nav-cta,
+html[data-site-theme="light"] .course-actions .btn-solid{
+  background:#f7f2ea!important;
+  border-color:#111!important;
+  color:#111!important;
+}
+
+/* Hover mantendo contraste */
+html[data-site-theme="light"] .btn:hover,
+html[data-site-theme="light"] .btn-solid:hover,
+html[data-site-theme="light"] .btn-line:hover,
+html[data-site-theme="light"] .nav-cta:hover,
+html[data-site-theme="light"] .course-actions .btn-solid:hover{
+  background:#e8ddcf!important;
+  color:#111!important;
+  border-color:#111!important;
+}
+
+/* Controles ativos: fundo dourado, texto preto */
+html[data-site-theme="light"] .site-control-btn.active{
+  background:var(--brass)!important;
+  color:#111!important;
+}
+
+/* SVGs/ícones seguem o texto preto */
+html[data-site-theme="light"] svg{
+  color:#111!important;
+}
+html[data-site-theme="light"] svg path,
+html[data-site-theme="light"] svg circle,
+html[data-site-theme="light"] svg rect,
+html[data-site-theme="light"] svg line,
+html[data-site-theme="light"] svg polyline{
+  stroke:currentColor;
+}
+
 </style>
 </head>
 <body>
@@ -766,7 +1040,19 @@
 <a href="#conteudo-curso">Conteúdos</a>
 <a href="#vip">VIP</a>
 <a href="#contato">Parceria &amp; Publicidade</a>
+<div class="site-controls">
+<div aria-label="Tema do site" class="site-control-group">
+<button class="site-control-btn theme-choice" data-theme-choice="mixed" title="Tema mesclado" type="button">◐ <span>Mesclado</span></button>
+<button class="site-control-btn theme-choice" data-theme-choice="dark" title="Tema escuro" type="button">● <span>Escuro</span></button>
+<button class="site-control-btn theme-choice" data-theme-choice="light" title="Tema claro" type="button">○ <span>Claro</span></button>
 </div>
+<div aria-label="Idioma do site" class="site-control-group">
+<button class="site-control-btn lang-choice" data-lang-choice="pt-BR" type="button">PT-BR</button>
+<button class="site-control-btn lang-choice" data-lang-choice="pt-PT" type="button">PT-PT</button>
+<button class="site-control-btn lang-choice" data-lang-choice="es" type="button">ES</button>
+<button class="site-control-btn lang-choice" data-lang-choice="en" type="button">EN</button>
+</div>
+</div></div>
 <button aria-label="Abrir menu" class="nav-toggle" id="navToggle">☰</button>
 </nav>
 </header>
@@ -1298,6 +1584,108 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
     document.addEventListener('DOMContentLoaded', carregarTextosSite);
   }else{
     carregarTextosSite();
+  }
+})();
+</script><script>
+(function(){
+  const translations = {"pt-PT": {"Início": "Início", "Sobre": "Sobre", "Cursos e Produtos": "Cursos e Produtos", "Conteúdos": "Conteúdos", "VIP": "VIP", "Parceria & Publicidade": "Parcerias & Publicidade", "Quem ensina": "Quem ensina", "Seu próximo capítulo começa aqui.": "O seu próximo capítulo começa aqui.", "Cursos para fortalecer sua presença, encontrar sua voz e criar novas possibilidades no digital.": "Cursos para fortalecer a sua presença, encontrar a sua voz e criar novas possibilidades no digital.", "ESTRATÉGIA & CRIAÇÃO": "ESTRATÉGIA & CRIAÇÃO", "Seu canal, com direção.": "O seu canal, com direção.", "Da criação à monetização: desenvolva sua presença no YouTube com estratégia.": "Da criação à monetização: desenvolva a sua presença no YouTube com estratégia.", "10 aulas em vídeo": "10 aulas em vídeo", "5 bônus": "5 bónus", "Suporte WhatsApp": "Suporte WhatsApp", "por": "por", "Inscreva-se no curso! ↗": "Inscreva-se no curso! ↗", "Rever o conteúdo": "Rever o conteúdo", "COMUNICAÇÃO & PRESENÇA": "COMUNICAÇÃO & PRESENÇA", "Coragem de falar.": "Coragem de falar.", "O despertar da sua presença autêntica": "O despertar da sua presença autêntica", "Encontre sua voz e dê espaço à sua expressão com mais confiança e autenticidade.": "Encontre a sua voz e dê espaço à sua expressão com mais confiança e autenticidade.", "7 aulas": "7 aulas", "1 desafio final": "1 desafio final", "Conteúdos para crescer no digital": "Conteúdos para crescer no digital", "Conteúdo 1": "Conteúdo 1", "YouTube na prática": "YouTube na prática", "Estratégias, ideias e dicas para criar vídeos, melhorar títulos, miniaturas e aumentar o alcance.": "Estratégias, ideias e dicas para criar vídeos, melhorar títulos, miniaturas e aumentar o alcance.", "Conteúdo 2": "Conteúdo 2", "Marketing Digital ↗": "Marketing Digital ↗", "Conteúdos sobre posicionamento, audiência, divulgação e formas de transformar atenção em oportunidades.": "Conteúdos sobre posicionamento, audiência, divulgação e formas de transformar atenção em oportunidades.", "Conteúdo 3": "Conteúdo 3", "Redes Sociais ↗": "Redes Sociais ↗", "Aprenda a aproveitar Instagram, TikTok e outras plataformas para fortalecer sua presença digital.": "Aprenda a aproveitar o Instagram, TikTok e outras plataformas para fortalecer a sua presença digital.", "Conteúdo 4": "Conteúdo 4", "Monetização ↗": "Monetização ↗", "Informações sobre parcerias, afiliados, produtos digitais e outras possibilidades de gerar receita.": "Informações sobre parcerias, afiliados, produtos digitais e outras possibilidades de gerar receita.", "Resultados reais": "Resultados reais", "Quem já passou pelo método": "Quem já passou pelo método", "Depoimentos de alunos do método. Identidades preservadas.": "Testemunhos de alunos do método. Identidades preservadas.", "Aluna do Método YouTube 360°": "Aluna do Método YouTube 360°", "Aluno do Método YouTube 360°": "Aluno do Método YouTube 360°", "Comunidade exclusiva": "Comunidade exclusiva", "TELEGRAM VIP": "TELEGRAM VIP", "Quero entrar no Telegram VIP": "Quero entrar no Telegram VIP", "Acesso exclusivo": "Acesso exclusivo", "Transmissões de shows exclusivas": "Transmissões exclusivas de espetáculos", "Bate-papo direto com a Rose": "Conversa direta com a Rose", "Lives e momentos especiais": "Diretos e momentos especiais", "Novidades e conteúdos da comunidade": "Novidades e conteúdos da comunidade", "Pagamento": "Pagamento", "Pix": "Pix", "Confirmação": "Confirmação", "WhatsApp": "WhatsApp", "WHATSAPP VIP": "WHATSAPP VIP", "Quero entrar no WhatsApp VIP": "Quero entrar no WhatsApp VIP", "Parcerias & Publicidade": "Parcerias & Publicidade", "Vamos criar uma parceria?": "Vamos criar uma parceria?", "Parceria": "Parceria", "Produtos": "Produtos", "Estatísticas": "Estatísticas", "Publicidade & Parcerias": "Publicidade & Parcerias", "Projetos especiais": "Projetos especiais", "Campanhas publicitárias": "Campanhas publicitárias", "Divulgação de marcas e produtos": "Divulgação de marcas e produtos", "Conteúdo e projetos personalizados": "Conteúdo e projetos personalizados", "Atendimento": "Atendimento", "Online": "Online", "Propostas": "Propostas", "Envie sua ideia": "Envie a sua ideia", "⚙ Área ADM": "⚙ Área ADM"}, "es": {"Início": "Inicio", "Sobre": "Sobre mí", "Cursos e Produtos": "Cursos y productos", "Conteúdos": "Contenidos", "VIP": "VIP", "Parceria & Publicidade": "Colaboraciones y publicidad", "Quem ensina": "Quién enseña", "Seu próximo capítulo começa aqui.": "Tu próximo capítulo empieza aquí.", "Cursos para fortalecer sua presença, encontrar sua voz e criar novas possibilidades no digital.": "Cursos para fortalecer tu presencia, encontrar tu voz y crear nuevas posibilidades en el mundo digital.", "ESTRATÉGIA & CRIAÇÃO": "ESTRATEGIA & CREACIÓN", "Seu canal, com direção.": "Tu canal, con dirección.", "Da criação à monetização: desenvolva sua presença no YouTube com estratégia.": "De la creación a la monetización: desarrolla tu presencia en YouTube con estrategia.", "10 aulas em vídeo": "10 clases en vídeo", "5 bônus": "5 bonos", "Suporte WhatsApp": "Soporte por WhatsApp", "por": "por", "Inscreva-se no curso! ↗": "¡Inscríbete en el curso! ↗", "Rever o conteúdo": "Ver el contenido", "COMUNICAÇÃO & PRESENÇA": "COMUNICACIÓN & PRESENCIA", "Coragem de falar.": "Atrévete a hablar.", "O despertar da sua presença autêntica": "El despertar de tu presencia auténtica", "Encontre sua voz e dê espaço à sua expressão com mais confiança e autenticidade.": "Encuentra tu voz y da espacio a tu expresión con más confianza y autenticidad.", "7 aulas": "7 clases", "1 desafio final": "1 desafío final", "Conteúdos para crescer no digital": "Contenidos para crecer en digital", "Conteúdo 1": "Contenido 1", "YouTube na prática": "YouTube en la práctica", "Estratégias, ideias e dicas para criar vídeos, melhorar títulos, miniaturas e aumentar o alcance.": "Estrategias, ideas y consejos para crear vídeos, mejorar títulos y miniaturas y aumentar el alcance.", "Conteúdo 2": "Contenido 2", "Marketing Digital ↗": "Marketing digital ↗", "Conteúdos sobre posicionamento, audiência, divulgação e formas de transformar atenção em oportunidades.": "Contenidos sobre posicionamiento, audiencia, difusión y formas de transformar la atención en oportunidades.", "Conteúdo 3": "Contenido 3", "Redes Sociais ↗": "Redes sociales ↗", "Aprenda a aproveitar Instagram, TikTok e outras plataformas para fortalecer sua presença digital.": "Aprende a aprovechar Instagram, TikTok y otras plataformas para fortalecer tu presencia digital.", "Conteúdo 4": "Contenido 4", "Monetização ↗": "Monetización ↗", "Informações sobre parcerias, afiliados, produtos digitais e outras possibilidades de gerar receita.": "Información sobre colaboraciones, afiliados, productos digitales y otras posibilidades de generar ingresos.", "Resultados reais": "Resultados reales", "Quem já passou pelo método": "Quienes ya pasaron por el método", "Depoimentos de alunos do método. Identidades preservadas.": "Testimonios de alumnos del método. Identidades protegidas.", "Aluna do Método YouTube 360°": "Alumna de Método YouTube 360°", "Aluno do Método YouTube 360°": "Alumno de Método YouTube 360°", "Comunidade exclusiva": "Comunidad exclusiva", "TELEGRAM VIP": "TELEGRAM VIP", "Quero entrar no Telegram VIP": "Quiero entrar al Telegram VIP", "Acesso exclusivo": "Acceso exclusivo", "Transmissões de shows exclusivas": "Transmisiones exclusivas de shows", "Bate-papo direto com a Rose": "Chat directo con Rose", "Lives e momentos especiais": "Directos y momentos especiales", "Novidades e conteúdos da comunidade": "Novedades y contenidos de la comunidad", "Pagamento": "Pago", "Pix": "Pix", "Confirmação": "Confirmación", "WhatsApp": "WhatsApp", "WHATSAPP VIP": "WHATSAPP VIP", "Quero entrar no WhatsApp VIP": "Quiero entrar al WhatsApp VIP", "Parcerias & Publicidade": "Colaboraciones & Publicidad", "Vamos criar uma parceria?": "¿Creamos una colaboración?", "Parceria": "Colaboración", "Produtos": "Productos", "Estatísticas": "Estadísticas", "Publicidade & Parcerias": "Publicidad & Colaboraciones", "Projetos especiais": "Proyectos especiales", "Campanhas publicitárias": "Campañas publicitarias", "Divulgação de marcas e produtos": "Promoción de marcas y productos", "Conteúdo e projetos personalizados": "Contenido y proyectos personalizados", "Atendimento": "Atención", "Online": "Online", "Propostas": "Propuestas", "Envie sua ideia": "Envía tu idea", "⚙ Área ADM": "⚙ Área ADM"}, "en": {"Início": "Home", "Sobre": "About", "Cursos e Produtos": "Courses & Products", "Conteúdos": "Content", "VIP": "VIP", "Parceria & Publicidade": "Partnerships & Advertising", "Quem ensina": "Your instructor", "Seu próximo capítulo começa aqui.": "Your next chapter starts here.", "Cursos para fortalecer sua presença, encontrar sua voz e criar novas possibilidades no digital.": "Courses to strengthen your presence, find your voice and create new opportunities online.", "ESTRATÉGIA & CRIAÇÃO": "STRATEGY & CREATION", "Seu canal, com direção.": "Your channel, with direction.", "Da criação à monetização: desenvolva sua presença no YouTube com estratégia.": "From creation to monetization: build your YouTube presence with strategy.", "10 aulas em vídeo": "10 video lessons", "5 bônus": "5 bonuses", "Suporte WhatsApp": "WhatsApp support", "por": "for", "Inscreva-se no curso! ↗": "Enroll in the course! ↗", "Rever o conteúdo": "Review content", "COMUNICAÇÃO & PRESENÇA": "COMMUNICATION & PRESENCE", "Coragem de falar.": "Courage to speak.", "O despertar da sua presença autêntica": "Awaken your authentic presence", "Encontre sua voz e dê espaço à sua expressão com mais confiança e autenticidade.": "Find your voice and make room for your expression with more confidence and authenticity.", "7 aulas": "7 lessons", "1 desafio final": "1 final challenge", "Conteúdos para crescer no digital": "Content to grow online", "Conteúdo 1": "Content 1", "YouTube na prática": "YouTube in practice", "Estratégias, ideias e dicas para criar vídeos, melhorar títulos, miniaturas e aumentar o alcance.": "Strategies, ideas and tips to create videos, improve titles and thumbnails, and increase reach.", "Conteúdo 2": "Content 2", "Marketing Digital ↗": "Digital Marketing ↗", "Conteúdos sobre posicionamento, audiência, divulgação e formas de transformar atenção em oportunidades.": "Content about positioning, audience, promotion and ways to turn attention into opportunities.", "Conteúdo 3": "Content 3", "Redes Sociais ↗": "Social Media ↗", "Aprenda a aproveitar Instagram, TikTok e outras plataformas para fortalecer sua presença digital.": "Learn how to use Instagram, TikTok and other platforms to strengthen your digital presence.", "Conteúdo 4": "Content 4", "Monetização ↗": "Monetization ↗", "Informações sobre parcerias, afiliados, produtos digitais e outras possibilidades de gerar receita.": "Information about partnerships, affiliates, digital products and other ways to generate revenue.", "Resultados reais": "Real results", "Quem já passou pelo método": "Students who have taken the method", "Depoimentos de alunos do método. Identidades preservadas.": "Testimonials from method students. Identities protected.", "Aluna do Método YouTube 360°": "YouTube 360° Method student", "Aluno do Método YouTube 360°": "YouTube 360° Method student", "Comunidade exclusiva": "Exclusive community", "TELEGRAM VIP": "TELEGRAM VIP", "Quero entrar no Telegram VIP": "Join Telegram VIP", "Acesso exclusivo": "Exclusive access", "Transmissões de shows exclusivas": "Exclusive show streams", "Bate-papo direto com a Rose": "Direct chat with Rose", "Lives e momentos especiais": "Livestreams and special moments", "Novidades e conteúdos da comunidade": "Community news and content", "Pagamento": "Payment", "Pix": "Pix", "Confirmação": "Confirmation", "WhatsApp": "WhatsApp", "WHATSAPP VIP": "WHATSAPP VIP", "Quero entrar no WhatsApp VIP": "Join WhatsApp VIP", "Parcerias & Publicidade": "Partnerships & Advertising", "Vamos criar uma parceria?": "Let's build a partnership.", "Parceria": "Partnership", "Produtos": "Products", "Estatísticas": "Statistics", "Publicidade & Parcerias": "Advertising & Partnerships", "Projetos especiais": "Special projects", "Campanhas publicitárias": "Advertising campaigns", "Divulgação de marcas e produtos": "Brand and product promotion", "Conteúdo e projetos personalizados": "Custom content and projects", "Atendimento": "Service", "Online": "Online", "Propostas": "Proposals", "Envie sua ideia": "Send your idea", "⚙ Área ADM": "⚙ Admin Area"}};
+  const siteTextTranslations = {"pt-PT": {"hero_titulo": "UMA MARCA. VÁRIAS POSSIBILIDADES.", "hero_texto": "A marca Rose Freitas nasce para reunir, num único espaço, tudo aquilo que faz parte da minha trajetória digital.\n\nO objetivo é transformar a experiência construída nas redes sociais numa marca sólida, profissional e preparada para novos projetos.\n\nAqui, encontrará:\n\n- Conteúdo e projetos digitais\n- Cursos e produtos educacionais\n- Comunidades e experiências exclusivas\n- Publicidade e divulgação de marcas\n- Parcerias comerciais\n- Projetos especiais\n- Novas oportunidades de colaboração\n\nRose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.", "sobre_titulo": "Rose Freitas", "cursos_titulo": "O seu próximo capítulo começa aqui.", "cursos_texto": "Cursos para fortalecer a sua presença, encontrar a sua voz e criar novas possibilidades no digital.", "conteudos_titulo": "Conteúdos para crescer no digital", "telegram_vip_titulo": "TELEGRAM VIP", "whatsapp_vip_titulo": "WHATSAPP VIP", "parcerias_titulo": "Vamos criar uma parceria?"}, "es": {"hero_titulo": "UNA MARCA. MUCHAS POSIBILIDADES.", "hero_texto": "La marca Rose Freitas nace para reunir, en un solo espacio, todo lo que forma parte de mi trayectoria digital.\n\nEl objetivo es transformar la experiencia construida en las redes sociales en una marca sólida, profesional y preparada para nuevos proyectos.\n\nAquí encontrarás:\n\n- Contenido y proyectos digitales\n- Cursos y productos educativos\n- Comunidades y experiencias exclusivas\n- Publicidad y promoción de marcas\n- Colaboraciones comerciales\n- Proyectos especiales\n- Nuevas oportunidades de colaboración\n\nRose Freitas es contenido, comunicación, comunidad y emprendimiento digital.", "sobre_titulo": "Rose Freitas", "cursos_titulo": "Tu próximo capítulo empieza aquí.", "cursos_texto": "Cursos para fortalecer tu presencia, encontrar tu voz y crear nuevas posibilidades en el mundo digital.", "conteudos_titulo": "Contenidos para crecer en digital", "telegram_vip_titulo": "TELEGRAM VIP", "whatsapp_vip_titulo": "WHATSAPP VIP", "parcerias_titulo": "¿Creamos una colaboración?"}, "en": {"hero_titulo": "ONE BRAND. MANY POSSIBILITIES.", "hero_texto": "The Rose Freitas brand was created to bring together, in one place, everything that is part of my digital journey.\n\nThe goal is to turn the experience built across social media into a solid, professional brand ready for new projects.\n\nHere you will find:\n\n- Digital content and projects\n- Courses and educational products\n- Exclusive communities and experiences\n- Advertising and brand promotion\n- Commercial partnerships\n- Special projects\n- New collaboration opportunities\n\nRose Freitas is content, communication, community and digital entrepreneurship.", "sobre_titulo": "Rose Freitas", "cursos_titulo": "Your next chapter starts here.", "cursos_texto": "Courses to strengthen your presence, find your voice and create new opportunities online.", "conteudos_titulo": "Content to grow online", "telegram_vip_titulo": "TELEGRAM VIP", "whatsapp_vip_titulo": "WHATSAPP VIP", "parcerias_titulo": "Let's build a partnership."}};
+
+  let originalTextNodes = [];
+
+  function captureOriginalTextNodes(){
+    originalTextNodes = [];
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const p = node.parentElement;
+        if(!p || ['SCRIPT','STYLE','TEXTAREA','OPTION'].includes(p.tagName)) return NodeFilter.FILTER_REJECT;
+        if(p.closest('.site-controls')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    while(walker.nextNode()){
+      const n = walker.currentNode;
+      if(n.__rfOriginal === undefined) n.__rfOriginal = n.nodeValue;
+      originalTextNodes.push(n);
+    }
+  }
+
+  function translateNode(node, lang){
+    const original = node.__rfOriginal ?? node.nodeValue;
+    if(lang === 'pt-BR'){ node.nodeValue = original; return; }
+    const trimmed = original.trim();
+    const translated = translations[lang]?.[trimmed];
+    if(!translated){ node.nodeValue = original; return; }
+    const lead = original.match(/^\s*/)?.[0] || '';
+    const tail = original.match(/\s*$/)?.[0] || '';
+    node.nodeValue = lead + translated + tail;
+  }
+
+  function applyEditableTranslations(lang){
+    if(lang === 'pt-BR') return;
+    document.querySelectorAll('[data-site-text]').forEach(el=>{
+      const key = el.dataset.siteText;
+      const value = siteTextTranslations[lang]?.[key];
+      if(!value) return;
+      if(key === 'hero_titulo'){
+        const words = value.trim().split(/\s+/);
+        const last = words.pop();
+        el.innerHTML = `${words.join(' ')} <span style="color:var(--brass);font-style:italic;">${last}</span>`;
+      }else{
+        el.textContent = value;
+      }
+    });
+  }
+
+  function setLanguage(lang){
+    captureOriginalTextNodes();
+    originalTextNodes.forEach(n=>translateNode(n,lang));
+    applyEditableTranslations(lang);
+
+    document.documentElement.lang = lang;
+    localStorage.setItem('rfSiteLanguage',lang);
+
+    document.querySelectorAll('.lang-choice').forEach(btn=>{
+      btn.classList.toggle('active',btn.dataset.langChoice===lang);
+    });
+
+    const titles={
+      'pt-BR':'Rose Freitas',
+      'pt-PT':'Rose Freitas',
+      'es':'Rose Freitas',
+      'en':'Rose Freitas'
+    };
+    document.title=titles[lang]||'Rose Freitas';
+  }
+
+  function setTheme(theme){
+    if(theme==='mixed') document.documentElement.removeAttribute('data-site-theme');
+    else document.documentElement.setAttribute('data-site-theme',theme);
+    localStorage.setItem('rfSiteTheme',theme);
+    document.querySelectorAll('.theme-choice').forEach(btn=>{
+      btn.classList.toggle('active',btn.dataset.themeChoice===theme);
+    });
+  }
+
+  document.querySelectorAll('.theme-choice').forEach(btn=>btn.addEventListener('click',()=>setTheme(btn.dataset.themeChoice)));
+  document.querySelectorAll('.lang-choice').forEach(btn=>btn.addEventListener('click',()=>setLanguage(btn.dataset.langChoice)));
+
+  const savedTheme=localStorage.getItem('rfSiteTheme')||'mixed';
+  const savedLang=localStorage.getItem('rfSiteLanguage')||'pt-BR';
+  setTheme(savedTheme);
+
+  // Aguarda os textos do Supabase serem aplicados antes da tradução.
+  window.setTimeout(()=>setLanguage(savedLang),250);
+
+  // Quando o conteúdo dinâmico de cursos for carregado, reaplica a tradução.
+  const courseContainer=document.getElementById('cursos-vitrine');
+  if(courseContainer){
+    const obs=new MutationObserver(()=>{
+      window.clearTimeout(window.__rfTranslateTimer);
+      window.__rfTranslateTimer=window.setTimeout(()=>setLanguage(localStorage.getItem('rfSiteLanguage')||'pt-BR'),80);
+    });
+    obs.observe(courseContainer,{childList:true,subtree:true});
   }
 })();
 </script></body>

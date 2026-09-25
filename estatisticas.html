@@ -12,12 +12,12 @@
 :root{
   --bg:#090909;
   --bg-2:#11110f;
-  --panel:#141412;
+  --panel:#121212;
   --panel-2:rgba(20,20,18,.8);
-  --panel-3:#1a1916;
+  --panel-3:#171717;
   --text:#f6efe2;
   --muted:#b3a999;
-  --line:rgba(255,216,143,.14);
+  --line:rgba(255,216,143,.18);
   --gold:#d7a544;
   --gold-2:#ffd37a;
   --gold-soft:rgba(215,165,68,.14);
@@ -45,7 +45,7 @@ body::before{
   background:
     linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-  background-size:52px 52px;
+  background-size:44px 44px;
   mask-image:linear-gradient(180deg, rgba(0,0,0,.62), transparent 95%);
   pointer-events:none;
   opacity:.18;
@@ -67,7 +67,7 @@ nav{
   font-weight:700; letter-spacing:.04em;
 }
 .brand-mark{
-  width:40px; height:40px; border-radius:12px;
+  width:40px; height:40px; border-radius:5px;
   display:grid; place-items:center;
   background:linear-gradient(135deg, rgba(215,165,68,.32), rgba(255,255,255,.06));
   border:1px solid rgba(255,255,255,.08);
@@ -78,7 +78,7 @@ nav{
 }
 .back{
   color:var(--muted); font-size:.92rem;
-  padding:10px 14px; border:1px solid var(--line); border-radius:999px;
+  padding:10px 14px; border:1px solid var(--line); border-radius:6px;
   background:rgba(255,255,255,.02)
 }
 main{padding:42px 0 90px}
@@ -86,14 +86,14 @@ main{padding:42px 0 90px}
   position:relative;
   overflow:hidden;
   border:1px solid var(--line);
-  border-radius:32px;
-  padding:42px;
+  border-radius:10px;
+  padding:36px;
   background:
     linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.01)),
     radial-gradient(circle at 15% 12%, rgba(215,165,68,.18), transparent 24%),
     radial-gradient(circle at 85% 18%, rgba(75,119,255,.12), transparent 18%),
     linear-gradient(180deg, rgba(20,20,18,.94), rgba(11,11,10,.96));
-  box-shadow:0 20px 60px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.02);
+  box-shadow:0 18px 50px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.025);
 }
 .hero::after{
   content:"SOCIAL DATA";
@@ -104,7 +104,7 @@ main{padding:42px 0 90px}
   color:rgba(255,255,255,.035);
   pointer-events:none;
 }
-.hero-grid{display:grid; grid-template-columns:1.18fr .82fr; gap:34px; align-items:end}
+.hero-grid{display:grid; grid-template-columns:1.18fr .82fr; gap:24px; align-items:end}
 .kicker{
   display:inline-flex; align-items:center; gap:8px;
   font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-2); font-weight:700;
@@ -119,12 +119,12 @@ h1{font-size:clamp(3rem,6vw,6rem); line-height:.92; max-width:10ch}
 .updated{
   margin-top:22px; display:inline-flex; align-items:center; gap:8px;
   color:#e6d8b6; background:rgba(215,165,68,.09); border:1px solid rgba(215,165,68,.18);
-  padding:10px 14px; border-radius:999px; font-size:.84rem
+  padding:10px 14px; border-radius:6px; font-size:.84rem
 }
 .orbit{
   position:relative; min-height:320px;
   border:1px solid var(--line);
-  border-radius:28px;
+  border-radius:10px;
   background:
     radial-gradient(circle at 50% 50%, rgba(215,165,68,.14), transparent 33%),
     radial-gradient(circle at 50% 50%, rgba(77,97,255,.07), transparent 54%),
@@ -133,19 +133,19 @@ h1{font-size:clamp(3rem,6vw,6rem); line-height:.92; max-width:10ch}
 }
 .orbit::before,
 .orbit::after{
-  content:""; position:absolute; border:1px solid rgba(255,255,255,.08); border-radius:50%; inset:14% 12%;
+  content:""; position:absolute; border:1px solid rgba(255,255,255,.08); border-radius:8px; inset:14% 12%;
 }
 .orbit::after{inset:28% 24%; border-color:rgba(215,165,68,.18)}
 .orbit-center{
   position:absolute; inset:50% auto auto 50%; transform:translate(-50%,-50%);
-  width:120px; height:120px; border-radius:50%; display:grid; place-items:center;
+  width:120px; height:120px; border-radius:8px; display:grid; place-items:center;
   background:radial-gradient(circle at 35% 30%, rgba(255,215,122,.22), rgba(215,165,68,.12) 45%, rgba(255,255,255,.02) 72%);
   border:1px solid rgba(215,165,68,.2); box-shadow:0 0 40px rgba(215,165,68,.18)
 }
 .orbit-center strong{font-family:'Newsreader',serif; font-size:1.15rem; color:var(--gold-2)}
 .orbit-node{
   position:absolute; display:flex; align-items:center; gap:10px; padding:12px 14px;
-  background:rgba(12,12,12,.74); border:1px solid rgba(255,255,255,.09); border-radius:16px;
+  background:rgba(12,12,12,.74); border:1px solid rgba(255,255,255,.09); border-radius:6px;
   backdrop-filter:blur(10px); box-shadow:0 12px 26px rgba(0,0,0,.28)
 }
 .orbit-node b{display:block; font-size:.98rem}
@@ -163,7 +163,7 @@ h1{font-size:clamp(3rem,6vw,6rem); line-height:.92; max-width:10ch}
 .quick-panel,
 .platform-card,
 .banner{
-  position:relative; overflow:hidden; border:1px solid var(--line); border-radius:28px;
+  position:relative; overflow:hidden; border:1px solid var(--line); border-radius:10px;
   background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.012)), var(--panel-2);
   backdrop-filter:blur(10px);
 }
@@ -181,19 +181,19 @@ h1{font-size:clamp(3rem,6vw,6rem); line-height:.92; max-width:10ch}
 .section-sub{color:var(--muted); font-size:.92rem; margin-top:8px; line-height:1.7}
 .pill{
   display:inline-flex; align-items:center; gap:8px; color:#f7e3b4; background:rgba(215,165,68,.10); border:1px solid rgba(215,165,68,.15);
-  border-radius:999px; padding:8px 12px; font-size:.76rem; white-space:nowrap
+  border-radius:6px; padding:8px 12px; font-size:.76rem; white-space:nowrap
 }
 .metrics-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
 .metric-card{
   position:relative; overflow:hidden; min-height:165px;
-  padding:18px; border:1px solid rgba(255,255,255,.06); border-radius:22px;
+  padding:18px; border:1px solid rgba(255,255,255,.06); border-radius:8px;
   background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
 }
-.metric-card::after{content:""; position:absolute; inset:auto -28px -38px auto; width:110px; height:110px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,.12), transparent 60%); opacity:.22}
+.metric-card::after{content:""; position:absolute; inset:auto -28px -38px auto; width:110px; height:110px; border-radius:8px; background:radial-gradient(circle, rgba(255,255,255,.12), transparent 60%); opacity:.22}
 .metric-top{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px}
 .social-tag{display:flex; align-items:center; gap:10px; font-size:.82rem; color:#f4ead4}
 .logo-box{
-  width:36px; height:36px; border-radius:12px; display:grid; place-items:center;
+  width:36px; height:36px; border-radius:5px; display:grid; place-items:center;
   border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.03)
 }
 .logo-box svg{width:18px;height:18px}
@@ -205,7 +205,7 @@ h1{font-size:clamp(3rem,6vw,6rem); line-height:.92; max-width:10ch}
 .quick-panel{padding:24px}
 .quick-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px}
 .quick-box{
-  padding:18px; border:1px solid rgba(255,255,255,.06); border-radius:20px; background:rgba(255,255,255,.02)
+  padding:18px; border:1px solid rgba(255,255,255,.06); border-radius:8px; background:rgba(255,255,255,.02)
 }
 .quick-box b{display:block; font-size:1.35rem; margin-bottom:8px}
 .quick-box span{display:block; color:var(--muted); font-size:.83rem; line-height:1.5}
@@ -229,23 +229,23 @@ h1{font-size:clamp(3rem,6vw,6rem); line-height:.92; max-width:10ch}
 .handle{color:#f8dfaa; font-size:.9rem}
 .platform-body{display:grid; grid-template-columns:1.04fr .96fr; gap:14px}
 .stat-block{
-  border:1px solid rgba(255,255,255,.06); border-radius:22px; padding:22px; background:rgba(255,255,255,.02)
+  border:1px solid rgba(255,255,255,.06); border-radius:8px; padding:22px; background:rgba(255,255,255,.02)
 }
 .label{font-size:.76rem; letter-spacing:.16em; text-transform:uppercase; color:#f3d48e; margin-bottom:14px}
 .big-number{font-size:3rem; line-height:1; font-weight:800; letter-spacing:-.04em; margin-bottom:8px}
 .sub{color:var(--muted); line-height:1.7; font-size:.92rem}
 .info-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:18px}
-.info-item{padding:15px; border-radius:18px; border:1px solid rgba(255,255,255,.06); background:rgba(0,0,0,.18)}
+.info-item{padding:15px; border-radius:6px; border:1px solid rgba(255,255,255,.06); background:rgba(0,0,0,.18)}
 .info-item b{display:block; font-size:1.02rem; margin-bottom:6px}
 .info-item span{display:block; color:var(--muted); font-size:.8rem; line-height:1.5}
 .progress-list{display:grid; gap:14px}
 .progress-row{padding:14px 0; border-bottom:1px solid rgba(255,255,255,.06)}
 .progress-row:last-child{border-bottom:0; padding-bottom:0}
 .progress-head{display:flex; justify-content:space-between; gap:12px; margin-bottom:8px; color:var(--muted); font-size:.82rem}
-.track{height:10px; border-radius:999px; background:#25231d; overflow:hidden; box-shadow:inset 0 1px 2px rgba(0,0,0,.4)}
+.track{height:10px; border-radius:6px; background:#25231d; overflow:hidden; box-shadow:inset 0 1px 2px rgba(0,0,0,.4)}
 .fill{height:100%; border-radius:inherit; background:linear-gradient(90deg, var(--gold), var(--gold-2))}
 .note{
-  margin-top:22px; padding:24px; border:1px solid var(--line); border-radius:24px;
+  margin-top:22px; padding:24px; border:1px solid var(--line); border-radius:8px;
   background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); color:var(--muted); line-height:1.75; font-size:.92rem
 }
 .note b{color:var(--text)}
@@ -270,6 +270,181 @@ footer{padding:26px 0 40px; border-top:1px solid var(--line); margin-top:60px}
   .orbit-center{position:relative; inset:auto; transform:none; width:100%; height:110px; border-radius:22px}
   .orbit::before,.orbit::after{display:none}
 }
+
+.metric-card,
+.quick-box,
+.stat-block,
+.info-item,
+.overview-panel,
+.quick-panel,
+.platform-card,
+.hero,
+.banner{
+  position:relative;
+}
+.metric-card::before,
+.quick-box::before,
+.stat-block::before,
+.info-item::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:34px;
+  height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+}
+
+
+/* ===== Controles de tema e idioma ===== */
+.top-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.control-group{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:4px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.025);
+  border-radius:6px;
+}
+.control-btn{
+  appearance:none;
+  border:0;
+  min-height:34px;
+  padding:7px 10px;
+  border-radius:4px;
+  background:transparent;
+  color:var(--muted);
+  font:600 .74rem/1 'Inter',sans-serif;
+  letter-spacing:.02em;
+  cursor:pointer;
+  transition:.18s ease;
+}
+.control-btn:hover{
+  color:var(--text);
+  background:rgba(255,255,255,.06);
+}
+.control-btn.active{
+  color:#17130d;
+  background:var(--gold-2);
+}
+.theme-icon{font-size:.9rem}
+
+/* Tema claro */
+html[data-theme="light"]{
+  --bg:#f1eadf;
+  --bg-2:#e7ddce;
+  --panel:#fbf7f0;
+  --panel-2:rgba(255,252,246,.88);
+  --panel-3:#eee5d7;
+  --text:#211b15;
+  --muted:#706456;
+  --line:rgba(126,91,30,.20);
+  --gold:#a97822;
+  --gold-2:#8e641b;
+  --gold-soft:rgba(169,120,34,.10);
+  --tt:#42689e;
+  --yt:#bb4949;
+}
+html[data-theme="light"] body{
+  background:
+    radial-gradient(circle at 18% 8%, rgba(169,120,34,.11), transparent 25%),
+    radial-gradient(circle at 82% 12%, rgba(89,110,150,.07), transparent 22%),
+    linear-gradient(180deg,#f5efe5 0%,#ece3d6 48%,#f7f2ea 100%);
+}
+html[data-theme="light"] body::before{
+  background:
+    linear-gradient(rgba(71,54,35,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(71,54,35,.05) 1px, transparent 1px);
+  opacity:.24;
+}
+html[data-theme="light"] header{
+  background:rgba(246,239,229,.82);
+}
+html[data-theme="light"] .control-group{
+  background:rgba(255,255,255,.38);
+}
+html[data-theme="light"] .control-btn.active{
+  color:#fffaf1;
+  background:var(--gold);
+}
+
+/* Tema escuro */
+html[data-theme="dark"]{
+  --bg:#050505;
+  --bg-2:#0b0a09;
+  --panel:#0e0e0d;
+  --panel-2:rgba(15,15,14,.92);
+  --panel-3:#12110f;
+  --text:#f7f0e4;
+  --muted:#b6ab9b;
+  --line:rgba(255,216,143,.16);
+}
+html[data-theme="dark"] body{
+  background:
+    radial-gradient(circle at 18% 8%, rgba(215,165,68,.10), transparent 23%),
+    linear-gradient(180deg,#050505 0%,#0a0908 52%,#050505 100%);
+}
+html[data-theme="dark"] header{
+  background:rgba(5,5,5,.84);
+}
+
+/* "Mesclado" mantém exatamente o visual inicial, sem data-theme */
+
+@media(max-width:860px){
+  nav{gap:12px;align-items:flex-start}
+  .top-actions{gap:7px}
+  .control-group{width:auto}
+  .control-btn{padding:7px 8px}
+}
+@media(max-width:640px){
+  nav{flex-direction:column;align-items:stretch}
+  .top-actions{justify-content:space-between}
+  .control-group{flex:1;justify-content:center}
+  .back{display:none}
+}
+
+
+/* ===== Ajuste do modo claro: nada branco ===== */
+html[data-theme="light"],
+html[data-theme="light"] body{
+  color:#111!important;
+}
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] p,
+html[data-theme="light"] span,
+html[data-theme="light"] small,
+html[data-theme="light"] b,
+html[data-theme="light"] strong,
+html[data-theme="light"] .metric-card *,
+html[data-theme="light"] .quick-box *,
+html[data-theme="light"] .stat-block *,
+html[data-theme="light"] .info-item *,
+html[data-theme="light"] .platform-card *,
+html[data-theme="light"] .overview-panel *,
+html[data-theme="light"] .quick-panel *{
+  color:#111!important;
+}
+html[data-theme="light"] a,
+html[data-theme="light"] button,
+html[data-theme="light"] .control-btn,
+html[data-theme="light"] .back{
+  color:#111!important;
+}
+html[data-theme="light"] .control-btn.active{
+  background:var(--gold)!important;
+  color:#111!important;
+}
+
 </style>
 </head>
 <body>
@@ -280,7 +455,22 @@ footer{padding:26px 0 40px; border-top:1px solid var(--line); margin-top:60px}
         <div class="brand-mark"><span>RF</span></div>
         <div>Rose Freitas</div>
       </a>
-      <a class="back" href="index.html">← Voltar ao site</a>
+      
+<div class="top-actions">
+  <div class="control-group" aria-label="Tema da página">
+    <button class="control-btn theme-btn" data-theme-choice="mixed" type="button" title="Tema mesclado"><span class="theme-icon">◐</span> Mesclado</button>
+    <button class="control-btn theme-btn" data-theme-choice="dark" type="button" title="Tema escuro"><span class="theme-icon">●</span> Escuro</button>
+    <button class="control-btn theme-btn" data-theme-choice="light" type="button" title="Tema claro"><span class="theme-icon">○</span> Claro</button>
+  </div>
+  <div class="control-group" aria-label="Idioma">
+    <button class="control-btn lang-btn" data-lang-choice="pt-BR" type="button">PT-BR</button>
+    <button class="control-btn lang-btn" data-lang-choice="pt-PT" type="button">PT-PT</button>
+    <button class="control-btn lang-btn" data-lang-choice="es" type="button">ES</button>
+    <button class="control-btn lang-btn" data-lang-choice="en" type="button">EN</button>
+  </div>
+  <a class="back" href="index.html">← Voltar ao site</a>
+</div>
+
     </nav>
   </div>
 </header>
@@ -310,7 +500,7 @@ footer{padding:26px 0 40px; border-top:1px solid var(--line); margin-top:60px}
             <div><b>YouTube</b><span>inscritos e autoridade</span></div>
           </div>
           <div class="orbit-node node-4">
-            <div class="logo-box" style="width:36px;height:36px;border-radius:50%;"><span style="color:var(--gold-2);font-weight:800;font-size:.85rem">RF</span></div>
+            <div class="logo-box" style="width:36px;height:36px;border-radius:8px;"><span style="color:var(--gold-2);font-weight:800;font-size:.85rem">RF</span></div>
             <div><b>Marca pessoal</b><span>comunidade + conteúdo</span></div>
           </div>
         </div>
@@ -339,7 +529,7 @@ footer{padding:26px 0 40px; border-top:1px solid var(--line); margin-top:60px}
         <div class="quick-grid">
           <div class="quick-box"><b>3 plataformas</b><span>Instagram, TikTok e YouTube integrados em um único painel visual.</span></div>
           <div class="quick-box"><b>Comunidade ativa</b><span>Foco em BTS, K-pop, entretenimento, conteúdo e relacionamento com audiência.</span></div>
-          <div class="quick-box"><b>Visual premium</b><span>Design com aparência mais tecnológica, profissional e pronto para parcerias.</span></div>
+          <div class="quick-box"><b>Dados em tempo real</b><span>Os principais números são atualizados automaticamente conforme novos dados chegam ao painel.</span></div>
           <div class="quick-box"><b>Leitura comercial</b><span>Números organizados para facilitar apresentação a marcas e potenciais parceiros.</span></div>
         </div>
         <div class="banner">
@@ -572,5 +762,305 @@ async function atualizarDoSupabase(){
 }
 atualizarDoSupabase();
 </script>
+
+<script>
+(function(){
+  const translations = {
+    "pt-PT": {
+      "← Voltar ao site":"← Voltar ao site",
+      "Estatísticas & Mídia Kit":"Estatísticas & Media Kit",
+      "Presença digital com leitura premium.":"Presença digital com uma leitura premium.",
+      "Sincronização mais recente: setembro de 2026":"Sincronização mais recente: setembro de 2026",
+      "3 redes ativas":"3 redes ativas",
+      "alcance e interação":"alcance e interação",
+      "seguidores e curtidas":"seguidores e gostos",
+      "inscritos e autoridade":"subscritores e autoridade",
+      "Marca pessoal":"Marca pessoal",
+      "comunidade + conteúdo":"comunidade + conteúdo",
+      "Painel rápido":"Painel rápido",
+      "Principais números reunidos em uma visão limpa, estratégica e mais visual.":"Principais números reunidos numa visão limpa, estratégica e mais visual.",
+      "Atualização automática via Supabase":"Atualização automática via Supabase",
+      "Leitura de valor":"Leitura de valor",
+      "Indicadores que ajudam a apresentar o tamanho e a qualidade da presença digital.":"Indicadores que ajudam a apresentar a dimensão e a qualidade da presença digital.",
+      "3 plataformas":"3 plataformas",
+      "Instagram, TikTok e YouTube integrados em um único painel visual.":"Instagram, TikTok e YouTube integrados num único painel visual.",
+      "Comunidade ativa":"Comunidade ativa",
+      "Foco em BTS, K-pop, entretenimento, conteúdo e relacionamento com audiência.":"Foco em BTS, K-pop, entretenimento, conteúdo e relação com a audiência.",
+      "Dados em tempo real":"Dados em tempo real",
+      "Os principais números são atualizados automaticamente conforme novos dados chegam ao painel.":"Os principais números são atualizados automaticamente à medida que novos dados chegam ao painel.",
+      "Leitura comercial":"Leitura comercial",
+      "Números organizados para facilitar apresentação a marcas e potenciais parceiros.":"Números organizados para facilitar a apresentação a marcas e potenciais parceiros.",
+      "Posicionamento profissional para mídia kit":"Posicionamento profissional para media kit",
+      "Logos das redes, fundos com profundidade e cartões com destaque visual mais moderno.":"Logótipos das redes, fundos com profundidade e cartões com um destaque visual mais moderno.",
+      "Rose Freitas • Estatísticas":"Rose Freitas • Estatísticas",
+      "Presença & impacto visual":"Presença & impacto visual",
+      "Visão geral":"Visão geral",
+      "visualizações totais em destaque, com forte peso em Reels e crescimento de alcance.":"visualizações totais em destaque, com forte peso nos Reels e crescimento do alcance.",
+      "interações":"interações",
+      "novos seguidores":"novos seguidores",
+      "visitas ao perfil":"visitas ao perfil",
+      "toques no link da bio":"toques na ligação da bio",
+      "Formato que mais entrega":"Formato com melhor desempenho",
+      "Outras publicações":"Outras publicações",
+      "crescimento":"crescimento",
+      "não seguidores":"não seguidores",
+      "compartilhamentos":"partilhas",
+      "views em Reels":"visualizações em Reels",
+      "Volume & engajamento":"Volume & envolvimento",
+      "Base da audiência":"Base da audiência",
+      "seguidores em uma rede de ritmo rápido, com boa força de retenção e descoberta.":"seguidores numa rede de ritmo rápido, com boa capacidade de retenção e descoberta.",
+      "curtidas":"gostos",
+      "engajamento":"envolvimento",
+      "views por vídeo":"visualizações por vídeo",
+      "vídeos / mês":"vídeos / mês",
+      "Desempenho médio":"Desempenho médio",
+      "curtidas por vídeo":"gostos por vídeo",
+      "comentários por vídeo":"comentários por vídeo",
+      "Comunidade":"Comunidade",
+      "conteúdo recorrente e audiência fiel":"conteúdo recorrente e audiência fiel",
+      "Descoberta":"Descoberta",
+      "boa capacidade de alcançar novos públicos":"boa capacidade para alcançar novos públicos",
+      "Canal em crescimento":"Canal em crescimento",
+      "Canal":"Canal",
+      "inscritos em um canal monetizado, com fortalecimento constante de autoridade.":"subscritores num canal monetizado, com reforço constante da autoridade.",
+      "Monetizado":"Monetizado",
+      "estrutura pronta para expansão":"estrutura pronta para expansão",
+      "Conteúdo contínuo":"Conteúdo contínuo",
+      "vídeos, shorts, lives e comunidade":"vídeos, Shorts, diretos e comunidade",
+      "Crescimento registrado":"Crescimento registado",
+      "Evolução de 10,6 mil para 17,3 mil inscritos, aproximadamente":"Evolução de 10,6 mil para 17,3 mil subscritores, aproximadamente",
+      "Vídeos + Shorts":"Vídeos + Shorts",
+      "formatos publicados":"formatos publicados",
+      "Lives + comunidade":"Diretos + comunidade",
+      "aproximação com a audiência":"proximidade com a audiência",
+      "crescimento orgânico e reconhecimento":"crescimento orgânico e reconhecimento",
+      "Potencial comercial":"Potencial comercial",
+      "ambiente favorável para ações e parcerias":"ambiente favorável para ações e parcerias",
+      "Estatísticas • Mídia Kit • Parcerias":"Estatísticas • Media Kit • Parcerias"
+    },
+    "es": {
+      "← Voltar ao site":"← Volver al sitio",
+      "Estatísticas & Mídia Kit":"Estadísticas & Media Kit",
+      "Presença digital com leitura premium.":"Presencia digital con una lectura premium.",
+      "Sincronização mais recente: setembro de 2026":"Sincronización más reciente: septiembre de 2026",
+      "3 redes ativas":"3 redes activas",
+      "alcance e interação":"alcance e interacción",
+      "seguidores e curtidas":"seguidores y me gusta",
+      "inscritos e autoridade":"suscriptores y autoridad",
+      "Marca pessoal":"Marca personal",
+      "comunidade + conteúdo":"comunidad + contenido",
+      "Painel rápido":"Panel rápido",
+      "Principais números reunidos em uma visão limpa, estratégica e mais visual.":"Principales cifras reunidas en una visión limpia, estratégica y más visual.",
+      "Atualização automática via Supabase":"Actualización automática vía Supabase",
+      "Leitura de valor":"Lectura de valor",
+      "Indicadores que ajudam a apresentar o tamanho e a qualidade da presença digital.":"Indicadores que ayudan a presentar el tamaño y la calidad de la presencia digital.",
+      "3 plataformas":"3 plataformas",
+      "Instagram, TikTok e YouTube integrados em um único painel visual.":"Instagram, TikTok y YouTube integrados en un único panel visual.",
+      "Comunidade ativa":"Comunidad activa",
+      "Foco em BTS, K-pop, entretenimento, conteúdo e relacionamento com audiência.":"Enfoque en BTS, K-pop, entretenimiento, contenido y relación con la audiencia.",
+      "Dados em tempo real":"Datos en tiempo real",
+      "Os principais números são atualizados automaticamente conforme novos dados chegam ao painel.":"Las principales cifras se actualizan automáticamente a medida que llegan nuevos datos al panel.",
+      "Leitura comercial":"Lectura comercial",
+      "Números organizados para facilitar apresentação a marcas e potenciais parceiros.":"Cifras organizadas para facilitar la presentación a marcas y posibles socios.",
+      "Posicionamento profissional para mídia kit":"Posicionamiento profesional para media kit",
+      "Logos das redes, fundos com profundidade e cartões com destaque visual mais moderno.":"Logos de las redes, fondos con profundidad y tarjetas con un aspecto visual más moderno.",
+      "Rose Freitas • Estatísticas":"Rose Freitas • Estadísticas",
+      "Presença & impacto visual":"Presencia & impacto visual",
+      "Visão geral":"Vista general",
+      "visualizações totais em destaque, com forte peso em Reels e crescimento de alcance.":"visualizaciones totales destacadas, con fuerte peso de Reels y crecimiento del alcance.",
+      "interações":"interacciones",
+      "novos seguidores":"nuevos seguidores",
+      "visitas ao perfil":"visitas al perfil",
+      "toques no link da bio":"clics en el enlace de la bio",
+      "Formato que mais entrega":"Formato con mejor rendimiento",
+      "Outras publicações":"Otras publicaciones",
+      "crescimento":"crecimiento",
+      "não seguidores":"no seguidores",
+      "compartilhamentos":"compartidos",
+      "views em Reels":"visualizaciones en Reels",
+      "Volume & engajamento":"Volumen & interacción",
+      "Base da audiência":"Base de la audiencia",
+      "seguidores em uma rede de ritmo rápido, com boa força de retenção e descoberta.":"seguidores en una red de ritmo rápido, con buena retención y capacidad de descubrimiento.",
+      "curtidas":"me gusta",
+      "engajamento":"interacción",
+      "views por vídeo":"visualizaciones por vídeo",
+      "vídeos / mês":"vídeos / mes",
+      "Desempenho médio":"Rendimiento medio",
+      "curtidas por vídeo":"me gusta por vídeo",
+      "comentários por vídeo":"comentarios por vídeo",
+      "Comunidade":"Comunidad",
+      "conteúdo recorrente e audiência fiel":"contenido recurrente y audiencia fiel",
+      "Descoberta":"Descubrimiento",
+      "boa capacidade de alcançar novos públicos":"buena capacidad para alcanzar nuevos públicos",
+      "Canal em crescimento":"Canal en crecimiento",
+      "Canal":"Canal",
+      "inscritos em um canal monetizado, com fortalecimento constante de autoridade.":"suscriptores en un canal monetizado, con fortalecimiento constante de su autoridad.",
+      "Monetizado":"Monetizado",
+      "estrutura pronta para expansão":"estructura preparada para crecer",
+      "Conteúdo contínuo":"Contenido continuo",
+      "vídeos, shorts, lives e comunidade":"vídeos, Shorts, directos y comunidad",
+      "Crescimento registrado":"Crecimiento registrado",
+      "Evolução de 10,6 mil para 17,3 mil inscritos, aproximadamente":"Evolución de 10,6 mil a 17,3 mil suscriptores, aproximadamente",
+      "Vídeos + Shorts":"Vídeos + Shorts",
+      "formatos publicados":"formatos publicados",
+      "Lives + comunidade":"Directos + comunidad",
+      "aproximação com a audiência":"cercanía con la audiencia",
+      "crescimento orgânico e reconhecimento":"crecimiento orgánico y reconocimiento",
+      "Potencial comercial":"Potencial comercial",
+      "ambiente favorável para ações e parcerias":"entorno favorable para acciones y colaboraciones",
+      "Estatísticas • Mídia Kit • Parcerias":"Estadísticas • Media Kit • Colaboraciones"
+    },
+    "en": {
+      "← Voltar ao site":"← Back to site",
+      "Estatísticas & Mídia Kit":"Statistics & Media Kit",
+      "Presença digital com leitura premium.":"Digital presence with a premium overview.",
+      "Sincronização mais recente: setembro de 2026":"Latest sync: September 2026",
+      "3 redes ativas":"3 active platforms",
+      "alcance e interação":"reach and interaction",
+      "seguidores e curtidas":"followers and likes",
+      "inscritos e autoridade":"subscribers and authority",
+      "Marca pessoal":"Personal brand",
+      "comunidade + conteúdo":"community + content",
+      "Painel rápido":"Quick dashboard",
+      "Principais números reunidos em uma visão limpa, estratégica e mais visual.":"Key numbers brought together in a clean, strategic and visual overview.",
+      "Atualização automática via Supabase":"Automatic updates via Supabase",
+      "Leitura de valor":"Value overview",
+      "Indicadores que ajudam a apresentar o tamanho e a qualidade da presença digital.":"Indicators that help present the scale and quality of the digital presence.",
+      "3 plataformas":"3 platforms",
+      "Instagram, TikTok e YouTube integrados em um único painel visual.":"Instagram, TikTok and YouTube integrated into a single visual dashboard.",
+      "Comunidade ativa":"Active community",
+      "Foco em BTS, K-pop, entretenimento, conteúdo e relacionamento com audiência.":"Focused on BTS, K-pop, entertainment, content and audience relationships.",
+      "Dados em tempo real":"Real-time data",
+      "Os principais números são atualizados automaticamente conforme novos dados chegam ao painel.":"Key numbers update automatically as new data reaches the dashboard.",
+      "Leitura comercial":"Commercial overview",
+      "Números organizados para facilitar apresentação a marcas e potenciais parceiros.":"Numbers organized to make presentations to brands and potential partners easier.",
+      "Posicionamento profissional para mídia kit":"Professional media-kit positioning",
+      "Logos das redes, fundos com profundidade e cartões com destaque visual mais moderno.":"Platform logos, layered backgrounds and cards with a more modern visual treatment.",
+      "Rose Freitas • Estatísticas":"Rose Freitas • Statistics",
+      "Presença & impacto visual":"Presence & visual impact",
+      "Visão geral":"Overview",
+      "visualizações totais em destaque, com forte peso em Reels e crescimento de alcance.":"highlighted total views, driven strongly by Reels and growing reach.",
+      "interações":"interactions",
+      "novos seguidores":"new followers",
+      "visitas ao perfil":"profile visits",
+      "toques no link da bio":"bio link taps",
+      "Formato que mais entrega":"Top-performing format",
+      "Outras publicações":"Other posts",
+      "crescimento":"growth",
+      "não seguidores":"non-followers",
+      "compartilhamentos":"shares",
+      "views em Reels":"Reels views",
+      "Volume & engajamento":"Volume & engagement",
+      "Base da audiência":"Audience base",
+      "seguidores em uma rede de ritmo rápido, com boa força de retenção e descoberta.":"followers on a fast-moving platform with strong retention and discovery potential.",
+      "curtidas":"likes",
+      "engajamento":"engagement",
+      "views por vídeo":"views per video",
+      "vídeos / mês":"videos / month",
+      "Desempenho médio":"Average performance",
+      "curtidas por vídeo":"likes per video",
+      "comentários por vídeo":"comments per video",
+      "Comunidade":"Community",
+      "conteúdo recorrente e audiência fiel":"consistent content and a loyal audience",
+      "Descoberta":"Discovery",
+      "boa capacidade de alcançar novos públicos":"strong ability to reach new audiences",
+      "Canal em crescimento":"Growing channel",
+      "Canal":"Channel",
+      "inscritos em um canal monetizado, com fortalecimento constante de autoridade.":"subscribers on a monetized channel with steadily growing authority.",
+      "Monetizado":"Monetized",
+      "estrutura pronta para expansão":"structure ready to scale",
+      "Conteúdo contínuo":"Ongoing content",
+      "vídeos, shorts, lives e comunidade":"videos, Shorts, livestreams and community",
+      "Crescimento registrado":"Recorded growth",
+      "Evolução de 10,6 mil para 17,3 mil inscritos, aproximadamente":"Growth from 10.6K to 17.3K subscribers, approximately",
+      "Vídeos + Shorts":"Videos + Shorts",
+      "formatos publicados":"published formats",
+      "Lives + comunidade":"Livestreams + community",
+      "aproximação com a audiência":"closer audience connection",
+      "crescimento orgânico e reconhecimento":"organic growth and recognition",
+      "Potencial comercial":"Commercial potential",
+      "ambiente favorável para ações e parcerias":"strong environment for campaigns and partnerships",
+      "Estatísticas • Mídia Kit • Parcerias":"Statistics • Media Kit • Partnerships"
+    }
+  };
+
+  const textNodes = [];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(node){
+      if(!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      if(node.parentElement && ['SCRIPT','STYLE'].includes(node.parentElement.tagName)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+
+  while(walker.nextNode()){
+    const node = walker.currentNode;
+    node.__originalText = node.nodeValue;
+    textNodes.push(node);
+  }
+
+  function translateTextNode(node, lang){
+    const original = node.__originalText;
+    const trimmed = original.trim();
+    if(!trimmed) return;
+
+    if(lang === 'pt-BR'){
+      node.nodeValue = original;
+      return;
+    }
+
+    const translated = translations[lang]?.[trimmed];
+    if(!translated){
+      node.nodeValue = original;
+      return;
+    }
+
+    const start = original.match(/^\s*/)?.[0] || '';
+    const end = original.match(/\s*$/)?.[0] || '';
+    node.nodeValue = start + translated + end;
+  }
+
+  function setLanguage(lang){
+    textNodes.forEach(node => translateTextNode(node,lang));
+    document.documentElement.lang = lang === 'es' ? 'es' : lang === 'en' ? 'en' : lang;
+    localStorage.setItem('rfStatsLanguage',lang);
+
+    document.querySelectorAll('.lang-btn').forEach(btn=>{
+      btn.classList.toggle('active',btn.dataset.langChoice===lang);
+    });
+
+    const titles = {
+      'pt-BR':'Estatísticas — Rose Freitas',
+      'pt-PT':'Estatísticas — Rose Freitas',
+      'es':'Estadísticas — Rose Freitas',
+      'en':'Statistics — Rose Freitas'
+    };
+    document.title = titles[lang] || titles['pt-BR'];
+  }
+
+  function setTheme(theme){
+    if(theme === 'mixed'){
+      document.documentElement.removeAttribute('data-theme');
+    }else{
+      document.documentElement.setAttribute('data-theme',theme);
+    }
+    localStorage.setItem('rfStatsTheme',theme);
+    document.querySelectorAll('.theme-btn').forEach(btn=>{
+      btn.classList.toggle('active',btn.dataset.themeChoice===theme);
+    });
+  }
+
+  document.querySelectorAll('.theme-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>setTheme(btn.dataset.themeChoice));
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>setLanguage(btn.dataset.langChoice));
+  });
+
+  setTheme(localStorage.getItem('rfStatsTheme') || 'mixed');
+  setLanguage(localStorage.getItem('rfStatsLanguage') || 'pt-BR');
+})();
+</script>
+
 </body>
 </html>

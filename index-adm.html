@@ -31,7 +31,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
 </head><body>
-<section id="login" class="login"><div class="card"><div class="brand">ROSE FREITAS</div><h1>Painel ADM</h1><p class="muted">Área administrativa protegida.</p><label class="label">E-mail</label><input id="email" class="input" type="email"><label class="label">Senha</label><input id="password" class="input" type="password"><button id="loginBtn" class="btn primary" style="width:100%;margin-top:18px">Entrar</button><div id="loginMsg" class="loginmsg"></div></div></section>
+<section id="login" class="login"><div class="card"><div class="brand">ROSE FREITAS</div><h1>Painel ADM</h1><p class="muted">Área administrativa protegida.</p><label class="label">E-mail</label><input id="email" class="input" type="email"><label class="label">Senha</label><input id="password" class="input" type="password"><button id="loginBtn" type="button" class="btn primary" style="width:100%;margin-top:18px">Entrar</button><div id="loginMsg" class="loginmsg"></div></div></section>
 <section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button><button data-view="relatorios">📄 Relatórios</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
 <div id="dashboard" class="view active"><div class="cards"><div class="stat"><small>Produtos</small><strong id="np">0</strong></div><div class="stat"><small>Cursos</small><strong id="nc">0</strong></div><div class="stat"><small>VIP</small><strong id="nv">0</strong></div><div class="stat"><small>Solicitações VIP</small><strong id="nr">0</strong></div></div>
 <div class="panel"><div class="panel-head"><div><h2>Estimativa VIP do mês</h2><div class="meta">Conta 1 vez cada solicitação que clicou em “enviar comprovante”. Não significa pagamento confirmado.</div></div></div>
@@ -105,7 +105,45 @@ const $=id=>document.getElementById(id);function hdr(){return{apikey:KEY,Authori
 async function api(path,opt={}){let r=await fetch(URL_SB+path,{...opt,headers:{...hdr(),...(opt.headers||{})}}),t=await r.text(),d=t;try{d=t?JSON.parse(t):null}catch{}if(!r.ok)throw Error(d?.message||d?.details||d?.hint||t||'Erro');return d}
 async function auth(email,password){let r=await fetch(URL_SB+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password})}),d=await r.json();if(!r.ok)throw Error(d.error_description||d.msg||'Login inválido');return d}
 async function isAdmin(){let r=await fetch(URL_SB+'/rest/v1/rpc/is_admin',{method:'POST',headers:hdr(),body:'{}'});return r.ok&&(await r.json())===true}
-async function login(){let e=$('email').value.trim(),p=$('password').value;if(!e||!p){$('loginMsg').textContent='Preencha e-mail e senha.';return}$('loginBtn').disabled=true;try{session=await auth(e,p);if(!await isAdmin())throw Error('Esta conta não é administradora.');sessionStorage.setItem('rf_admin_session',JSON.stringify(session));enter()}catch(x){$('loginMsg').textContent=x.message;session=null}finally{$('loginBtn').disabled=false}}
+async function doAdminLogin(){
+  const emailEl=document.getElementById('email');
+  const passwordEl=document.getElementById('password');
+  const msg=document.getElementById('loginMsg');
+  const btn=document.getElementById('loginBtn');
+
+  const email=(emailEl?.value||'').trim();
+  const password=passwordEl?.value||'';
+
+  msg.textContent='';
+
+  if(!email || !password){
+    msg.textContent='Preencha e-mail e senha.';
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent='Entrando...';
+
+  try{
+    session=await auth(email,password);
+
+    const adminOk=await isAdmin();
+    if(!adminOk){
+      throw new Error('Esta conta não está autorizada como administradora.');
+    }
+
+    sessionStorage.setItem('rf_admin_session',JSON.stringify(session));
+    await enter();
+  }catch(err){
+    console.error('Erro no login ADM:',err);
+    msg.textContent=err?.message || 'Não foi possível entrar. Verifique seus dados e tente novamente.';
+    session=null;
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Entrar';
+  }
+}
+
 async function enter(){$('login').classList.add('hidden');$('app').classList.remove('hidden');$('user').textContent=session.user?.email||'';await refresh()}
 function logout(){sessionStorage.removeItem('rf_admin_session');location.reload()}
 async function list(t){return api('/rest/v1/'+t+'?select=*')}
@@ -371,7 +409,7 @@ async function ajustarValorVip(tipo,operacao){
 }
 
 async function refresh(){await loadMain();await loadReq();await loadFinanceiro()}
-$('loginBtn').onclick=login;$('password').onkeydown=e=>{if(e.key==='Enter')login()};$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;
+$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;
 
 const agoraRel=new Date();
 $('reportMes').value=agoraRel.getFullYear()+'-'+String(agoraRel.getMonth()+1).padStart(2,'0');
@@ -421,5 +459,34 @@ document.addEventListener('click',async e=>{
     }
   }
 });
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const loginBtn=document.getElementById('loginBtn');
+  const passwordEl=document.getElementById('password');
+  const emailEl=document.getElementById('email');
+
+  if(loginBtn){
+    loginBtn.addEventListener('click',doAdminLogin);
+  }
+
+  if(passwordEl){
+    passwordEl.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){
+        e.preventDefault();
+        doAdminLogin();
+      }
+    });
+  }
+
+  if(emailEl){
+    emailEl.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){
+        e.preventDefault();
+        passwordEl?.focus();
+      }
+    });
+  }
+});
+
 (async()=>{try{let s=JSON.parse(sessionStorage.getItem('rf_admin_session')||'null');if(s?.access_token){session=s;if(await isAdmin())await enter()}}catch{sessionStorage.removeItem('rf_admin_session')}})();
 </script></body></html>

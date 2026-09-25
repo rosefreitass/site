@@ -43,21 +43,66 @@
   color:#d6a84b;
   font-size:28px;
 }
+
+.price-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.price-option{display:block;cursor:pointer}
+.price-option input{position:absolute;opacity:0;pointer-events:none}
+.price-option-box{display:block;height:100%;padding:16px;border:1px solid #5a4825;border-radius:12px;background:#17140f;transition:.2s ease}
+.price-option-box small{display:block;color:#bdb5a5;margin-bottom:7px;line-height:1.4}
+.price-option-box strong{display:block;font-family:Georgia,serif;font-size:28px;color:#d6a84b}
+.price-option input:checked + .price-option-box{border-color:#d6a84b;box-shadow:0 0 0 2px rgba(214,168,75,.15);background:rgba(214,168,75,.08)}
+.selected-price{margin:12px 0 18px;padding:14px 16px;border:1px solid #d6a84b;border-radius:10px;background:#12110d;text-align:center}
+.selected-price small{display:block;color:#bdb5a5;margin-bottom:4px}
+.selected-price strong{display:block;color:#d6a84b;font-size:28px}
+@media(max-width:560px){.price-options{grid-template-columns:1fr}}
 </style></head><body><header><div class="wrap top"><a class="brand" href="index.html">Rose Freitas</a><a class="back" href="index.html">← Voltar para o site</a></div></header><main><div class="wrap grid"><section><div class="eyebrow">Comunidade exclusiva</div><h1>TELEGRAM VIP</h1><p class="lead">Tenha acesso a um espaço mais próximo da Rose, com transmissões exclusivas, bate-papo direto com a Rose, lives, novidades e outros momentos especiais da comunidade.</p><div class="price-highlight">
-  <span class="price-label">Valor do acesso ao Telegram VIP</span>
-  <span class="price-value">R$ 10,00</span>
+  <span class="price-label">Escolha o tipo de acesso</span>
+  <div class="price-options">
+    <label class="price-option">
+      <input type="radio" name="modalidade" value="renovacao" checked>
+      <span class="price-option-box"><small>Renovação do acesso ao Telegram VIP</small><strong>R$ 10,00</strong></span>
+    </label>
+    <label class="price-option">
+      <input type="radio" name="modalidade" value="nova">
+      <span class="price-option-box"><small>Nova assinatura Telegram VIP</small><strong>R$ 13,00</strong></span>
+    </label>
+  </div>
 </div>
 <div class="card"><div class="eyebrow">Antes do pagamento</div><h2>Seus dados</h2><p class="note">Informe seu nome completo e número de celular. Depois de enviar, a chave Pix será liberada.</p><label for="nome">Nome completo</label><input id="nome" maxlength="120" autocomplete="name" placeholder="Seu nome completo"><label for="celular">Número de celular</label><input id="celular" maxlength="30" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000"><label class="check"><input id="consent" type="checkbox"><span>Concordo que meu nome e celular sejam usados para identificar e processar minha solicitação de acesso ao VIP.</span></label><button id="continuar" class="full">Continuar para o pagamento</button><div id="formMsg" class="msg"></div></div></section><section id="payment" class="card"><div class="eyebrow">Pagamento via Pix</div><h2>Faça seu pagamento</h2>
-<div class="payment-price">
-  <small>Valor a pagar</small>
-  <strong>R$ 10,00</strong>
-</div><p class="note">Chave Pix:</p><div class="pix">roselaynes@yahoo.com.br</div><button id="copiar">Copiar chave Pix</button><div id="payMsg" class="msg"></div><p class="note">Depois de pagar, envie o comprovante pelo WhatsApp.</p><a id="enviarComprovante" class="paybtn" target="_blank" rel="noopener" href="https://wa.me/5531975219757?text=Ol%C3%A1%2C%20Rose%21%20Fiz%20o%20pagamento%20do%20TELEGRAM%20VIP%20e%20quero%20enviar%20meu%20comprovante%20para%20confirmar%20meu%20acesso%20ao%20grupo.">Já fiz o pagamento — enviar comprovante</a></section></div></main><footer><div class="wrap">© 2026 Rose Freitas — TELEGRAM VIP</div></footer>
+<div class="selected-price"><small>Valor a pagar</small><strong id="valorSelecionado">R$ 0,00</strong></div><p class="note">Chave Pix:</p><div class="pix">roselaynes@yahoo.com.br</div><button id="copiar">Copiar chave Pix</button><div id="payMsg" class="msg"></div><p class="note">Depois de pagar, envie o comprovante pelo WhatsApp.</p><a id="enviarComprovante" class="paybtn" target="_blank" rel="noopener" href="#">Já fiz o pagamento — enviar comprovante</a></section></div></main><footer><div class="wrap">© 2026 Rose Freitas — TELEGRAM VIP</div></footer>
 
 <script>
 const U='https://mezvkqebymofkcroilwa.supabase.co',
       K='sb_publishable_w8Ft4-d55Ie5Bjf49fNO-A_k1dg5Qo8',
       TIPO='telegram',
       VALOR=10;
+
+
+const PRECOS={renovacao:10.00,nova:13.00};
+
+const MENSAGENS={
+  renovacao:'Olá, Rose! Fiz o pagamento de R$ 10,00 referente à renovação do meu acesso ao Telegram VIP. Quero enviar meu comprovante para confirmar a renovação.',
+  nova:'Olá, Rose! Fiz o pagamento de R$ 13,00 referente à nova assinatura do Telegram VIP. Quero enviar meu comprovante para confirmar meu acesso.'
+};
+function linkComprovanteAtual(){
+  const mod=modalidadeAtual();
+  const texto=MENSAGENS[mod]||MENSAGENS.renovacao;
+  return 'https://wa.me/5531975219757?text='+encodeURIComponent(texto);
+}
+
+function modalidadeAtual(){return document.querySelector('input[name="modalidade"]:checked')?.value||'renovacao';}
+function atualizarValorSelecionado(){const v=PRECOS[modalidadeAtual()];const el=document.getElementById('valorSelecionado');if(el)el.textContent=v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+document.querySelectorAll('input[name="modalidade"]').forEach(r=>r.addEventListener('change',atualizarValorSelecionado));
+atualizarValorSelecionado();
+
+function atualizarLinkComprovante(){
+  const a=document.getElementById('enviarComprovante');
+  if(a) a.href=linkComprovanteAtual();
+}
+document.querySelectorAll('input[name="modalidade"]').forEach(r=>{
+  r.addEventListener('change',atualizarLinkComprovante);
+});
+atualizarLinkComprovante();
 
 const $=x=>document.getElementById(x);
 let solicitacaoId=sessionStorage.getItem('vip_solicitacao_'+TIPO)||'';
@@ -134,7 +179,7 @@ $('enviarComprovante').addEventListener('click',async e=>{
   }
 
   e.preventDefault();
-  const destino=e.currentTarget.href;
+  const destino=linkComprovanteAtual();
   const novaAba=window.open('', '_blank');
 
   try{
@@ -144,7 +189,7 @@ $('enviarComprovante').addEventListener('click',async e=>{
         apikey:K,
         'Content-Type':'application/json'
       },
-      body:JSON.stringify({p_solicitacao_id:solicitacaoId})
+      body:JSON.stringify({p_solicitacao_id:solicitacaoId,p_modalidade:modalidadeAtual()})
     });
 
     if(!r.ok) throw new Error('registro');

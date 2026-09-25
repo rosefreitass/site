@@ -13,7 +13,6 @@
 <meta property="og:description" content="Cursos, conteúdos, comunidades VIP e parcerias em um só lugar.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://rosefreitas.com/">
-<text y=%22.9em%22 font-size=%2290%22>💼</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -393,34 +392,13 @@
   }
 
   .hero-aside.logo-aside::before{
-    content:"";
-    position:absolute;
-    width:min(560px, 94%);
-    height:min(560px, 94%);
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    border-radius:50%;
-    background:radial-gradient(
-      circle at center,
-      rgba(211,165,72,.52) 0%,
-      rgba(211,165,72,.34) 22%,
-      rgba(196,145,52,.22) 42%,
-      rgba(169,121,31,.12) 60%,
-      rgba(120,84,22,.06) 72%,
-      transparent 84%
-    );
-    filter:blur(48px);
-    z-index:-1;
-    pointer-events:none;
+    content:none;
   }
 
   .hero-logo{
     position:relative;
     z-index:2;
-    filter:
-      drop-shadow(0 0 24px rgba(211,165,72,.40))
-      drop-shadow(0 0 58px rgba(169,121,31,.28));
+    filter:none;
   }
 
   .about-photo{
@@ -455,9 +433,7 @@
 
   @media (max-width:820px){
     .hero-aside.logo-aside::before{
-      width:min(430px, 98%);
-      height:min(430px, 98%);
-      filter:blur(38px);
+    content:none;
     }
     .about-photo::before{
       inset:-22px;
@@ -690,7 +666,7 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <h1>UMA MARCA. VÁRIAS POSSIBILIDADES.</h1>
+      <h1>UMA MARCA. VÁRIAS <span style="color:var(--brass); font-style:italic;">POSSIBILIDADES.</span></h1>
       <p class="hero-sub">A marca Rose Freitas nasce para reunir, em um único espaço, tudo aquilo que faz parte da minha trajetória digital.
 
 O objetivo é transformar a experiência construída nas redes sociais em uma marca sólida, profissional e preparada para novos projetos.
@@ -849,7 +825,7 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
       <h2>TELEGRAM VIP</h2>
       <div style="font-family:'Newsreader',serif;font-size:2.25rem;color:var(--brass-deep);margin:10px 0 14px;">R$ 10,00</div>
       <p class="lead">Entre para uma comunidade mais próxima da Rose, com conteúdos e experiências exclusivas.</p>
-      <p>O grupo no Telegram conta com <strong>transmissões exclusivas</strong>, bate-papo direto com a Rose, <strong>lives</strong>, novidades e outros momentos especiais para quem faz parte da comunidade.</p>
+      <p>O grupo no Telegram conta com <strong>transmissões de shows exclusivas</strong>, bate-papo direto com a Rose, <strong>lives</strong>, novidades e outros momentos especiais para quem faz parte da comunidade.</p>
       <div class="contact-actions" style="margin-top:24px;">
         <a href="telegram-vip.html" target="_blank" rel="noopener" class="btn btn-solid">Quero entrar no Telegram VIP</a>
       </div>
@@ -859,7 +835,7 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
       <div class="price" style="margin-bottom:18px;font-size:2rem;">R$ 10,00</div>
       <div class="price" style="margin-bottom:22px; font-size:2rem;">Acesso exclusivo</div>
       <ul style="list-style:none; padding:0; margin:0 0 26px; display:flex; flex-direction:column; gap:10px;">
-        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Transmissões exclusivas</li>
+        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Transmissões de shows exclusivas</li>
         <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Bate-papo direto com a Rose</li>
         <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Lives e momentos especiais</li>
         <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Novidades e conteúdos da comunidade</li>
@@ -877,8 +853,8 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
       <div class="tag" style="color:var(--brass-deep); font-size:.85rem; margin-bottom:14px;">Comunidade exclusiva</div>
       <h2>WHATSAPP VIP</h2>
       <div style="font-family:'Newsreader',serif;font-size:2.25rem;color:var(--brass-deep);margin:10px 0 14px;">R$ 15,00</div>
-      <p class="lead">Entre para uma comunidade mais próxima da Dani, com conteúdos e experiências exclusivas.</p>
-      <p>Tenha acesso a um espaço mais próximo da Dani, com informações exclusivas sobre BTS e Jikook, novidades e outros conteúdos especiais da comunidade.</p>
+      <p class="lead">Entre para uma comunidade mais próxima da Rose, com informações exclusivas sobre BTS e Jikook.</p>
+      <p>Tenha acesso a um espaço mais próximo da Rose, com informações exclusivas sobre BTS e Jikook, novidades e outros conteúdos especiais da comunidade.</p>
       <div class="contact-actions" style="margin-top:24px;">
         <a href="whatsapp-vip.html" target="_blank" rel="noopener" class="btn btn-solid">Quero entrar no WhatsApp VIP</a>
       </div>
@@ -888,8 +864,8 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
       <div class="price" style="margin-bottom:18px;font-size:2rem;">R$ 15,00</div>
       <div class="price" style="margin-bottom:22px; font-size:2rem;">Acesso exclusivo</div>
       <ul style="list-style:none; padding:0; margin:0 0 26px; display:flex; flex-direction:column; gap:10px;">
-        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Transmissões exclusivas</li>
-        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Bate-papo direto com a Dani</li>
+        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Transmissões de shows exclusivas</li>
+        <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Bate-papo direto com a Rose</li>
         <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Lives e momentos especiais</li>
         <li style="font-size:.92rem; padding-left:18px; position:relative;"><span style="position:absolute; left:0; color:var(--brass-deep);">—</span>Novidades e conteúdos da comunidade</li>
       </ul>
@@ -906,9 +882,9 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
       <h2>Vamos criar uma parceria?</h2>
       <p>Entre em contato para apresentar sua marca, campanha ou proposta de parceria. Trabalhamos com ações de publicidade, divulgação e projetos especiais.</p>
       <div class="contact-actions">
-        <a href="https://wa.me/5531975219757?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Rose%20Freitas%20e%20gostaria%20de%20falar%20sobre%20uma%20parceria." target="_blank" rel="noopener" class="btn btn-solid">Falar sobre parceria</a>
-        <a href="#metodo" class="btn btn-line">Conhecer os produtos</a>
-        <a href="estatisticas.html" target="_blank" rel="noopener" class="btn btn-line">Veja minhas estatísticas</a>
+        <a href="https://wa.me/5531975219757?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Rose%20Freitas%20e%20gostaria%20de%20falar%20sobre%20uma%20parceria." target="_blank" rel="noopener" class="btn btn-solid">Parceria</a>
+        <a href="#metodo" class="btn btn-line">Produtos</a>
+        <a href="estatisticas.html" target="_blank" rel="noopener" class="btn btn-line">Estatísticas</a>
       </div>
     </div>
     <div class="contact-card">

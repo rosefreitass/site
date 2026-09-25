@@ -420,6 +420,6 @@ document.addEventListener('click',async e=>{
       alert(err.message||'Não foi possível aplicar o ajuste.');
     }
   }
-});await loadMain()}let st=e.target.closest('.status');if(st){await api('/rest/v1/vip_solicitacoes?id=eq.'+st.dataset.id,{method:'PATCH',body:JSON.stringify({status:st.dataset.status})});await loadReq();await loadFinanceiro()}});
+});
 (async()=>{try{let s=JSON.parse(sessionStorage.getItem('rf_admin_session')||'null');if(s?.access_token){session=s;if(await isAdmin())await enter()}}catch{sessionStorage.removeItem('rf_admin_session')}})();
 </script></body></html>

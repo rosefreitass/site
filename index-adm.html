@@ -239,10 +239,108 @@ html,body{min-height:100%}body{background:var(--page);color:var(--ink);font-fami
 <script>
 const URL_SB='https://mezvkqebymofkcroilwa.supabase.co',KEY='sb_publishable_w8Ft4-d55Ie5Bjf49fNO-A_k1dg5Qo8';let session=null,editing=null;
 const cfg={produto:{table:'produtos',label:'Produto',fields:[['nome','Nome'],['descricao','Descrição','ta'],['preco','Preço'],['link_pagamento','Link de pagamento']]},curso:{table:'cursos',label:'Curso',fields:[['nome','Nome'],['descricao','Descrição','ta'],['preco','Preço'],['aulas','Quantidade de aulas'],['desafio','Desafio final'],['link_pagamento','Link de pagamento']]},vip:{table:'assinaturas',label:'VIP / Assinatura',fields:[['nome','Nome'],['descricao','Descrição','ta'],['chave_pix','Chave Pix'],['whatsapp','WhatsApp'],['mensagem_whatsapp','Mensagem do WhatsApp','ta']]}};
-const $=id=>document.getElementById(id);function hdr(){return{apikey:KEY,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json',Prefer:'return=representation'}}
-async function api(path,opt={}){let r=await fetch(URL_SB+path,{...opt,headers:{...hdr(),...(opt.headers||{})}}),t=await r.text(),d=t;try{d=t?JSON.parse(t):null}catch{}if(!r.ok)throw Error(d?.message||d?.details||d?.hint||t||'Erro');return d}
+const $=id=>document.getElementById(id);
+let refreshPromise=null;
+
+function hdr(){
+  return {
+    apikey:KEY,
+    Authorization:'Bearer '+session.access_token,
+    'Content-Type':'application/json',
+    Prefer:'return=representation'
+  };
+}
+
+function sessionExpiresAt(){
+  const direct=Number(session?.expires_at||0);
+  if(direct) return direct;
+  try{
+    const part=String(session?.access_token||'').split('.')[1]||'';
+    const normalized=part.replace(/-/g,'+').replace(/_/g,'/');
+    const padded=normalized+'='.repeat((4-normalized.length%4)%4);
+    return Number(JSON.parse(atob(padded)).exp||0);
+  }catch{
+    return 0;
+  }
+}
+
+async function refreshAuthSession(){
+  if(refreshPromise) return refreshPromise;
+  if(!session?.refresh_token) throw new Error('Sua sessão expirou. Saia e entre novamente no painel.');
+
+  refreshPromise=(async()=>{
+    const r=await fetch(URL_SB+'/auth/v1/token?grant_type=refresh_token',{
+      method:'POST',
+      headers:{apikey:KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({refresh_token:session.refresh_token})
+    });
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok){
+      sessionStorage.removeItem('rf_admin_session');
+      throw new Error(d.error_description||d.msg||d.message||'Sua sessão expirou. Entre novamente no painel.');
+    }
+    session={...session,...d};
+    sessionStorage.setItem('rf_admin_session',JSON.stringify(session));
+    return session;
+  })();
+
+  try{
+    return await refreshPromise;
+  }finally{
+    refreshPromise=null;
+  }
+}
+
+async function ensureFreshSession(force=false){
+  if(!session?.access_token) throw new Error('Sua sessão expirou. Entre novamente no painel.');
+  const exp=sessionExpiresAt();
+  if(force||(exp&&Date.now()/1000>=exp-60)) await refreshAuthSession();
+  return session;
+}
+
+async function authenticatedFetch(url,opt={},retry=true){
+  await ensureFreshSession();
+  let r=await fetch(url,{
+    ...opt,
+    headers:{
+      ...(opt.headers||{}),
+      apikey:KEY,
+      Authorization:'Bearer '+session.access_token
+    }
+  });
+  if(r.status===401&&retry){
+    await ensureFreshSession(true);
+    return authenticatedFetch(url,opt,false);
+  }
+  return r;
+}
+
+async function api(path,opt={}){
+  const r=await authenticatedFetch(URL_SB+path,{
+    ...opt,
+    headers:{
+      'Content-Type':'application/json',
+      Prefer:'return=representation',
+      ...(opt.headers||{})
+    }
+  });
+  const t=await r.text();
+  let d=t;
+  try{d=t?JSON.parse(t):null}catch{}
+  if(!r.ok) throw Error(d?.message||d?.details||d?.hint||t||'Erro');
+  return d;
+}
+
 async function auth(email,password){let r=await fetch(URL_SB+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password})}),d=await r.json();if(!r.ok)throw Error(d.error_description||d.msg||'Login inválido');return d}
-async function isAdmin(){let r=await fetch(URL_SB+'/rest/v1/rpc/is_admin',{method:'POST',headers:hdr(),body:'{}'});return r.ok&&(await r.json())===true}
+
+async function isAdmin(){
+  const r=await authenticatedFetch(URL_SB+'/rest/v1/rpc/is_admin',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:'{}'
+  });
+  return r.ok&&(await r.json())===true;
+}
 async function doAdminLogin(){
   const emailEl=document.getElementById('email');
   const passwordEl=document.getElementById('password');
@@ -639,11 +737,9 @@ async function uploadAffiliateImage(file){
   const rand=(globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():Math.random().toString(36).slice(2);
   const path=`produtos/${Date.now()}-${rand}.${ext}`;
   const encoded=path.split('/').map(encodeURIComponent).join('/');
-  const res=await fetch(`${URL_SB}/storage/v1/object/produtos-afiliados/${encoded}`,{
+  const res=await authenticatedFetch(`${URL_SB}/storage/v1/object/produtos-afiliados/${encoded}`,{
     method:'POST',
     headers:{
-      apikey:KEY,
-      Authorization:'Bearer '+session.access_token,
       'Content-Type':file.type||'application/octet-stream',
       'x-upsert':'false'
     },
@@ -660,9 +756,9 @@ async function uploadAffiliateImage(file){
 async function removeAffiliateImage(path){
   if(!path) return;
   try{
-    await fetch(`${URL_SB}/storage/v1/object/produtos-afiliados`,{
+    await authenticatedFetch(`${URL_SB}/storage/v1/object/produtos-afiliados`,{
       method:'DELETE',
-      headers:{apikey:KEY,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json'},
       body:JSON.stringify({prefixes:[path]})
     });
   }catch(e){console.warn('Não foi possível remover a imagem antiga:',e)}

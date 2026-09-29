@@ -997,8 +997,7 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
     if (!secao || !container) return;
     try {
       const resposta = await fetch(
-        `${SUPABASE_URL}/rest/v1/produtos_afiliados?select=*&ativo=eq.true&order=ordem.asc,criado_em.desc`,
-        {cache:'no-store',headers:{apikey:SUPABASE_KEY}}
+        `${SUPABASE_URL}/rest/v1/produtos_afiliados?select=*&ativo=eq.true&order=ordem.asc,criado_em.desc`,        {cache:'no-store',headers:{apikey:SUPABASE_KEY}}
       );
       if (!resposta.ok) throw new Error(`Supabase respondeu ${resposta.status}`);
       const itens = await resposta.json();

@@ -60,16 +60,21 @@
   <div class="price-options">
     <label class="price-option">
       <input type="radio" name="modalidade" value="renovacao" checked>
-      <span class="price-option-box"><small>Renovação do acesso ao WhatsApp VIP</small><strong>R$ 15,00</strong></span>
+      <span class="price-option-box"><small>Grupo WhatsApp VIP</small><strong>R$ 15,00</strong></span>
     </label>
     <label class="price-option">
       <input type="radio" name="modalidade" value="nova">
-      <span class="price-option-box"><small>Nova assinatura WhatsApp VIP</small><strong>R$ 18,00</strong></span>
+      <span class="price-option-box"><small>Nova assinatura — WhatsApp VIP</small><strong>R$ 18,00</strong></span>
     </label>
   </div>
 </div>
-<div class="card"><div class="eyebrow">Antes do pagamento</div><h2>Seus dados</h2><p class="note">Informe seu nome completo e número de celular. Depois de enviar, a chave Pix será liberada.</p><label for="nome">Nome completo</label><input id="nome" maxlength="120" autocomplete="name" placeholder="Seu nome completo"><label for="celular">Número de celular</label><input id="celular" maxlength="30" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000"><label class="check"><input id="consent" type="checkbox"><span>Concordo que meu nome e celular sejam usados para identificar e processar minha solicitação de acesso ao VIP.</span></label><button id="continuar" class="full">Continuar para o pagamento</button><div id="formMsg" class="msg"></div></div></section><section id="payment" class="card"><div class="eyebrow">Pagamento via Pix</div><h2>Faça seu pagamento</h2>
-<div class="selected-price"><small>Valor a pagar</small><strong id="valorSelecionado">R$ 0,00</strong></div><p class="note">Chave Pix:</p><div class="pix">11953655292</div><button id="copiar">Copiar chave Pix</button><div id="payMsg" class="msg"></div><p class="note">Depois de pagar, envie o comprovante pelo WhatsApp.</p><a id="enviarComprovante" class="paybtn" target="_blank" rel="noopener" href="#">Já fiz o pagamento — enviar comprovante</a></section></div></main><footer><div class="wrap">© 2026 Rose Freitas — WHATSAPP VIP</div></footer>
+<div class="card"><div class="eyebrow">Antes do pagamento</div><h2>Seus dados</h2><p class="note">Informe seu nome completo e número de celular. Depois de enviar, o pagamento seguro pelo Mercado Pago será liberado.</p><label for="nome">Nome completo</label><input id="nome" maxlength="120" autocomplete="name" placeholder="Seu nome completo"><label for="celular">Número de celular</label><input id="celular" maxlength="30" autocomplete="tel" inputmode="tel" placeholder="(00) 00000-0000"><label class="check"><input id="consent" type="checkbox"><span>Concordo que meu nome e celular sejam usados para identificar e processar minha solicitação de acesso ao VIP.</span></label><button id="continuar" class="full">Continuar para o pagamento</button><div id="formMsg" class="msg"></div></div></section><section id="payment" class="card"><div class="eyebrow">Pagamento seguro</div><h2>Pague pelo Mercado Pago</h2>
+<div class="selected-price"><small>Valor a pagar</small><strong id="valorSelecionado">R$ 0,00</strong></div>
+<p class="note">O botão abaixo abre o link correto do Mercado Pago de acordo com a opção escolhida.</p>
+<a id="pagarMercadoPago" class="paybtn" target="_blank" rel="noopener noreferrer" href="#">Pagar agora no Mercado Pago</a>
+<div id="payMsg" class="msg"></div>
+<p class="note">Depois de concluir o pagamento, volte aqui e envie o comprovante pelo WhatsApp para confirmar o acesso.</p>
+<a id="enviarComprovante" class="paybtn" target="_blank" rel="noopener" href="#">Já fiz o pagamento — enviar comprovante</a></section></div></main><footer><div class="wrap">© 2026 Rose Freitas — WHATSAPP VIP</div></footer>
 
 <script>
 const U='https://mezvkqebymofkcroilwa.supabase.co',
@@ -79,6 +84,20 @@ const U='https://mezvkqebymofkcroilwa.supabase.co',
 
 
 const PRECOS={renovacao:15.00,nova:18.00};
+
+const LINKS_MERCADO_PAGO={
+  renovacao:"https://mpago.la/2ziQpx1",
+  nova:"https://mpago.la/2fTfLzF"
+};
+
+function linkPagamentoAtual(){
+  return LINKS_MERCADO_PAGO[modalidadeAtual()]||LINKS_MERCADO_PAGO.renovacao;
+}
+function atualizarLinkPagamento(){
+  const a=document.getElementById('pagarMercadoPago');
+  if(a) a.href=linkPagamentoAtual();
+}
+
 
 const MENSAGENS={
   renovacao:'Olá, Dani! Fiz o pagamento de R$ 15,00 referente à renovação do meu acesso ao WhatsApp VIP. Quero enviar meu comprovante para confirmar a renovação.',
@@ -92,8 +111,12 @@ function linkComprovanteAtual(){
 
 function modalidadeAtual(){return document.querySelector('input[name="modalidade"]:checked')?.value||'renovacao';}
 function atualizarValorSelecionado(){const v=PRECOS[modalidadeAtual()];const el=document.getElementById('valorSelecionado');if(el)el.textContent=v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
-document.querySelectorAll('input[name="modalidade"]').forEach(r=>r.addEventListener('change',atualizarValorSelecionado));
+document.querySelectorAll('input[name="modalidade"]').forEach(r=>{
+  r.addEventListener('change',atualizarValorSelecionado);
+  r.addEventListener('change',atualizarLinkPagamento);
+});
 atualizarValorSelecionado();
+atualizarLinkPagamento();
 
 function atualizarLinkComprovante(){
   const a=document.getElementById('enviarComprovante');
@@ -152,21 +175,12 @@ $('continuar').onclick=async()=>{
 
     $('payment').classList.add('show');
     $('payment').scrollIntoView({behavior:'smooth'});
-    m.textContent='Solicitação registrada. A chave Pix foi liberada.';
+    m.textContent='Solicitação registrada. O pagamento pelo Mercado Pago foi liberado.';
     b.textContent='Dados registrados';
   }catch(e){
     m.textContent='Não foi possível concluir o cadastro. Tente novamente em alguns segundos.';
     b.disabled=false;
     b.textContent='Continuar para o pagamento';
-  }
-};
-
-$('copiar').onclick=async()=>{
-  try{
-    await navigator.clipboard.writeText('11953655292');
-    $('payMsg').textContent='Chave Pix copiada!';
-  }catch{
-    $('payMsg').textContent='Copie a chave Pix manualmente.';
   }
 };
 

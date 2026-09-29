@@ -52,12 +52,34 @@ html,body{min-height:100%}body{background:var(--page);color:var(--ink);font-fami
 .modal{background:rgba(17,18,20,.62);backdrop-filter:blur(3px)}.modal-card{background:#fff;border:1px solid var(--border);border-radius:10px;color:var(--ink);box-shadow:0 24px 80px rgba(0,0,0,.18)}.modal-card h2{color:var(--ink);font-family:Inter,Arial,sans-serif}.close{color:#55585f}
 @media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:850px){.shell{grid-template-columns:1fr}.side{position:relative;height:auto;padding:22px 18px}.nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.nav::before{grid-column:1/-1}.main{padding:0 18px 40px}.top{margin:0 -18px 26px;padding:0 18px}}@media(max-width:650px){.finance-grid,.report-summary{grid-template-columns:1fr}.panel-head{align-items:flex-start;flex-direction:column}.panel-head>.btn,#saveSiteTexts{width:100%}}@media(max-width:520px){.cards{grid-template-columns:1fr}.nav{grid-template-columns:1fr}.main{padding:0 12px 32px}.top{height:auto;min-height:66px;margin:0 -12px 22px;padding:14px 12px;align-items:flex-start}.top>div:first-child{display:block}.top h1{margin-top:4px}.user{max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.panel{padding:18px}.item,.request{display:block}.actions{margin-top:12px}}
 
+
+
+/* Produtos de afiliada */
+.affiliate-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.affiliate-card{border:1px solid var(--rf-border);border-radius:9px;background:#fff;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.affiliate-thumb{aspect-ratio:16/10;background:#f0f1f3;overflow:hidden;display:grid;place-items:center;color:#9a9da3;font-weight:800;font-size:.75rem;letter-spacing:.08em}
+.affiliate-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.affiliate-content{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.affiliate-content h3{margin:0;color:var(--rf-ink);font-size:1rem;line-height:1.3}
+.affiliate-content p{margin:0;color:#777b82;font-size:.78rem;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.affiliate-price{font-size:1.15rem;font-weight:800;color:var(--rf-ink);margin-top:2px}
+.affiliate-state{display:inline-flex;width:max-content;padding:4px 7px;border-radius:999px;font-size:.65rem;font-weight:750;background:#e8f6ed;color:#217147}
+.affiliate-state.off{background:#f0f1f3;color:#74777d}
+.affiliate-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.affiliate-actions .btn{padding:8px 10px;font-size:.72rem}
+.affiliate-upload-preview{margin-top:10px;border:1px dashed #d7d9dd;border-radius:7px;min-height:120px;display:grid;place-items:center;overflow:hidden;background:#fafafa;color:#888;font-size:.75rem}
+.affiliate-upload-preview img{width:100%;max-height:240px;object-fit:contain;display:block}
+.affiliate-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.affiliate-form-grid .full-row{grid-column:1/-1}
+.affiliate-help{font-size:.7rem;color:#85888f;margin-top:6px;line-height:1.45}
+@media(max-width:640px){.affiliate-form-grid{grid-template-columns:1fr}.affiliate-form-grid .full-row{grid-column:auto}.affiliate-grid{grid-template-columns:1fr}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
 </head><body>
 <section id="login" class="login"><div class="card"><div class="brand">ROSE FREITAS</div><h1>Painel ADM</h1><p class="muted">Área administrativa protegida.</p><label class="label">E-mail</label><input id="email" class="input" type="email"><label class="label">Senha</label><input id="password" class="input" type="password"><button id="loginBtn" type="button" class="btn primary" style="width:100%;margin-top:18px">Entrar</button><div id="loginMsg" class="loginmsg"></div></div></section>
-<section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button><button data-view="textos">✏️ Textos do Site</button><button data-view="relatorios">📄 Relatórios</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
+<section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="afiliados">🔗 Produtos Afiliados</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button><button data-view="textos">✏️ Textos do Site</button><button data-view="relatorios">📄 Relatórios</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
 <div id="dashboard" class="view active"><div class="cards"><div class="stat"><small>Produtos</small><strong id="np">0</strong></div><div class="stat"><small>Cursos</small><strong id="nc">0</strong></div><div class="stat"><small>VIP</small><strong id="nv">0</strong></div><div class="stat"><small>Solicitações VIP</small><strong id="nr">0</strong></div></div>
 <div class="panel"><div class="panel-head"><div><h2>Estimativa VIP do mês</h2><div class="meta">Conta 1 vez cada solicitação que clicou em “enviar comprovante”. Não significa pagamento confirmado.</div></div></div>
 <div class="finance-grid">
@@ -68,6 +90,21 @@ html,body{min-height:100%}body{background:var(--page);color:var(--ink);font-fami
 </div>
 <div class="panel"><h2>Solicitações VIP recentes</h2><div id="recentes" class="request-grid"></div></div></div>
 <div id="produtos" class="view"><div class="panel"><div class="panel-head"><h2>Produtos</h2><button class="btn primary add" data-key="produto">+ Adicionar</button></div><div id="lp" class="items"></div></div></div>
+
+<div id="afiliados" class="view">
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Produtos de afiliada</h2>
+        <div class="meta">Cadastre produtos que você recomenda. Você pode escolher a imagem direto do seu computador e informar seu link de afiliada.</div>
+      </div>
+      <button id="novoAfiliado" class="btn primary" type="button">+ Novo produto</button>
+    </div>
+    <div id="affiliateStatus" class="meta" style="margin-bottom:14px"></div>
+    <div id="affiliateList" class="affiliate-grid"></div>
+  </div>
+</div>
+
 <div id="cursos" class="view"><div class="panel"><div class="panel-head"><h2>Cursos</h2><button class="btn primary add" data-key="curso">+ Adicionar</button></div><div id="lc" class="items"></div></div></div>
 <div id="vip" class="view"><div class="panel"><div class="panel-head"><h2>VIP / Assinaturas</h2><button class="btn primary add" data-key="vip">+ Adicionar</button></div><div id="lv" class="items"></div></div><div class="panel"><div class="panel-head"><h2>Solicitações de acesso</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><select id="filterVip" class="input" style="max-width:180px"><option value="">Todos os VIPs</option><option value="whatsapp">Somente WhatsApp</option><option value="telegram">Somente Telegram</option></select><select id="filter" class="input" style="max-width:180px"><option value="">Todos os status</option><option value="pendente">Pendentes</option><option value="confirmado">Confirmados</option><option value="cancelado">Cancelados</option></select></div></div><div id="requests" class="request-grid"></div></div></div>
 
@@ -571,8 +608,202 @@ async function saveSiteTexts(){
   }
 }
 
-async function refresh(){await loadMain();await loadReq();await loadFinanceiro();await loadSiteTexts()}
-$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;$('saveSiteTexts').onclick=saveSiteTexts;
+
+
+// ---------- Produtos de afiliada ----------
+let affiliateItems=[];
+let editingAffiliate=null;
+
+function affiliateMoney(v){
+  if(v===null||v===undefined||v==='') return '';
+  const n=Number(v);
+  if(!Number.isFinite(n)) return '';
+  return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+}
+
+function affiliateSafeUrl(value){
+  const v=String(value||'').trim();
+  return /^https?:\/\//i.test(v)?v:'';
+}
+
+function affiliatePublicUrl(path){
+  const safe=String(path||'').split('/').map(encodeURIComponent).join('/');
+  return `${URL_SB}/storage/v1/object/public/produtos-afiliados/${safe}`;
+}
+
+async function uploadAffiliateImage(file){
+  if(!file) return null;
+  if(!/^image\//i.test(file.type||'')) throw new Error('Escolha um arquivo de imagem.');
+  if(file.size>5*1024*1024) throw new Error('A imagem deve ter no máximo 5 MB.');
+  const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,5)||'jpg';
+  const rand=(globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():Math.random().toString(36).slice(2);
+  const path=`produtos/${Date.now()}-${rand}.${ext}`;
+  const encoded=path.split('/').map(encodeURIComponent).join('/');
+  const res=await fetch(`${URL_SB}/storage/v1/object/produtos-afiliados/${encoded}`,{
+    method:'POST',
+    headers:{
+      apikey:KEY,
+      Authorization:'Bearer '+session.access_token,
+      'Content-Type':file.type||'application/octet-stream',
+      'x-upsert':'false'
+    },
+    body:file
+  });
+  const txt=await res.text();
+  if(!res.ok){
+    let detail=txt;try{detail=JSON.parse(txt)?.message||txt}catch{}
+    throw new Error('Não foi possível enviar a imagem. '+detail);
+  }
+  return {path,url:affiliatePublicUrl(path)};
+}
+
+async function removeAffiliateImage(path){
+  if(!path) return;
+  try{
+    await fetch(`${URL_SB}/storage/v1/object/produtos-afiliados`,{
+      method:'DELETE',
+      headers:{apikey:KEY,Authorization:'Bearer '+session.access_token,'Content-Type':'application/json'},
+      body:JSON.stringify({prefixes:[path]})
+    });
+  }catch(e){console.warn('Não foi possível remover a imagem antiga:',e)}
+}
+
+function renderAffiliateProducts(){
+  const el=$('affiliateList');
+  if(!el) return;
+  if(!affiliateItems.length){
+    el.innerHTML='<div class="empty" style="grid-column:1/-1">Nenhum produto de afiliada cadastrado.</div>';
+    return;
+  }
+  el.innerHTML=affiliateItems.map(item=>{
+    const img=affiliateSafeUrl(item.imagem_url);
+    const link=affiliateSafeUrl(item.link_afiliado);
+    return `<article class="affiliate-card">
+      <div class="affiliate-thumb">${img?`<img src="${esc(img)}" alt="${esc(item.nome||'Produto')}">`:'ROSE FREITAS'}</div>
+      <div class="affiliate-content">
+        <span class="affiliate-state ${item.ativo?'':'off'}">${item.ativo?'Publicado':'Oculto'}</span>
+        <h3>${esc(item.nome||'Produto')}</h3>
+        ${item.descricao?`<p>${esc(item.descricao)}</p>`:''}
+        ${item.preco!==null&&item.preco!==''?`<div class="affiliate-price">${affiliateMoney(item.preco)}</div>`:''}
+        <div class="affiliate-actions">
+          ${link?`<a class="btn secondary" href="${esc(link)}" target="_blank" rel="noopener">Abrir link</a>`:''}
+          <button class="btn secondary affiliate-edit" data-id="${item.id}" type="button">Editar</button>
+          <button class="btn secondary affiliate-toggle" data-id="${item.id}" type="button">${item.ativo?'Ocultar':'Publicar'}</button>
+          <button class="btn danger affiliate-delete" data-id="${item.id}" type="button">Excluir</button>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+async function loadAffiliateProducts(){
+  const status=$('affiliateStatus');
+  if(status) status.textContent='Carregando produtos...';
+  try{
+    affiliateItems=await api('/rest/v1/produtos_afiliados?select=*&order=ordem.asc,criado_em.desc');
+    renderAffiliateProducts();
+    if(status) status.textContent=affiliateItems.length?`${affiliateItems.length} produto(s) cadastrado(s).`:'';
+  }catch(e){
+    console.error(e);
+    if(status) status.textContent='Não foi possível carregar os produtos de afiliada: '+e.message;
+  }
+}
+
+function affiliateForm(item=null){
+  editingAffiliate=item?.id||null;
+  const img=affiliateSafeUrl(item?.imagem_url||'');
+  $('mt').textContent=item?'Editar produto de afiliada':'Novo produto de afiliada';
+  $('mb').innerHTML=`<form id="affiliateForm">
+    <div class="affiliate-form-grid">
+      <div class="full-row">
+        <label class="label">Nome do produto</label>
+        <input class="input" name="nome" required value="${esc(item?.nome||'')}">
+      </div>
+      <div>
+        <label class="label">Preço (opcional)</label>
+        <input class="input" name="preco" inputmode="decimal" placeholder="Ex.: 79,90" value="${item?.preco??''}">
+      </div>
+      <div>
+        <label class="label">Ordem de exibição</label>
+        <input class="input" name="ordem" type="number" min="0" step="1" value="${item?.ordem??0}">
+      </div>
+      <div class="full-row">
+        <label class="label">Link de afiliada</label>
+        <input class="input" name="link_afiliado" type="url" required placeholder="https://..." value="${esc(item?.link_afiliado||'')}">
+      </div>
+      <div class="full-row">
+        <label class="label">Descrição</label>
+        <textarea class="input" name="descricao" rows="4" placeholder="Conte por que você recomenda este produto.">${esc(item?.descricao||'')}</textarea>
+      </div>
+      <div class="full-row">
+        <label class="label">Imagem do produto</label>
+        <input id="affiliateImage" class="input" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+        <div class="affiliate-help">JPG, PNG, WEBP ou GIF, até 5 MB. Ao editar, deixe sem escolher arquivo para manter a imagem atual.</div>
+        <div id="affiliatePreview" class="affiliate-upload-preview">${img?`<img src="${esc(img)}" alt="Imagem atual">`:'Prévia da imagem'}</div>
+      </div>
+      <div class="full-row" style="display:flex;align-items:center;gap:9px">
+        <input id="affiliateActive" type="checkbox" ${item?.ativo===false?'':'checked'}>
+        <label for="affiliateActive" style="font-size:.8rem">Exibir este produto no site</label>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn secondary" id="affiliateCancel">Cancelar</button>
+      <button class="btn primary" id="affiliateSave" type="submit">Salvar produto</button>
+    </div>
+  </form>`;
+  $('modal').classList.add('show');
+  $('affiliateCancel').onclick=closeModal;
+  const fileInput=$('affiliateImage');
+  fileInput.onchange=()=>{
+    const file=fileInput.files?.[0];
+    if(!file) return;
+    const url=URL.createObjectURL(file);
+    $('affiliatePreview').innerHTML=`<img src="${url}" alt="Prévia">`;
+  };
+  $('affiliateForm').onsubmit=async e=>{
+    e.preventDefault();
+    const save=$('affiliateSave');
+    save.disabled=true;save.textContent='Salvando...';
+    try{
+      const fd=new FormData(e.target);
+      const link=affiliateSafeUrl(fd.get('link_afiliado'));
+      if(!link) throw new Error('Informe um link de afiliada começando com http:// ou https://.');
+      const precoRaw=String(fd.get('preco')||'').trim();
+      const preco=precoRaw?Number(precoRaw.replace(/\./g,'').replace(',','.')):null;
+      if(precoRaw && !Number.isFinite(preco)) throw new Error('O preço informado não é válido.');
+      let imagem_url=item?.imagem_url||null;
+      let imagem_path=item?.imagem_path||null;
+      const file=fileInput.files?.[0];
+      if(file){
+        const uploaded=await uploadAffiliateImage(file);
+        const oldPath=imagem_path;
+        imagem_url=uploaded.url;imagem_path=uploaded.path;
+        if(oldPath) removeAffiliateImage(oldPath);
+      }
+      const body={
+        nome:String(fd.get('nome')||'').trim(),
+        descricao:String(fd.get('descricao')||'').trim(),
+        preco,
+        link_afiliado:link,
+        imagem_url,
+        imagem_path,
+        ativo:$('affiliateActive').checked,
+        ordem:Number(fd.get('ordem')||0),
+        atualizado_em:new Date().toISOString()
+      };
+      if(editingAffiliate) await api('/rest/v1/produtos_afiliados?id=eq.'+editingAffiliate,{method:'PATCH',body:JSON.stringify(body)});
+      else await api('/rest/v1/produtos_afiliados',{method:'POST',body:JSON.stringify(body)});
+      closeModal();
+      await loadAffiliateProducts();
+    }catch(err){
+      alert(err.message||'Não foi possível salvar o produto.');
+    }finally{save.disabled=false;save.textContent='Salvar produto'}
+  };
+}
+
+
+async function refresh(){await loadMain();await loadReq();await loadFinanceiro();await loadSiteTexts();await loadAffiliateProducts()}
+$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;$('saveSiteTexts').onclick=saveSiteTexts;if($('novoAfiliado'))$('novoAfiliado').onclick=()=>affiliateForm();
 
 const agoraRel=new Date();
 $('reportMes').value=agoraRel.getFullYear()+'-'+String(agoraRel.getMonth()+1).padStart(2,'0');
@@ -610,6 +841,32 @@ document.addEventListener('click',async e=>{
       await api('/rest/v1/vip_solicitacoes?id=eq.'+reqdel.dataset.id,{method:'DELETE'});
       await loadReq();
       await loadFinanceiro();
+    }
+  }
+
+
+  let ae=e.target.closest('.affiliate-edit');
+  if(ae){
+    const item=affiliateItems.find(x=>String(x.id)===String(ae.dataset.id));
+    if(item) affiliateForm(item);
+  }
+
+  let at=e.target.closest('.affiliate-toggle');
+  if(at){
+    const item=affiliateItems.find(x=>String(x.id)===String(at.dataset.id));
+    if(item){
+      await api('/rest/v1/produtos_afiliados?id=eq.'+item.id,{method:'PATCH',body:JSON.stringify({ativo:!item.ativo,atualizado_em:new Date().toISOString()})});
+      await loadAffiliateProducts();
+    }
+  }
+
+  let ad=e.target.closest('.affiliate-delete');
+  if(ad){
+    const item=affiliateItems.find(x=>String(x.id)===String(ad.dataset.id));
+    if(item&&confirm('Excluir este produto de afiliada?')){
+      await api('/rest/v1/produtos_afiliados?id=eq.'+item.id,{method:'DELETE'});
+      if(item.imagem_path) removeAffiliateImage(item.imagem_path);
+      await loadAffiliateProducts();
     }
   }
 

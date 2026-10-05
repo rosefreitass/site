@@ -100,6 +100,11 @@ html,body{min-height:100%}body{background:var(--page);color:var(--ink);font-fami
       </div>
       <button id="novoAfiliado" class="btn primary" type="button">+ Novo produto</button>
     </div>
+    <div class="affiliate-category-tools" style="display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:18px">
+      <div style="flex:1;min-width:180px"><label class="label" for="affiliateCategoryFilter">Filtrar por categoria</label><select id="affiliateCategoryFilter" class="input"><option value="">Todas as categorias</option></select></div>
+      <form id="affiliateCategoryForm" style="flex:2;min-width:200px"><label class="label" for="affiliateCategoryName">Criar nova categoria</label><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="affiliateCategoryName" class="input" required maxlength="80" placeholder="Nome da categoria" style="flex:1;min-width:140px"><button class="btn secondary" type="submit">Criar categoria</button></div></form>
+    </div>
+    <div id="affiliateCategoryStatus" class="meta" role="status" style="margin-bottom:12px"></div>
     <div id="affiliateStatus" class="meta" style="margin-bottom:14px"></div>
     <div id="affiliateList" class="affiliate-grid"></div>
   </div>
@@ -711,6 +716,48 @@ async function saveSiteTexts(){
 // ---------- Produtos de afiliada ----------
 let affiliateItems=[];
 let editingAffiliate=null;
+let affiliateCategories=[];
+
+function affiliateCategoryOptions(selected='', all=false){
+  return `<option value="">${all?'Todas as categorias':'Sem categoria'}</option>`+
+    (all?'<option value="uncategorized">Sem categoria</option>':'')+
+    affiliateCategories.map(c=>`<option value="${esc(String(c.id))}" ${String(c.id)===String(selected)?'selected':''}>${esc(c.nome)}</option>`).join('');
+}
+function refreshAffiliateCategoryControls(){
+  const filter=$('affiliateCategoryFilter');
+  if(filter){const selected=filter.value;filter.innerHTML=affiliateCategoryOptions(selected,true);filter.value=selected;}
+  const select=$('affiliateProductCategory');
+  if(select){const selected=select.value;select.innerHTML=affiliateCategoryOptions(selected);}
+}
+async function loadAffiliateCategories(){
+  affiliateCategories=await api('/rest/v1/categorias_afiliados?select=id,nome&order=ordem.asc,nome.asc');
+  refreshAffiliateCategoryControls();
+}
+async function createAffiliateCategory(value){
+  const nome=String(value||'').trim().replace(/\s+/g,' ');
+  if(!nome||nome.length>80) throw new Error('Informe um nome de categoria com até 80 caracteres.');
+  if(affiliateCategories.some(c=>c.nome.toLocaleLowerCase('pt-BR')===nome.toLocaleLowerCase('pt-BR'))) throw new Error('Essa categoria já existe. Selecione-a na lista.');
+  try{
+    await api('/rest/v1/categorias_afiliados',{method:'POST',body:JSON.stringify({nome})});
+  }catch(e){
+    if(/23505|duplicate|unique/i.test(e.message)) throw new Error('Essa categoria já existe.');
+    throw e;
+  }
+  await loadAffiliateCategories();
+  return affiliateCategories.find(c=>c.nome===nome);
+}
+$('affiliateCategoryFilter').onchange=renderAffiliateProducts;
+$('affiliateCategoryForm').onsubmit=async e=>{
+  e.preventDefault();
+  const button=e.target.querySelector('button');
+  const status=$('affiliateCategoryStatus');
+  button.disabled=true;status.textContent='Salvando categoria...';
+  try{
+    await createAffiliateCategory($('affiliateCategoryName').value);
+    $('affiliateCategoryName').value='';status.textContent='Categoria criada. Ela já pode ser selecionada nos produtos.';
+  }catch(err){status.textContent=err.message||'Não foi possível criar a categoria.';}
+  finally{button.disabled=false;}
+};
 
 function affiliateMoney(v){
   if(v===null||v===undefined||v==='') return '';
@@ -767,17 +814,20 @@ async function removeAffiliateImage(path){
 function renderAffiliateProducts(){
   const el=$('affiliateList');
   if(!el) return;
-  if(!affiliateItems.length){
-    el.innerHTML='<div class="empty" style="grid-column:1/-1">Nenhum produto de afiliada cadastrado.</div>';
+  const selected=$('affiliateCategoryFilter')?.value||'';
+  const visible=affiliateItems.filter(item=>!selected || (selected==='uncategorized' ? !item.categoria_id : String(item.categoria_id)===selected));
+  if(!visible.length){
+    el.innerHTML='<div class="empty" style="grid-column:1/-1">Nenhum produto encontrado nesta seleção.</div>';
     return;
   }
-  el.innerHTML=affiliateItems.map(item=>{
+  el.innerHTML=visible.map(item=>{
     const img=affiliateSafeUrl(item.imagem_url);
     const link=affiliateSafeUrl(item.link_afiliado);
     return `<article class="affiliate-card">
       <div class="affiliate-thumb">${img?`<img src="${esc(img)}" alt="${esc(item.nome||'Produto')}">`:'ROSE FREITAS'}</div>
       <div class="affiliate-content">
         <span class="affiliate-state ${item.ativo?'':'off'}">${item.ativo?'Publicado':'Oculto'}</span>
+        <div class="meta">${esc(affiliateCategories.find(c=>String(c.id)===String(item.categoria_id))?.nome||'Sem categoria')}</div>
         <h3>${esc(item.nome||'Produto')}</h3>
         ${item.descricao?`<p>${esc(item.descricao)}</p>`:''}
         ${item.preco!==null&&item.preco!==''?`<div class="affiliate-price">${affiliateMoney(item.preco)}</div>`:''}
@@ -796,6 +846,7 @@ async function loadAffiliateProducts(){
   const status=$('affiliateStatus');
   if(status) status.textContent='Carregando produtos...';
   try{
+    await loadAffiliateCategories();
     affiliateItems=await api('/rest/v1/produtos_afiliados?select=*&order=ordem.asc,criado_em.desc');
     renderAffiliateProducts();
     if(status) status.textContent=affiliateItems.length?`${affiliateItems.length} produto(s) cadastrado(s).`:'';
@@ -805,7 +856,8 @@ async function loadAffiliateProducts(){
   }
 }
 
-function affiliateForm(item=null){
+async function affiliateForm(item=null){
+  try{await loadAffiliateCategories();}catch(err){alert('Não foi possível carregar as categorias. Tente novamente.');return;}
   editingAffiliate=item?.id||null;
   const img=affiliateSafeUrl(item?.imagem_url||'');
   $('mt').textContent=item?'Editar produto de afiliada':'Novo produto de afiliada';
@@ -814,6 +866,14 @@ function affiliateForm(item=null){
       <div class="full-row">
         <label class="label">Nome do produto</label>
         <input class="input" name="nome" required value="${esc(item?.nome||'')}">
+      </div>
+      <div class="full-row">
+        <label class="label" for="affiliateProductCategory">Categoria</label>
+        <select class="input" id="affiliateProductCategory" name="categoria_id">${affiliateCategoryOptions(item?.categoria_id||'')}</select>
+        <details style="margin-top:10px"><summary style="cursor:pointer">+ Criar nova categoria</summary>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><input class="input" id="affiliateInlineCategoryName" maxlength="80" placeholder="Nome da nova categoria" aria-label="Nome da nova categoria" style="flex:1;min-width:140px"><button type="button" class="btn secondary" id="affiliateInlineCategoryCreate">Criar e selecionar</button></div>
+          <p id="affiliateInlineCategoryStatus" class="meta" role="status"></p>
+        </details>
       </div>
       <div>
         <label class="label">Preço (opcional)</label>
@@ -849,6 +909,17 @@ function affiliateForm(item=null){
   </form>`;
   $('modal').classList.add('show');
   $('affiliateCancel').onclick=closeModal;
+  $('affiliateInlineCategoryCreate').onclick=async e=>{
+    const button=e.currentTarget;button.disabled=true;
+    const status=$('affiliateInlineCategoryStatus');status.textContent='Salvando categoria...';
+    $('affiliateSave').disabled=true;
+    try{
+      const category=await createAffiliateCategory($('affiliateInlineCategoryName').value);
+      if(category) $('affiliateProductCategory').value=String(category.id);
+      $('affiliateInlineCategoryName').value='';status.textContent='Categoria criada e selecionada.';
+    }catch(err){status.textContent=err.message||'Não foi possível criar a categoria.';}
+    finally{button.disabled=false;$('affiliateSave').disabled=false;}
+  };
   const fileInput=$('affiliateImage');
   fileInput.onchange=()=>{
     const file=fileInput.files?.[0];
@@ -878,6 +949,7 @@ function affiliateForm(item=null){
       }
       const body={
         nome:String(fd.get('nome')||'').trim(),
+        categoria_id:fd.get('categoria_id')||null,
         descricao:String(fd.get('descricao')||'').trim(),
         preco,
         link_afiliado:link,

@@ -1605,6 +1605,13 @@ button, a, input, textarea, select{
   }
 
 </style>
+<style>
+.affiliate-category-filters{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 12px}
+.affiliate-category-filters button{font:inherit;font-size:14px;min-height:44px;padding:10px 16px;border:1px solid #b08a43;background:#111;color:#f1d590;cursor:pointer;border-radius:4px;max-width:100%;overflow-wrap:anywhere}
+.affiliate-category-filters button[aria-pressed="true"]{background:#dfbd71;color:#111;border-color:#dfbd71;font-weight:700}
+.affiliate-category-filters button:focus-visible{outline:3px solid #b08a43;outline-offset:3px}
+.affiliate-result-count{font-size:14px;margin:0 0 18px;color:inherit}
+</style>
 </head>
 <body>
 <header>
@@ -1746,6 +1753,8 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
       <h2>Produtos Afiliados</h2>
     </div>
     <p class="affiliate-intro">Produtos que eu recomendo e que podem ser adquiridos pelos meus links de afiliada.</p>
+    <nav id="affiliateCategoryFilters" class="affiliate-category-filters" aria-label="Categorias de produtos afiliados"></nav>
+    <p id="affiliateResultCount" class="affiliate-result-count" role="status" aria-live="polite"></p>
     <div class="affiliate-grid" id="affiliateProductsGrid">
       <div class="affiliate-status">Carregando produtos...</div>
     </div>
@@ -2328,7 +2337,7 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
 
     const kicker=document.createElement('div');
     kicker.className='affiliate-kicker';
-    kicker.textContent='Produto recomendado';
+    kicker.textContent=item.categoria?.nome||'Produto recomendado';
 
     const title=document.createElement('h3');
     title.className='affiliate-title';
@@ -2368,32 +2377,50 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
 
   async function loadAffiliateProducts(){
     const grid=document.getElementById('affiliateProductsGrid');
+    const filters=document.getElementById('affiliateCategoryFilters');
+    const count=document.getElementById('affiliateResultCount');
     if(!grid) return;
-    try{
-      const endpoint=AFFILIATE_SB_URL+
-        '/rest/v1/produtos_afiliados?select=id,nome,descricao,preco,link_afiliado,imagem_url,ordem,criado_em&ativo=eq.true&order=ordem.asc,criado_em.desc';
-      const response=await fetch(endpoint,{
-        cache:'no-store',
-        headers:{apikey:AFFILIATE_SB_KEY}
-      });
+    const get=async path=>{
+      const response=await fetch(AFFILIATE_SB_URL+path,{cache:'no-store',headers:{apikey:AFFILIATE_SB_KEY}});
       if(!response.ok) throw new Error('HTTP '+response.status);
-      const items=await response.json();
-      grid.replaceChildren();
-      if(!Array.isArray(items) || !items.length){
-        const empty=document.createElement('div');
-        empty.className='affiliate-status';
-        empty.textContent='Nenhum produto afiliado publicado no momento.';
-        grid.appendChild(empty);
-        return;
+      return response.json();
+    };
+    try{
+      const [items,categories]=await Promise.all([
+        get('/rest/v1/produtos_afiliados?select=id,nome,descricao,preco,link_afiliado,imagem_url,ordem,criado_em,categoria_id,categoria:categorias_afiliados(id,nome)&ativo=eq.true&order=ordem.asc,criado_em.desc'),
+        get('/rest/v1/categorias_afiliados?select=id,nome&order=ordem.asc,nome.asc')
+      ]);
+      if(!Array.isArray(items)||!Array.isArray(categories)) throw new Error('Resposta inválida');
+      const options=[{id:'',nome:'Todos'},...categories];
+      if(items.some(item=>!item.categoria_id)) options.push({id:'uncategorized',nome:'Sem categoria'});
+      let selected='';
+      function render(){
+        const visible=items.filter(item=>!selected || (selected==='uncategorized' ? !item.categoria_id : String(item.categoria_id)===selected));
+        grid.replaceChildren();
+        filters.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.category===selected)));
+        count.textContent=visible.length+' produto(s) encontrado(s)';
+        if(!visible.length){
+          const empty=document.createElement('div');empty.className='affiliate-status';
+          empty.textContent=selected?'Nenhum produto publicado nesta categoria.':'Nenhum produto afiliado publicado no momento.';
+          grid.appendChild(empty);
+        }else visible.forEach(item=>grid.appendChild(makeAffiliateCard(item)));
       }
-      items.forEach(item=>grid.appendChild(makeAffiliateCard(item)));
+      filters.replaceChildren();
+      options.forEach(category=>{
+        const button=document.createElement('button');button.type='button';
+        button.textContent=category.nome;button.dataset.category=String(category.id);
+        button.addEventListener('click',()=>{selected=String(category.id);render();});
+        filters.appendChild(button);
+      });
+      render();
     }catch(err){
       console.error('Produtos afiliados:',err);
-      grid.replaceChildren();
-      const error=document.createElement('div');
-      error.className='affiliate-status';
-      error.textContent='Não foi possível carregar os produtos agora. Tente novamente em instantes.';
-      grid.appendChild(error);
+      grid.replaceChildren();filters.replaceChildren();count.textContent='';
+      const error=document.createElement('div');error.className='affiliate-status';
+      error.textContent='Não foi possível carregar os produtos agora. ';
+      const retry=document.createElement('button');retry.type='button';retry.className='btn';retry.textContent='Tentar novamente';
+      retry.addEventListener('click',()=>{retry.disabled=true;loadAffiliateProducts();});
+      error.appendChild(retry);grid.appendChild(error);
     }
   }
 

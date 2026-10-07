@@ -1867,6 +1867,60 @@ button, a, input, textarea, select{
   .featured-summary-empty{
     color:#8e8577;
   }
+  .featured-customer-data{
+    margin-top:18px;
+    padding:18px;
+    border:1px solid rgba(211,165,72,.36);
+    background:#15130f;
+  }
+  .featured-customer-title{
+    color:#f0ca72;
+    font-weight:800;
+    font-size:.82rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    margin-bottom:13px;
+  }
+  .featured-customer-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+  .featured-field{
+    display:grid;
+    gap:7px;
+    color:#d8d0c1;
+    font-size:.78rem;
+    font-weight:700;
+  }
+  .featured-field-full{grid-column:1/-1;}
+  .featured-field input{
+    width:100%;
+    min-height:46px;
+    border:1px solid rgba(211,165,72,.32);
+    background:#0e0d0a;
+    color:#f7f2e8;
+    padding:0 12px;
+    font:inherit;
+    font-weight:500;
+    outline:none;
+  }
+  .featured-field input:focus{
+    border-color:#d3a548;
+    box-shadow:0 0 0 2px rgba(211,165,72,.12);
+  }
+  .featured-customer-hint{
+    margin-top:10px;
+    color:#bfb6a6;
+    font-size:.78rem;
+  }
+  .featured-customer-hint.is-ok{color:#f0ca72;}
+  .featured-customer-privacy{
+    margin-top:8px;
+    color:#8f8779;
+    font-size:.7rem;
+    line-height:1.45;
+  }
   .featured-checkout-notice{
     margin-top:16px;
     color:#bfb6a6;
@@ -1917,6 +1971,8 @@ button, a, input, textarea, select{
     }
     .featured-summary-top{align-items:flex-start;flex-direction:column;}
     .featured-checkout-actions{flex-direction:column;}
+    .featured-customer-grid{grid-template-columns:1fr;}
+    .featured-field-full{grid-column:auto;}
   }
 </style>
 </head>
@@ -2000,6 +2056,27 @@ button, a, input, textarea, select{
         <ul class="featured-summary-items" id="featuredOrderItems">
           <li class="featured-summary-empty">Selecione pelo menos um membro para continuar.</li>
         </ul>
+
+        <div class="featured-customer-data">
+          <div class="featured-customer-title">Dados para identificar o pedido</div>
+          <div class="featured-customer-grid">
+            <label class="featured-field featured-field-full">
+              <span>Nome completo</span>
+              <input id="featuredCustomerName" type="text" autocomplete="name" maxlength="120" placeholder="Digite seu nome completo">
+            </label>
+            <label class="featured-field">
+              <span>CPF</span>
+              <input id="featuredCustomerCpf" type="text" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00">
+            </label>
+            <label class="featured-field">
+              <span>Celular</span>
+              <input id="featuredCustomerPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="15" placeholder="(31) 99999-9999">
+            </label>
+          </div>
+          <div id="featuredCustomerHint" class="featured-customer-hint">Preencha nome completo, CPF válido e celular para liberar o pagamento.</div>
+          <div class="featured-customer-privacy">O CPF completo é validado no navegador e não fica exibido no painel; o sistema guarda apenas uma identificação protegida e os 4 últimos dígitos.</div>
+        </div>
+
         <div class="featured-checkout-notice">
           <b style="color:#f0ca72;">Importante:</b> produção em até 15 dias. O valor do frete será informado após a compra. Confira o total calculado antes de seguir para o Mercado Pago.
         </div>
@@ -2823,6 +2900,10 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
   const countEl = document.getElementById('featuredItemCount');
   const itemsEl = document.getElementById('featuredOrderItems');
   const checkout = document.getElementById('featuredCheckout');
+  const customerName = document.getElementById('featuredCustomerName');
+  const customerCpf = document.getElementById('featuredCustomerCpf');
+  const customerPhone = document.getElementById('featuredCustomerPhone');
+  const customerHint = document.getElementById('featuredCustomerHint');
 
   if (!dialog || !picker) return;
 
@@ -2875,6 +2956,55 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
       }));
   }
 
+  const digitsOnly = value => String(value || '').replace(/\D/g, '');
+
+  function validateFeaturedCpf(value){
+    const cpf = digitsOnly(value);
+    if(cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+
+    let sum = 0;
+    for(let i=0;i<9;i++) sum += Number(cpf[i]) * (10 - i);
+    let d1 = 11 - (sum % 11);
+    if(d1 >= 10) d1 = 0;
+    if(d1 !== Number(cpf[9])) return false;
+
+    sum = 0;
+    for(let i=0;i<10;i++) sum += Number(cpf[i]) * (11 - i);
+    let d2 = 11 - (sum % 11);
+    if(d2 >= 10) d2 = 0;
+    return d2 === Number(cpf[10]);
+  }
+
+  function customerDataIsValid(){
+    const name = String(customerName?.value || '').trim().replace(/\s+/g,' ');
+    const phone = digitsOnly(customerPhone?.value);
+    const hasFullName = name.length >= 5 && name.includes(' ');
+    return hasFullName && validateFeaturedCpf(customerCpf?.value) && /^\d{10,11}$/.test(phone);
+  }
+
+  function formatFeaturedCpf(value){
+    const d = digitsOnly(value).slice(0,11);
+    if(d.length <= 3) return d;
+    if(d.length <= 6) return d.slice(0,3)+'.'+d.slice(3);
+    if(d.length <= 9) return d.slice(0,3)+'.'+d.slice(3,6)+'.'+d.slice(6);
+    return d.slice(0,3)+'.'+d.slice(3,6)+'.'+d.slice(6,9)+'-'+d.slice(9);
+  }
+
+  function formatFeaturedPhone(value){
+    const d = digitsOnly(value).slice(0,11);
+    if(d.length <= 2) return d ? '('+d : '';
+    if(d.length <= 6) return '('+d.slice(0,2)+') '+d.slice(2);
+    if(d.length <= 10) return '('+d.slice(0,2)+') '+d.slice(2,6)+'-'+d.slice(6);
+    return '('+d.slice(0,2)+') '+d.slice(2,7)+'-'+d.slice(7);
+  }
+
+  async function sha256Hex(value){
+    if(!window.crypto?.subtle) throw new Error('Seu navegador não oferece a proteção necessária para validar o CPF.');
+    const data = new TextEncoder().encode(value);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+
   function updateSummary(){
     const selected = getSelection();
     const total = selected.reduce((sum, item) => sum + item.price, 0);
@@ -2891,23 +3021,39 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
       empty.className = 'featured-summary-empty';
       empty.textContent = 'Selecione pelo menos um membro para continuar.';
       itemsEl.appendChild(empty);
-      checkout.setAttribute('aria-disabled', 'true');
-      return;
+    } else {
+      selected.forEach(item => {
+        const li = document.createElement('li');
+        const left = document.createElement('span');
+        left.textContent = item.member + ' • ' + item.size + ' cm';
+        const right = document.createElement('strong');
+        right.style.color = '#f0ca72';
+        right.textContent = money(item.price);
+        li.append(left, right);
+        itemsEl.appendChild(li);
+      });
     }
 
-    selected.forEach(item => {
-      const li = document.createElement('li');
-      const left = document.createElement('span');
-      left.textContent = item.member + ' • ' + item.size + ' cm';
-      const right = document.createElement('strong');
-      right.style.color = '#f0ca72';
-      right.textContent = money(item.price);
-      li.append(left, right);
-      itemsEl.appendChild(li);
-    });
+    const customerOk = customerDataIsValid();
+    checkout.setAttribute('aria-disabled', selected.length && customerOk ? 'false' : 'true');
 
-    checkout.setAttribute('aria-disabled', 'false');
+    if(customerHint){
+      customerHint.classList.toggle('is-ok', customerOk);
+      customerHint.textContent = customerOk
+        ? 'Dados preenchidos. O botão de pagamento está liberado assim que houver pelo menos uma miniatura selecionada.'
+        : 'Preencha nome completo, CPF válido e celular para liberar o pagamento.';
+    }
   }
+
+  customerName?.addEventListener('input', updateSummary);
+  customerCpf?.addEventListener('input', () => {
+    customerCpf.value = formatFeaturedCpf(customerCpf.value);
+    updateSummary();
+  });
+  customerPhone?.addEventListener('input', () => {
+    customerPhone.value = formatFeaturedPhone(customerPhone.value);
+    updateSummary();
+  });
 
   openBtn?.addEventListener('click', () => {
     if (typeof dialog.showModal === 'function') dialog.showModal();
@@ -2935,7 +3081,21 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
     if (checkout.getAttribute('aria-disabled') === 'true') return;
 
     const selected = getSelection();
-    if (!selected.length) return;
+    if (!selected.length || !customerDataIsValid()) {
+      updateSummary();
+      const statusEl = document.getElementById('featuredCheckoutStatus');
+      if(statusEl){
+        statusEl.className = 'featured-checkout-status is-error';
+        statusEl.textContent = 'Preencha corretamente nome completo, CPF e celular antes de continuar.';
+      }
+      return;
+    }
+
+    const customer = {
+      nome: String(customerName.value || '').trim().replace(/\s+/g,' '),
+      cpf: digitsOnly(customerCpf.value),
+      celular: digitsOnly(customerPhone.value)
+    };
 
     const total = selected.reduce((sum, item) => sum + item.price, 0);
     const summary = selected.map(item => item.member + ' ' + item.size + 'cm').join(', ');
@@ -2955,6 +3115,8 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
     }
 
     try {
+      const cpfHash = await sha256Hex(customer.cpf);
+
       const response = await fetch(SB_URL + '/rest/v1/rpc/registrar_pedido_bts', {
         method: 'POST',
         headers: {
@@ -2966,7 +3128,11 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
           p_itens: selected.map(item => ({
             member: item.member,
             size: item.size
-          }))
+          })),
+          p_nome_completo: customer.nome,
+          p_celular: customer.celular,
+          p_cpf_final4: customer.cpf.slice(-4),
+          p_cpf_hash: cpfHash
         })
       });
 

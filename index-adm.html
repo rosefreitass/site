@@ -75,11 +75,29 @@ html,body{min-height:100%}body{background:var(--page);color:var(--ink);font-fami
 @media(max-width:640px){.affiliate-form-grid{grid-template-columns:1fr}.affiliate-form-grid .full-row{grid-column:auto}.affiliate-grid{grid-template-columns:1fr}}
 
 </style>
+
+<style id="bts-orders-admin-style">
+.bts-order-stats{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.bts-order-pill{border:1px solid var(--rf-border);background:#fff;padding:9px 12px;border-radius:7px;font-size:.72rem;color:#64676d}
+.bts-order-pill strong{color:var(--rf-ink);font-size:.88rem}
+.bts-orders-list{display:grid;gap:12px}
+.bts-order-card{border:1px solid var(--rf-border);background:#fff;border-radius:9px;padding:17px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:start}
+.bts-order-code{font-size:.7rem;font-weight:800;letter-spacing:.08em;color:#9a7229;text-transform:uppercase;margin-bottom:5px}
+.bts-order-total{font-size:1.35rem;font-weight:850;color:var(--rf-ink);margin-top:8px}
+.bts-order-items{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.bts-order-item{border:1px solid #ddd9cf;background:#f7f5ef;border-radius:999px;padding:6px 9px;font-size:.7rem;color:#4d5055}
+.bts-order-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.bts-order-status{display:inline-flex;width:max-content;padding:5px 8px;border-radius:999px;font-size:.65rem;font-weight:800;margin-top:8px}
+.bts-order-status.pagamento_iniciado{background:#fff1c8;color:#7a5710}
+.bts-order-status.confirmado{background:#e4f5e9;color:#1f7044}
+.bts-order-status.cancelado{background:#fde7e7;color:#a43b3b}
+@media(max-width:720px){.bts-order-card{grid-template-columns:1fr}.bts-order-actions{justify-content:flex-start}}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
 </head><body>
 <section id="login" class="login"><div class="card"><div class="brand">ROSE FREITAS</div><h1>Painel ADM</h1><p class="muted">Área administrativa protegida.</p><label class="label">E-mail</label><input id="email" class="input" type="email"><label class="label">Senha</label><input id="password" class="input" type="password"><button id="loginBtn" type="button" class="btn primary" style="width:100%;margin-top:18px">Entrar</button><div id="loginMsg" class="loginmsg"></div></div></section>
-<section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="afiliados">🔗 Produtos Afiliados</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button><button data-view="textos">✏️ Textos do Site</button><button data-view="relatorios">📄 Relatórios</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
+<section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="pedidosbts">🛒 Pedidos BTS</button><button data-view="afiliados">🔗 Produtos Afiliados</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button><button data-view="textos">✏️ Textos do Site</button><button data-view="relatorios">📄 Relatórios</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
 <div id="dashboard" class="view active"><div class="cards"><div class="stat"><small>Produtos</small><strong id="np">0</strong></div><div class="stat"><small>Cursos</small><strong id="nc">0</strong></div><div class="stat"><small>VIP</small><strong id="nv">0</strong></div><div class="stat"><small>Solicitações VIP</small><strong id="nr">0</strong></div></div>
 <div class="panel"><div class="panel-head"><div><h2>Estimativa VIP do mês</h2><div class="meta">Conta 1 vez cada solicitação que clicou em “enviar comprovante”. Não significa pagamento confirmado.</div></div></div>
 <div class="finance-grid">
@@ -90,6 +108,20 @@ html,body{min-height:100%}body{background:var(--page);color:var(--ink);font-fami
 </div>
 <div class="panel"><h2>Solicitações VIP recentes</h2><div id="recentes" class="request-grid"></div></div></div>
 <div id="produtos" class="view"><div class="panel"><div class="panel-head"><h2>Produtos</h2><button class="btn primary add" data-key="produto">+ Adicionar</button></div><div id="lp" class="items"></div></div></div>
+
+<div id="pedidosbts" class="view">
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Pedidos das miniaturas BTS</h2>
+        <div class="meta">Aparece aqui quando o cliente seleciona os membros/tamanhos e clica em “Ir para o pagamento”. Isso registra a intenção de compra; o pagamento deve ser confirmado separadamente.</div>
+      </div>
+      <button id="refreshBtsOrders" class="btn secondary" type="button">Atualizar pedidos</button>
+    </div>
+    <div id="btsOrderStats" class="bts-order-stats"></div>
+    <div id="btsOrdersList" class="bts-orders-list"></div>
+  </div>
+</div>
 
 <div id="afiliados" class="view">
   <div class="panel">
@@ -970,8 +1002,85 @@ async function affiliateForm(item=null){
 }
 
 
-async function refresh(){await loadMain();await loadReq();await loadFinanceiro();await loadSiteTexts();await loadAffiliateProducts()}
-$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;$('saveSiteTexts').onclick=saveSiteTexts;if($('novoAfiliado'))$('novoAfiliado').onclick=()=>affiliateForm();
+
+function btsOrderStatusLabel(status){
+  if(status==='confirmado') return 'Pagamento confirmado';
+  if(status==='cancelado') return 'Cancelado';
+  return 'Pagamento iniciado';
+}
+
+function btsOrderCard(order){
+  let itens=[];
+  try{
+    itens=Array.isArray(order.itens)?order.itens:[];
+  }catch(_){itens=[]}
+
+  const itensHtml=itens.map(item=>{
+    const member=esc(item.member||'Membro');
+    const size=esc(item.size||'');
+    const price=moeda(Number(item.price||0));
+    return '<span class="bts-order-item">'+member+' · '+size+' cm · '+esc(price)+'</span>';
+  }).join('');
+
+  const status=esc(order.status||'pagamento_iniciado');
+  const actionButtons=status==='confirmado'
+    ? '<button class="btn secondary bts-order-status-btn" data-id="'+esc(order.id)+'" data-status="pagamento_iniciado">Voltar para iniciado</button>'
+    : '<button class="btn primary bts-order-status-btn" data-id="'+esc(order.id)+'" data-status="confirmado">Confirmar pagamento</button>';
+
+  const cancelButton=status==='cancelado'
+    ? ''
+    : '<button class="btn danger bts-order-status-btn" data-id="'+esc(order.id)+'" data-status="cancelado">Cancelar</button>';
+
+  return '<div class="bts-order-card">'+
+    '<div>'+
+      '<div class="bts-order-code">'+esc(order.codigo||'Pedido BTS')+'</div>'+
+      '<strong>Miniaturas BTS · '+Number(order.quantidade||itens.length||0)+' item(ns)</strong>'+
+      '<div class="meta">'+new Date(order.criado_em).toLocaleString('pt-BR')+'</div>'+
+      '<span class="bts-order-status '+status+'">'+esc(btsOrderStatusLabel(status))+'</span>'+
+      '<div class="bts-order-items">'+(itensHtml||'<span class="meta">Itens não disponíveis.</span>')+'</div>'+
+      '<div class="bts-order-total">'+esc(moeda(order.total))+'</div>'+
+    '</div>'+
+    '<div class="bts-order-actions">'+
+      actionButtons+
+      cancelButton+
+      '<button class="btn danger bts-order-delete" data-id="'+esc(order.id)+'">Excluir</button>'+
+    '</div>'+
+  '</div>';
+}
+
+async function loadBtsOrders(){
+  const listEl=$('btsOrdersList');
+  const statsEl=$('btsOrderStats');
+  if(!listEl||!statsEl)return;
+
+  listEl.innerHTML='<div class="empty">Carregando pedidos...</div>';
+
+  try{
+    const orders=await api('/rest/v1/pedidos_bts?select=*&order=criado_em.desc');
+    const iniciados=orders.filter(x=>x.status==='pagamento_iniciado').length;
+    const confirmados=orders.filter(x=>x.status==='confirmado').length;
+    const cancelados=orders.filter(x=>x.status==='cancelado').length;
+    const totalConfirmado=orders.filter(x=>x.status==='confirmado').reduce((s,x)=>s+Number(x.total||0),0);
+
+    statsEl.innerHTML=
+      '<div class="bts-order-pill"><strong>'+orders.length+'</strong> pedidos</div>'+
+      '<div class="bts-order-pill"><strong>'+iniciados+'</strong> aguardando confirmação</div>'+
+      '<div class="bts-order-pill"><strong>'+confirmados+'</strong> confirmados</div>'+
+      '<div class="bts-order-pill"><strong>'+cancelados+'</strong> cancelados</div>'+
+      '<div class="bts-order-pill"><strong>'+esc(moeda(totalConfirmado))+'</strong> confirmado</div>';
+
+    listEl.innerHTML=orders.length
+      ? orders.map(btsOrderCard).join('')
+      : '<div class="empty">Nenhum pedido de miniaturas BTS registrado ainda.</div>';
+  }catch(err){
+    console.error('Pedidos BTS:',err);
+    statsEl.innerHTML='';
+    listEl.innerHTML='<div class="empty">Não foi possível carregar os pedidos: '+esc(err.message||'erro desconhecido')+'</div>';
+  }
+}
+
+async function refresh(){await loadMain();await loadReq();await loadFinanceiro();await loadSiteTexts();await loadAffiliateProducts();await loadBtsOrders()}
+$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;$('saveSiteTexts').onclick=saveSiteTexts;if($('novoAfiliado'))$('novoAfiliado').onclick=()=>affiliateForm();if($('refreshBtsOrders'))$('refreshBtsOrders').onclick=loadBtsOrders;
 
 const agoraRel=new Date();
 $('reportMes').value=agoraRel.getFullYear()+'-'+String(agoraRel.getMonth()+1).padStart(2,'0');
@@ -1035,6 +1144,35 @@ document.addEventListener('click',async e=>{
       await api('/rest/v1/produtos_afiliados?id=eq.'+item.id,{method:'DELETE'});
       if(item.imagem_path) removeAffiliateImage(item.imagem_path);
       await loadAffiliateProducts();
+    }
+  }
+
+  let btsStatus=e.target.closest('.bts-order-status-btn');
+  if(btsStatus){
+    try{
+      await api('/rest/v1/pedidos_bts?id=eq.'+encodeURIComponent(btsStatus.dataset.id),{
+        method:'PATCH',
+        body:JSON.stringify({
+          status:btsStatus.dataset.status,
+          atualizado_em:new Date().toISOString()
+        })
+      });
+      await loadBtsOrders();
+    }catch(err){
+      alert(err.message||'Não foi possível atualizar o pedido.');
+    }
+  }
+
+  let btsDelete=e.target.closest('.bts-order-delete');
+  if(btsDelete){
+    const ok=confirm('Excluir este pedido de miniaturas BTS do painel?');
+    if(ok){
+      try{
+        await api('/rest/v1/pedidos_bts?id=eq.'+encodeURIComponent(btsDelete.dataset.id),{method:'DELETE'});
+        await loadBtsOrders();
+      }catch(err){
+        alert(err.message||'Não foi possível excluir o pedido.');
+      }
     }
   }
 

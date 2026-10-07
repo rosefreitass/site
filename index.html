@@ -1612,6 +1612,304 @@ button, a, input, textarea, select{
 .affiliate-category-filters button:focus-visible{outline:3px solid #b08a43;outline-offset:3px}
 .affiliate-result-count{font-size:14px;margin:0 0 18px;color:inherit}
 </style>
+
+<style id="featured-product-style">
+  #produto-destaque-bts{
+    padding:0;
+    background:#0d0c0a;
+    color:#f7f2e8;
+    border-bottom:1px solid rgba(211,165,72,.34);
+    position:relative;
+    overflow:hidden;
+  }
+  #produto-destaque-bts::before{
+    content:"";
+    position:absolute;
+    width:520px;height:520px;
+    right:-180px;top:-220px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(211,165,72,.18),transparent 68%);
+    pointer-events:none;
+  }
+  .featured-product-wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:clamp(48px,7vw,86px) clamp(20px,5vw,56px);
+    display:grid;
+    grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);
+    gap:clamp(34px,5vw,72px);
+    align-items:center;
+  }
+  .featured-product-media{
+    position:relative;
+    border:1px solid rgba(211,165,72,.42);
+    background:#15130f;
+    padding:10px;
+    box-shadow:0 26px 80px rgba(0,0,0,.34);
+  }
+  .featured-product-media img{
+    width:100%;
+    aspect-ratio:3/2;
+    object-fit:cover;
+    display:block;
+  }
+  .featured-product-stamp{
+    position:absolute;
+    left:24px;top:24px;
+    background:#d3a548;
+    color:#111;
+    padding:9px 12px;
+    font-size:.72rem;
+    font-weight:800;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+  }
+  .featured-product-copy .kicker{
+    color:#d3a548;
+    font-size:.78rem;
+    font-weight:800;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  .featured-product-copy h2{
+    color:#fff;
+    font-size:clamp(2.45rem,5vw,4.5rem);
+    line-height:.94;
+    letter-spacing:-.035em;
+    max-width:10ch;
+  }
+  .featured-product-copy > p{
+    color:#d8d0c1;
+    margin-top:20px;
+    max-width:52ch;
+    font-size:1rem;
+  }
+  .featured-price-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    border-top:1px solid rgba(211,165,72,.28);
+    border-left:1px solid rgba(211,165,72,.28);
+    margin-top:26px;
+  }
+  .featured-price-item{
+    padding:15px 16px;
+    border-right:1px solid rgba(211,165,72,.28);
+    border-bottom:1px solid rgba(211,165,72,.28);
+  }
+  .featured-price-item span{
+    display:block;
+    color:#aaa08f;
+    font-size:.76rem;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    margin-bottom:4px;
+  }
+  .featured-price-item strong{
+    color:#f0ca72;
+    font-family:'Newsreader',serif;
+    font-size:1.35rem;
+    font-weight:600;
+  }
+  .featured-notices{
+    display:grid;
+    gap:8px;
+    margin-top:20px;
+  }
+  .featured-notice{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    color:#d8d0c1;
+    font-size:.88rem;
+  }
+  .featured-notice b{color:#f0ca72;}
+  .featured-buy{
+    width:100%;
+    margin-top:26px;
+    justify-content:center;
+    background:#d3a548;
+    border-color:#d3a548;
+    color:#111;
+    min-height:52px;
+  }
+  .featured-buy:hover{
+    background:#f0ca72;
+    border-color:#f0ca72;
+    color:#111;
+  }
+  .featured-dialog{
+    width:min(880px,calc(100vw - 28px));
+    max-height:min(88vh,860px);
+    border:1px solid #a9791f;
+    border-radius:2px;
+    padding:0;
+    background:#11100d;
+    color:#f7f2e8;
+    box-shadow:0 30px 120px rgba(0,0,0,.72);
+  }
+  .featured-dialog::backdrop{
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(7px);
+  }
+  .featured-dialog-head{
+    position:sticky;
+    top:0;
+    z-index:4;
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    align-items:flex-start;
+    padding:24px 26px;
+    background:#11100d;
+    border-bottom:1px solid rgba(211,165,72,.28);
+  }
+  .featured-dialog-head h3{
+    color:#fff;
+    font-size:1.85rem;
+    margin-top:4px;
+  }
+  .featured-dialog-head p{
+    color:#bfb6a6;
+    font-size:.88rem;
+    margin-top:5px;
+  }
+  .featured-dialog-close{
+    width:42px;height:42px;
+    border:1px solid rgba(211,165,72,.42);
+    background:transparent;
+    color:#f0ca72;
+    font-size:1.4rem;
+    cursor:pointer;
+    flex:0 0 auto;
+  }
+  .featured-dialog-body{
+    padding:24px 26px 28px;
+    overflow:auto;
+  }
+  .member-picker{
+    display:grid;
+    gap:10px;
+  }
+  .member-row{
+    display:grid;
+    grid-template-columns:minmax(115px,.7fr) minmax(210px,1.3fr) auto;
+    gap:12px;
+    align-items:center;
+    padding:13px 14px;
+    border:1px solid rgba(255,255,255,.10);
+    background:#171510;
+  }
+  .member-name{
+    color:#fff;
+    font-weight:700;
+  }
+  .member-size{
+    width:100%;
+    min-height:44px;
+    border:1px solid rgba(211,165,72,.38);
+    background:#0e0d0a;
+    color:#f7f2e8;
+    padding:0 12px;
+    font:inherit;
+  }
+  .member-line-price{
+    min-width:104px;
+    text-align:right;
+    color:#f0ca72;
+    font-weight:700;
+  }
+  .featured-order-summary{
+    margin-top:20px;
+    padding:18px;
+    border:1px solid rgba(211,165,72,.36);
+    background:#0c0b09;
+  }
+  .featured-summary-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:20px;
+    padding-bottom:14px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+  }
+  .featured-summary-count{
+    color:#aaa08f;
+    font-size:.82rem;
+  }
+  .featured-summary-total-label{
+    color:#aaa08f;
+    font-size:.76rem;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+  .featured-summary-total{
+    color:#f0ca72;
+    font-family:'Newsreader',serif;
+    font-size:2.1rem;
+    line-height:1;
+    margin-top:4px;
+  }
+  .featured-summary-items{
+    margin:14px 0 0;
+    padding:0;
+    list-style:none;
+    display:grid;
+    gap:7px;
+    color:#d8d0c1;
+    font-size:.88rem;
+  }
+  .featured-summary-items li{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+  }
+  .featured-summary-empty{
+    color:#8e8577;
+  }
+  .featured-checkout-notice{
+    margin-top:16px;
+    color:#bfb6a6;
+    font-size:.82rem;
+    line-height:1.55;
+  }
+  .featured-checkout-actions{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+  }
+  .featured-checkout-actions .btn{justify-content:center;flex:1;}
+  .featured-checkout{
+    background:#d3a548;
+    border-color:#d3a548;
+    color:#111;
+  }
+  .featured-checkout[aria-disabled="true"]{
+    opacity:.45;
+    pointer-events:none;
+  }
+  @media(max-width:820px){
+    .featured-product-wrap{grid-template-columns:1fr;}
+    .featured-product-copy h2{max-width:13ch;}
+  }
+  @media(max-width:620px){
+    .featured-product-wrap{padding-top:34px;padding-bottom:44px;}
+    .featured-product-copy h2{font-size:2.5rem;}
+    .featured-price-grid{grid-template-columns:1fr 1fr;}
+    .featured-dialog-head,.featured-dialog-body{padding-left:16px;padding-right:16px;}
+    .member-row{
+      grid-template-columns:1fr;
+      gap:8px;
+    }
+    .member-line-price{
+      min-width:0;
+      text-align:left;
+      font-size:.88rem;
+    }
+    .featured-summary-top{align-items:flex-start;flex-direction:column;}
+    .featured-checkout-actions{flex-direction:column;}
+  }
+</style>
 </head>
 <body>
 <header>
@@ -1641,6 +1939,69 @@ button, a, input, textarea, select{
 <button aria-label="Abrir menu" class="nav-toggle" id="navToggle">☰</button>
 </nav>
 </header>
+
+<section id="produto-destaque-bts" aria-labelledby="produto-destaque-title">
+  <div class="featured-product-wrap">
+    <div class="featured-product-media">
+      <div class="featured-product-stamp">Produto destaque</div>
+      <img src="data:image/webp;base64,UklGRjgXAABXRUJQVlA4ICwXAACQoQCdASqQAQsBPzGKu1YuqTokqfRsm0AmCWUHI7SK1ZTLafWsL29QCJsnfA5sDd3EXdzidSbOjyADzgDZPBxCiKFw4rXQ1l6f3NfXyF/qhjlFt/ZuPFafRoA6ivacVxUbSEuZ824oUCrWWfOzixpV6psMAfzmCyH8UKpLF7weC92F0r85j5camDYG2pLTW5PMYLi299e5mvSrqxVB5jrAyuWdcMmvGzopEiXC+8nvaDcvrfMMeCWIPjaxWtA9KV6fBd9yUIafrd1WRvKh0oARUB7xALlZJqUZlj56yyWA3WtUwoYArUj8+WA+lE2jyWL+7X5RbB/Vt6KTYMHeO92B1goFLMexpRm9JmesgunjLYiO7dSkdMXpw9tiUp5pE1nj4IIpQS85MPoJrlRQSh1bPtGdswKcaN0rEGK0hN6mEGI31B9EU/PWs684IbmYHwOh1xk0mNu7O5YYX0NszVh/r+XRAn+s0dzeZoxNFGLqqUpDO8tWpTQ6fnFSle50E2U6vBTqu28O0tolvlIhjQ1H4ifS1uvZtOJ4MA/XcV4dlWpYMvlNImltrC2YtY02V5LwZcy1hL5pIi3rKRZhF+DYivJkGA86fktNdx76zI/srAL5cPoB9KP2vvM8trvedAqt2oS35BVzKUdkjiZ8CjOjmONA7VFBfE4JLfuAo0Ua8l/5LwDB/oRy4R7m88i3lB2gw0oMlpBJYOJX7urwkUsf3uWZnkpmbIby4m6G2hhZ247Wz/SbsoX/WzRiwOUxes2Y7S0Xy1foiTBoFIwRKBXqk1WSbeLD0OlkAbnsJbMUew7fFsr/6OJzpHjbvFmP0LwKI3DGx6vuXAHv3xaov5Ot5uXFqsgR+2lv/QZ7PbYpggGGpuRSb5fWlgvFr9IMPtXf9dOIHuhesiw2wHQ/p5nd2mNfHNM2KTlMvYSmgj6Y8Tx76iOWp4h1qV4GFvdhGxXoqXMYeURSmcYkHs2PAUr58LRx5+tu01Khj7RGYvAtZc1rPG7H3HHenKwmOQDsAosdGcT3lVmp00FkhSlddpVaDrN34skNfc+VCxkIVZ/h5GPVLPN01lCk2yShRKqhPytH+lUOAVtj+dHYH3RxGcXIK3yRI59nAKacD/EF6c5yX9douaZRQPpWWAJelrtFlqEHQoMr8kID66hR2lmyY6yuIyR5ztPBjb5f6NShzIWoU6FTevRkl2hx1GGoP0+rpTTVcjzCp8gQCp//KPSWXDC3tdEBIuOr9I/FibH0Hs0l4HDMGmjrtLOTvlrqwP1KsoiF5SE6uCOSXs1jvOUPxktORq4qUTKTdD4uXn+iGprOJs1rGO0uT0LsWQrUVy/1fNMDGmyzKqLiEeVnSlBGRt0YqbZit9Wo+GEWKdUVY9A3UuGpyE5jw9Je9xrtJJY5ErDmHWz55OpUzOf5F7B1mLoRI3/Il4BKm8UjELYknqmQckV6T5Q5R81GAxQGpd8LGUY09PZsN/wTbvHmr/phTeKiPMYuDBhIoEm7lAX3QCflqGkAru2Ma4bO7k5aEnpeLl8cbXKk2VQUY2IQY9zHmcbwW7o1ThLwVsWTSrPTTwSU5nN3jq9hvYFakXFThgL7/IUvL/A0e6e/y6f17FLuH2Q0pM4+Zpg5Cf4E0O16cADZ7QUCiDmyyVEFx4WXgS4oDNvLoX1KAQBom3hCZMtuE8ccgHvPe07/ccI5eCvLRWlvx1KMnWQAAFwGXz5/qtsTStw19z04AAD+xDOXcu7mlFQ3xEIlg3IPLIO7PHpJ7RCCdMHPEsMxHGv2jh3rw8LewFRafYcwLiRB2ACAAAAjYBNBa9LrDZlsnhq6CQzFFO0djnoENPun2ZNVfXMEYsA6YUHCnYJ1BlcpiuCGXqnT3CstlQ4/iH9We29F5hzwi7CN7qywuwwfc+hxUoV4PiV2sD72Eg4iDerC1Vbo+r8ztUaAlrm+89RI+utuNE2dI9WPAL/Dpxy+HBKL2ULsYGZ98bTfXFv0Lc4/iEizNaDjncBOCyoYLKmSUHnGFwJagI9Fp+bBnZr6CGe4BYRDMvPy/nILGglJophpqEVE2vY5tQfysLazNN7cfCp4BhO0M/0oJY0CvsJzAdVAXkZ7DNQLd1L2aL96rqj2z7yhV2RrCUtvNOFOuU+6swNkFza+pjmVy52ExKmUrCWFbdHBMIIlNkuTRpLHg8Pf0WE2iReLCMedZb+1B3N+k7rViG1KPcJdrSQQNwUQmeeiCHxnz1Yn723aTcJVwi5DAcOSqL+Us4fdEAdu9Vz9xl5aZlerzYfiCxtPP4lsOfWdLO/OSrPRFGMdjS71ylCMUwE6lYOy/ApTwecVU8WR1z6ILvQXc6OY7Dkc+Mlm/eYsAG1oIh7ZPCcr/sHk4pp/Cwtc8GszJSFy6MsBOdFyLq9LRhliJ6/6KJBn2l+4qpsVjE3+1EKaEmmxhZMfql70J8V4MsxGT1eS8qddYHgyFckBJFfeD3fSZyRcaDW0I4352gJu/tawi0xmIDjfhFeC5PYzTmLT1nl3hDOGdnff3IEezRWpB9UGQA92YPS1t6NPjdKa7DzPlkjeoEv1IMowm2Eo6XX3XUHzciD9T8qjE61I1oUDiagWZA9k0LQSW5o3hR0sZRPMgEsOUR/C8FxsnebOmyB2Wmrurs9oKiEA1AISlMX4YVo5ofzfLoY2eweYYaZ4YrbUdXr5v5bYIcqPXRjZTh2vGt9KefuTaHWEl8qiXiSAjJc7rrV8y6weRxTKIsg7G4a31tN4dsScClzBTXCSNXxSwTHyyWlCzMPhUwdXBbG+1u3NoNuaMaePj8o8qEV3n+qeGBsCYmwek6rKG8hZyL9wFZRZazVvTiW+oha9FGjtu0GqLyaSpnXqg3McE1unkhXC2ai22ki2zUw8bw/6rOJICun+pQLfSFyBq3xUwpfSxpgf12sRy5qofx5h22xtT54Dq60VHM88DUkTPGW9bFyEA7H1mkLMCZ2wLSH9ZGmKVc00KHHvmM3Opyp2sByKOVuyL9cs9h+6F80aNhfFgpubtpicOkQKZEqJbzEMpwpRk0Hk9AozMZMiIvq+uqrZnjJTWRcY3WaSYSw+p7kSbDC2LjGtEdxsj0A+m3YiHMekVIkuefz88/OrFwwB64A0k48lomg9e3yKkQc+o9YDrAOesoMM3PXSwasY/x+vuiImh6ZekBVCV0ZR/loxP3rNLkvwTZEvltxXs7vby1hjT19v8h2TKhpEhllWqDxqsr9tLSxEVSYS6UoTEUWIJoKYaG/VnDQT9UgcD9r7cbQW6U2abHk9Yrv375Z4sFxLNWBhW3TAdQ4AAcWctSNlhD7FMBuhtt4MTtU7cxqwB4QV5fp+X5ymhDs9g4CWWj6BrFoG4W/HS99lFp69SxVB9eH4g5yZQsyNt5PwjExEvGKTg/a/0c3TXbd2sVZGuf+mPL676vMLPKhhExJd7itgjc96HNrwD9BNm4SxVTeqGBBGPxLSW0J4W9ciTMAwvPzhRKs1Aa9nTiv1rMdvVBb0ihL/QhVocZ1PHtGJQ+AochtAltilYz2G7f/weUynf0HhmdFigCXSU6YSuTS8u98PELZsz4V6S2a93uoQjR/TWXcWn8SK5tNQ18HDYWOp+JNPNVRtAZlWRxOWMyWD0BDd3Dm0UjqQLFpvS8tOOjjOWCChn9f1v2M/JIGrHP27eI+faRnQBmgDyC2ShCLHA55icsAY79aiS1cTQ6mJK+TAlpMRACL6t7zaFrxAitAoIxP0PfhZKrSDQVvNLCqJQcl4o5wbv1/VjX+173TkKhaxoA4O6EabLn9W4LVKbcOgEmjcUbuH0sGSTXR7fwNTrHEuCzZOkGD511ZgJ8nHp1jaOFGa/qbNNUu6gkJiWrQ9kmAcyLx+gd0EvvlBgYCv7ASvZOBUUVj5TBey0bv/qceT8ZUV15BZC7ksJCdqf6WEsKK2xO/ZwA0rTy23i3YNdBCwDebv4cfFCkAIN31Sj3W7WmI/jL0IJtYKslzSfxdfRen2EG3xubhz9j0+/ZPNzUPmepVo8P2AkYExg6A2eF0ts2ArWnjtdreM3BUSVf2mI53pvfjRIka3rvKxRF4+gXpwQmFZyubV/gc12jZE0lJsKon+UEUGJPvrApXxz+nwU9cu+qCtJGo8gTo/Wx6pX4TAWCD5OeHOCDZZCtS5hKMmD6hf59kzv3/I5UtEqPjPQbAqHBbEjt+BXI62Vccp46a7hEY7YUIBDMqikY+KNqh+J9agw1tP17YqM+ZM5k9qEJgobzUWb7UgU7gszG6Zt9vxF9CKIGRikhkMtruJotKmM9aKH55g/fMHcZ4GMEnBYezek8BxOoreqPCwvgMysOnRABeWG0EHgcJHcRb94MqyNZoLXiMvJpuWBvEDdLl4z9bCuJ4oibi0EHViik2v3w0EKMjf0wH3twIN1u90kwgQFG9zavVT8nfAFbUVdEitCUXKQwaEmKo1CMEdTorQSUIw4Bc3GNgg4syEXAOSHJPs6L6PlwWsUGRBtxwuPv2WpdNSIhPWWcpQzYXIipBjI66JVfJLzOIeVJkfLVzQymdrnADCUB6yWRjw3zdyC6XiNpDBo9hvUf1FFXPnKoRLnXacaFNuGXPiLqtYoMYgHbMGrKhaBGGrgLwYVwhTaa/xkvpkyHsF39gZ7qh/iazlWMu8ZJwSQEbIO7clcRqTi4vurgIShZc+YXNO1bu7g+AEwZF0H/Ni+M2hr0vky/c7WL0Frwilo7L8aUke6TKTWhNvOylsRfMxlwr5RJbLyDHssPIvCy9CP1eONWi7qaDIsencaht58ThyTMdel4T3uLn7OonkCw4FO8H6ty6uh4Y56EXHncZQFYBoeUh4MNEzkoBl+oZtUNOQEQD3p7MVm78oanVYDvPl24CKgrUBcvdtZcZHUrNVtBuRWHx5B3WKdQDr7gtBVU7PmqBcGS/EJxQMMbDCHWRvQ9yjtP3MrUXlPA1Cih76CycGm9ACv3Tl6rz17wK8+2E8pP9z7HEvMyOafYLCNVAc1lpUI1Tu1KAxoAMaCibcTPhYC3NuHyo1aoU6byTEHtjxVjWkhq5dGPto40o5iHVqcCA/QOP/vjvL2vodo0h8gUOJUT0l66D/zIg/6BMBO6JQEwxiMS10queYwiVvcx1Z/h3VtqIsvcFfINVXMCfC7T2QhDK95rhXpGyqSKaiBzV3/mfor4YyB7WahrN4FevU0Zj1DEme7c6vSz8b/jdk5dqvrlUuygNuCqEF6R/FuRhowMXf6qzOKsJiMxhH9/8oq/T5GkyuHlHWBtbAahz2er+RAryBR9ZT4P4o+kWVlXjdsqvLFWtrsfEdz7trvEJVtIuX7Mfap6aseNX4ppYOIhZixr1nAtw0sSCeE3wcutIxOlEs6PExApgfJMj2keiPpvCF+0/C1+NOLilDCpJQZX3ar5weKv/YQ4ba3kQ+OUfQwvk7qbLVnwYQWypFXLcS39wH8gL8p5EUqfmFUBTuOimxTuqM8TlAk6elfU3hLXrMB9pua51XIGtS7w5sjGOJWPGb5U1psFl4UoA0t4e9v6WJl1bQ9KJBZItz42kXc1UczIPTE0/0vGgTtzYkODe34gSgadtdYoLfD01YDi4DWf1Yk1fzCJpABoWjZBWAIK7WFgls6aLXFtt10V91kWO08sErxTFhj7finHJDYpb3VVGF73UGjb6q2ZqxaUWB3NmSswMxseD1NpugVKiiXi0vJwm/FUg77SizIxUj1Mr8YM/+WLbuBkYf5Lv4PRFpVEHvWpzZ4sj3S4U5GzJ2FssZeqESbPsxYrc/D/MAeAVuPTpwSDYM5mn8xZgcZSy++cHrU9apaP3U5y01x8DmIDKAzaFgRwxvdOF6a0VYxZmT7PV8gYVipcp6fe5PRHKMlvk5ajGY8VIHceN+2/NlMkiWs6XfvXQ5G3ty9yC0mZUYaxD244R2OQX9AYeFI4gEKoJdxLWO2uogyEl6AKfJvoJXdtnrA4DrlNkLapEbQN/ptAo8BzLl+DDKXfLCUVSLN+SIs70E+CyER9GQ3GumtHsQF9O/WO63YEG3Kw2hdm9qWtghEzVUJvGYRqAXwoLhOz0MOq1JNJbITdUPX5QbXw6/fUElgRY0JrNXhutmLpM6eLLM4t1WLNd7YDjEO1w9oxKlcGqmPfskwu8646n1bUfzODEn90ax0Alkc8z0TcgJcVrcG3vJENdtNm4/wrZDNspLzantq0XqPEBudHBCxhnJKm7sqM/GUbqmjfW39JvUzWjCk5obxQtkrp8UrjNnByuleTQYp/gsa2XwsrNYIQb1GPelAnATVxYN6qz6zqWye5PCOYO60389gjKGhAllfZ7RMpCIMYvh5lOEqX7kRurWQjBYclNLIRz9wI2JsHYLlKbaSNL+hwLprU6CTWyGkANNYf32J2rsPN4h1Qw5LAq1bgHNSbzkPVRXx3duDqE/3qMtpjVcYR4mbfcOdCs87weEyS8J2a8Wh+iw6yHJh+um3HymaVCHgz+gqNRyDbMchyhrRSZWRnR53GF3Il1hkFjPCCdwz84IfieLbyGiwriwHBKWco10qVX66j71d+tRjRsu6BebaqaAVm7ckm7DTY+CD1LxHc+gZ+oG+DYN2rhQqYdmINOa+KZJmKrbwMXTQmji6mryFvO5LBJjwtbisXdVqb5+iy2ozIazoUEGfmpM8szPLZnK6i1pzqbx6ICK708ypvb/Szv4yaw3FJ7Gs3dA/ZYa7uXnAkL4qKQdqtT/vE2lelDRWXr50IMBWYqjxUe8rpAUHVuCcXQKBbVas1zmd30jhBzIPIE8zh5uOztkeXmXSatVK1wNF9qs0ZOfWlTb24mlPzbYyWgedww363Yce4QHd9c9lw7XpSbCEcdalzlTl8e7V5VWocxxfNBxqMDXdcoBVSj44IUZE/bYxWtq3u+K1maxUoLBjoeHuh4fEcMWKL3RnqMuDMVHpKhtWj00GWitZJuOGSzONiGbmdkyLePhjRgiZZ0DCxA5mqrApL0VFrX/sZg+q4mcFj/N8ntF2RVUWba4MskvbrDWssFZ8ELV0TLFUqhDuBHRDwmtF3Y/WZeBYA6O1eoDRY31jMxOGmFgkmfhgX2VmF0RRsq+lyfrsBF65mp6dBH7BSSH701tU4eMD/+643YGQJROBXxvr3dmH+4FGWbk8iw5Ouj3JMKGLvOWiD+rFv6ftXI4lkSkIGOCygRV9Il6dRSFSiLQJrFmuZjmcZDQ8JypbHG/+dfrvZGJaJMZndRvl743Ctk23aNI64EGl62O7Y8jDNeBVSY3hw6rx1P0txDGW8AEdazyjnyEWlqd3X1MJTyxxcU3pb25pjHWSR9ErfRzQvYdR4RvaDoNKTwiVdZoK2z8Nq+b1Oi4ljatbiNBu/QNVqTSMjlAjjx1XwtCWQ+r40gLEiyPg1JcMgFK747WhlPSbKNPJVQgvkWwDmmMh9XQwmi6K4A+W3Z+RHKHTBhG6h9f2KpuBzwE0m1F6p+gGv/pc9O3hC6S4JU/9pfDfDnJRzwZVUQBgclsAVNa/bx2wqNOtRd4XJv4UVZgWT9CkDv6tCxyaAcuUn1M+tfnC4DV1w7G0ITtmTltiQqwwROq7NhQHBZ+MDOLBxEH1J/4MWeZuuLuTcDzB/0hjFpf2gYGI2bs85bGgPZMn70v2QcYhftJNgaB+PgiVP3vepfX4MFg7wkCQwVlicoiMmZK9aYRKlCDg1dTy+yXaa9vFG14nu9G8PDE7BXbo6Dn+seKbHnS6LXpsy5pNzGyB/EFCO+kt4klbM74un+Hc4EeMHYOz6KliUtpr/VGJ8j7/d1A6LjVf/3wkC91cawXAl7lRc5cgnaf5T0m4w7jVbElxmYj1Uq5W5kRhA06joDG14FICa8pezSF6VCIqrUiyCtDcBjJzJVuKDtsdEocbUc2cAAA" alt="Miniaturas personalizadas inspiradas nos sete membros do BTS" loading="eager" decoding="async">
+    </div>
+    <div class="featured-product-copy">
+      <div class="kicker">Coleção especial • BTS</div>
+      <h2 id="produto-destaque-title">Miniaturas dos membros do BTS</h2>
+      <p>Escolha seus membros favoritos e monte seu conjunto personalizado. Você pode combinar tamanhos diferentes no mesmo pedido, com o valor calculado automaticamente conforme sua seleção.</p>
+
+      <div class="featured-price-grid" aria-label="Tabela de preços">
+        <div class="featured-price-item"><span>10 cm • miniatura</span><strong>R$ 149,90</strong></div>
+        <div class="featured-price-item"><span>14 cm</span><strong>R$ 179,90</strong></div>
+        <div class="featured-price-item"><span>16 cm</span><strong>R$ 229,90</strong></div>
+        <div class="featured-price-item"><span>18 cm</span><strong>R$ 259,90</strong></div>
+      </div>
+
+      <div class="featured-notices">
+        <div class="featured-notice"><span>◆</span><span><b>Produção sob encomenda:</b> o produto fica pronto em até 15 dias.</span></div>
+        <div class="featured-notice"><span>◆</span><span><b>Frete:</b> o valor é comunicado após a compra.</span></div>
+      </div>
+
+      <button class="btn featured-buy" id="openFeaturedOrder" type="button">Escolher membros e comprar →</button>
+    </div>
+  </div>
+
+  <dialog class="featured-dialog" id="featuredOrderDialog" aria-labelledby="featuredOrderTitle">
+    <div class="featured-dialog-head">
+      <div>
+        <div class="featured-product-copy kicker" style="margin:0;">Monte seu pedido</div>
+        <h3 id="featuredOrderTitle">Escolha membro + tamanho</h3>
+        <p>Você pode selecionar tamanhos diferentes para cada membro.</p>
+      </div>
+      <button class="featured-dialog-close" id="closeFeaturedOrder" type="button" aria-label="Fechar">×</button>
+    </div>
+    <div class="featured-dialog-body">
+      <div class="member-picker" id="memberPicker"></div>
+
+      <div class="featured-order-summary">
+        <div class="featured-summary-top">
+          <div>
+            <div class="featured-summary-count" id="featuredItemCount">0 miniaturas selecionadas</div>
+            <div class="featured-summary-total-label">Total dos produtos</div>
+            <div class="featured-summary-total" id="featuredOrderTotal">R$ 0,00</div>
+          </div>
+          <div style="font-size:.82rem;color:#bfb6a6;max-width:270px;">Até 7 miniaturas no pedido, uma para cada membro. O frete não está incluído neste total.</div>
+        </div>
+        <ul class="featured-summary-items" id="featuredOrderItems">
+          <li class="featured-summary-empty">Selecione pelo menos um membro para continuar.</li>
+        </ul>
+        <div class="featured-checkout-notice">
+          <b style="color:#f0ca72;">Importante:</b> produção em até 15 dias. O valor do frete será informado após a compra. Confira o total calculado antes de seguir para o Mercado Pago.
+        </div>
+        <div class="featured-checkout-actions">
+          <button class="btn btn-line" id="clearFeaturedOrder" type="button">Limpar seleção</button>
+          <a class="btn featured-checkout" id="featuredCheckout" href="https://link.mercadopago.com.br/rosefreitass" target="_blank" rel="noopener noreferrer" aria-disabled="true">Ir para o pagamento</a>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</section>
 <section class="hero">
 <div class="wrap hero-grid">
 <div>
@@ -2432,5 +2793,152 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
 })();
 </script>
 
+
+<script id="featured-product-script">
+(() => {
+  const members = ['RM','Jin','SUGA','j-hope','Jimin','V','Jung Kook'];
+  const prices = {
+    '10': 149.90,
+    '14': 179.90,
+    '16': 229.90,
+    '18': 259.90
+  };
+
+  const dialog = document.getElementById('featuredOrderDialog');
+  const picker = document.getElementById('memberPicker');
+  const openBtn = document.getElementById('openFeaturedOrder');
+  const closeBtn = document.getElementById('closeFeaturedOrder');
+  const clearBtn = document.getElementById('clearFeaturedOrder');
+  const totalEl = document.getElementById('featuredOrderTotal');
+  const countEl = document.getElementById('featuredItemCount');
+  const itemsEl = document.getElementById('featuredOrderItems');
+  const checkout = document.getElementById('featuredCheckout');
+
+  if (!dialog || !picker) return;
+
+  const money = value => value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+
+  members.forEach((member, index) => {
+    const row = document.createElement('div');
+    row.className = 'member-row';
+
+    const name = document.createElement('div');
+    name.className = 'member-name';
+    name.textContent = member;
+
+    const select = document.createElement('select');
+    select.className = 'member-size';
+    select.dataset.member = member;
+    select.setAttribute('aria-label', 'Tamanho para ' + member);
+    select.innerHTML = [
+      '<option value="">Não adicionar</option>',
+      '<option value="10">10 cm — R$ 149,90</option>',
+      '<option value="14">14 cm — R$ 179,90</option>',
+      '<option value="16">16 cm — R$ 229,90</option>',
+      '<option value="18">18 cm — R$ 259,90</option>'
+    ].join('');
+
+    const linePrice = document.createElement('div');
+    linePrice.className = 'member-line-price';
+    linePrice.id = 'member-price-' + index;
+    linePrice.textContent = '—';
+
+    select.addEventListener('change', () => {
+      linePrice.textContent = select.value ? money(prices[select.value]) : '—';
+      updateSummary();
+    });
+
+    row.append(name, select, linePrice);
+    picker.appendChild(row);
+  });
+
+  function getSelection(){
+    return Array.from(picker.querySelectorAll('.member-size'))
+      .filter(select => select.value)
+      .map(select => ({
+        member: select.dataset.member,
+        size: select.value,
+        price: prices[select.value]
+      }));
+  }
+
+  function updateSummary(){
+    const selected = getSelection();
+    const total = selected.reduce((sum, item) => sum + item.price, 0);
+
+    countEl.textContent = selected.length === 1
+      ? '1 miniatura selecionada'
+      : selected.length + ' miniaturas selecionadas';
+
+    totalEl.textContent = money(total);
+    itemsEl.replaceChildren();
+
+    if (!selected.length){
+      const empty = document.createElement('li');
+      empty.className = 'featured-summary-empty';
+      empty.textContent = 'Selecione pelo menos um membro para continuar.';
+      itemsEl.appendChild(empty);
+      checkout.setAttribute('aria-disabled', 'true');
+      return;
+    }
+
+    selected.forEach(item => {
+      const li = document.createElement('li');
+      const left = document.createElement('span');
+      left.textContent = item.member + ' • ' + item.size + ' cm';
+      const right = document.createElement('strong');
+      right.style.color = '#f0ca72';
+      right.textContent = money(item.price);
+      li.append(left, right);
+      itemsEl.appendChild(li);
+    });
+
+    checkout.setAttribute('aria-disabled', 'false');
+  }
+
+  openBtn?.addEventListener('click', () => {
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+    else dialog.setAttribute('open', '');
+  });
+
+  closeBtn?.addEventListener('click', () => dialog.close());
+
+  dialog.addEventListener('click', event => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  clearBtn?.addEventListener('click', () => {
+    picker.querySelectorAll('.member-size').forEach(select => {
+      select.value = '';
+      const price = select.parentElement?.querySelector('.member-line-price');
+      if (price) price.textContent = '—';
+    });
+    updateSummary();
+  });
+
+  checkout?.addEventListener('click', event => {
+    if (checkout.getAttribute('aria-disabled') === 'true') {
+      event.preventDefault();
+      return;
+    }
+    const selected = getSelection();
+    const total = selected.reduce((sum, item) => sum + item.price, 0);
+    const summary = selected.map(item => item.member + ' ' + item.size + 'cm').join(', ');
+    try {
+      sessionStorage.setItem('pedido_bts_rose', JSON.stringify({
+        itens: selected,
+        total,
+        resumo: summary,
+        criadoEm: new Date().toISOString()
+      }));
+    } catch (_) {}
+  });
+
+  updateSummary();
+})();
+</script>
 </body>
 </html>

@@ -84,6 +84,8 @@ html,body{min-height:100%}body{background:var(--page);color:var(--ink);font-fami
 .bts-order-card{border:1px solid var(--rf-border);background:#fff;border-radius:9px;padding:17px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:start}
 .bts-order-code{font-size:.7rem;font-weight:800;letter-spacing:.08em;color:#9a7229;text-transform:uppercase;margin-bottom:5px}
 .bts-order-total{font-size:1.35rem;font-weight:850;color:var(--rf-ink);margin-top:8px}
+.bts-customer-data{display:grid;gap:4px;margin:10px 0 4px;padding:10px 12px;border-left:3px solid #b08a43;background:#faf8f2;font-size:.76rem;color:#55585f}
+.bts-customer-data strong{color:var(--rf-ink)}
 .bts-order-items{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .bts-order-item{border:1px solid #ddd9cf;background:#f7f5ef;border-radius:999px;padding:6px 9px;font-size:.7rem;color:#4d5055}
 .bts-order-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
@@ -1031,11 +1033,20 @@ function btsOrderCard(order){
     ? ''
     : '<button class="btn danger bts-order-status-btn" data-id="'+esc(order.id)+'" data-status="cancelado">Cancelar</button>';
 
+  const customerName=esc(order.nome_completo||'Não informado');
+  const customerPhone=esc(order.celular||'Não informado');
+  const cpfFinal=order.cpf_final4 ? '•••.•••.•••-'+esc(order.cpf_final4) : 'Não informado';
+
   return '<div class="bts-order-card">'+
     '<div>'+
       '<div class="bts-order-code">'+esc(order.codigo||'Pedido BTS')+'</div>'+
       '<strong>Miniaturas BTS · '+Number(order.quantidade||itens.length||0)+' item(ns)</strong>'+
       '<div class="meta">'+new Date(order.criado_em).toLocaleString('pt-BR')+'</div>'+
+      '<div class="bts-customer-data">'+
+        '<div><strong>Cliente:</strong> '+customerName+'</div>'+
+        '<div><strong>Celular:</strong> '+customerPhone+'</div>'+
+        '<div><strong>CPF:</strong> '+cpfFinal+'</div>'+
+      '</div>'+
       '<span class="bts-order-status '+status+'">'+esc(btsOrderStatusLabel(status))+'</span>'+
       '<div class="bts-order-items">'+(itensHtml||'<span class="meta">Itens não disponíveis.</span>')+'</div>'+
       '<div class="bts-order-total">'+esc(moeda(order.total))+'</div>'+

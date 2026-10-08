@@ -2010,39 +2010,39 @@ button, a, input, textarea, select{
 <section id="produto-destaque-bts" aria-labelledby="produto-destaque-title">
   <div class="featured-product-wrap">
     <div class="featured-product-media">
-      <div class="featured-product-stamp">Produto destaque</div>
-      <img src="assets/bts-miniaturas-produto-20261008.jpg?v=20261008-1040" alt="Miniaturas personalizadas inspiradas nos sete membros do BTS" fetchpriority="high" width="1536" height="1024" loading="eager" decoding="async">
+      <div class="featured-product-stamp" data-site-text="produto_bts_selo">Produto destaque</div>
+      <img src="assets/bts-miniaturas-produto-20261008.jpg?v=20261008-1040" data-site-image="produto_bts_imagem_url" alt="Miniaturas personalizadas inspiradas nos sete membros do BTS" fetchpriority="high" width="1536" height="1024" loading="eager" decoding="async">
     </div>
     <div class="featured-product-copy">
-      <div class="kicker">Coleção especial • BTS</div>
-      <h2 id="produto-destaque-title">Miniatura membros do BTS</h2>
-      <p>Miniaturas inspiradas nos integrantes do BTS, produzidas em resina através de impressão 3D, com atenção aos detalhes e acabamento artesanal.</p>
-      <p><strong>Acabamento artesanal:</strong> cada peça recebe pintura e acabamento feitos à mão, tornando cada miniatura única e especial.</p>
-      <p>Ideal para colecionadores, fãs do BTS e para decorar seu espaço com uma peça exclusiva.</p>
-      <p><strong>BTS em miniatura, feito com carinho para quem ama cada detalhe!</strong></p>
+      <div class="kicker" data-site-text="produto_bts_kicker">Coleção especial • BTS</div>
+      <h2 id="produto-destaque-title" data-site-text="produto_bts_titulo">Miniatura membros do BTS</h2>
+      <p data-site-text="produto_bts_texto_1">Miniaturas inspiradas nos integrantes do BTS, produzidas em resina através de impressão 3D, com atenção aos detalhes e acabamento artesanal.</p>
+      <p data-site-text="produto_bts_texto_2"><strong>Acabamento artesanal:</strong> cada peça recebe pintura e acabamento feitos à mão, tornando cada miniatura única e especial.</p>
+      <p data-site-text="produto_bts_texto_3">Ideal para colecionadores, fãs do BTS e para decorar seu espaço com uma peça exclusiva.</p>
+      <p data-site-text="produto_bts_texto_4"><strong>BTS em miniatura, feito com carinho para quem ama cada detalhe!</strong></p>
 
       <div class="featured-price-grid" aria-label="Tabela de preços">
-        <div class="featured-price-item"><span>10 cm • miniatura</span><strong>R$ 149,90</strong></div>
-        <div class="featured-price-item"><span>14 cm</span><strong>R$ 179,90</strong></div>
-        <div class="featured-price-item"><span>16 cm</span><strong>R$ 229,90</strong></div>
-        <div class="featured-price-item"><span>18 cm</span><strong>R$ 259,90</strong></div>
+        <div class="featured-price-item"><span>10 cm • miniatura</span><strong data-site-text="produto_bts_preco_10">R$ 149,90</strong></div>
+        <div class="featured-price-item"><span>14 cm</span><strong data-site-text="produto_bts_preco_14">R$ 179,90</strong></div>
+        <div class="featured-price-item"><span>16 cm</span><strong data-site-text="produto_bts_preco_16">R$ 229,90</strong></div>
+        <div class="featured-price-item"><span>18 cm</span><strong data-site-text="produto_bts_preco_18">R$ 259,90</strong></div>
       </div>
 
       <div class="featured-notices">
-        <div class="featured-notice"><span>◆</span><span><b>Produção sob encomenda:</b> o produto fica pronto em até 15 dias.</span></div>
-        <div class="featured-notice"><span>◆</span><span><b>Frete:</b> o valor é comunicado após a compra.</span></div>
+        <div class="featured-notice"><span>◆</span><span data-site-text="produto_bts_producao"><b>Produção sob encomenda:</b> o produto fica pronto em até 15 dias.</span></div>
+        <div class="featured-notice"><span>◆</span><span data-site-text="produto_bts_frete"><b>Frete:</b> o valor é comunicado após a compra.</span></div>
       </div>
 
-      <button class="btn featured-buy" id="openFeaturedOrder" type="button">Escolher membros e comprar →</button>
+      <button class="btn featured-buy" id="openFeaturedOrder" type="button" data-site-text="produto_bts_botao">Escolher membros e comprar →</button>
     </div>
   </div>
 
   <dialog class="featured-dialog" id="featuredOrderDialog" aria-labelledby="featuredOrderTitle">
     <div class="featured-dialog-head">
       <div>
-        <div class="featured-product-copy kicker" style="margin:0;">Monte seu pedido</div>
-        <h3 id="featuredOrderTitle">Escolha membro + tamanho</h3>
-        <p>Você pode selecionar tamanhos diferentes para cada membro.</p>
+        <div class="featured-product-copy kicker" style="margin:0;" data-site-text="produto_bts_dialog_kicker">Monte seu pedido</div>
+        <h3 id="featuredOrderTitle" data-site-text="produto_bts_dialog_titulo">Escolha membro + tamanho</h3>
+        <p data-site-text="produto_bts_dialog_texto">Você pode selecionar tamanhos diferentes para cada membro.</p>
       </div>
       <button class="featured-dialog-close" id="closeFeaturedOrder" type="button" aria-label="Fechar">×</button>
     </div>
@@ -2087,7 +2087,7 @@ button, a, input, textarea, select{
         </div>
         <div class="featured-checkout-actions">
           <button class="btn btn-line" id="clearFeaturedOrder" type="button">Limpar seleção</button>
-          <a class="btn featured-checkout" id="featuredCheckout" href="https://link.mercadopago.com.br/rosefreitass" rel="noopener noreferrer" aria-disabled="true">Ir para o pagamento</a>
+          <a class="btn featured-checkout" id="featuredCheckout" href="https://link.mercadopago.com.br/rosefreitass" rel="noopener noreferrer" aria-disabled="true" data-site-text="produto_bts_botao_pagamento">Ir para o pagamento</a>
         </div>
         <div id="featuredCheckoutStatus" class="featured-checkout-status" role="status" aria-live="polite"></div>
       </div>
@@ -2593,8 +2593,25 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
   const TXT_KEY = 'sb_publishable_w8Ft4-d55Ie5Bjf49fNO-A_k1dg5Qo8';
 
   function aplicarTexto(chave, conteudo){
+    if(conteudo === null || conteudo === undefined || conteudo === '') return;
+
+    const imageEl = document.querySelector(`[data-site-image="${chave}"]`);
+    if(imageEl){
+      const url=String(conteudo).trim();
+      if(/^https?:\/\//i.test(url)){
+        imageEl.src=url+(url.includes('?')?'&':'?')+'v='+Date.now();
+      }
+      return;
+    }
+
     const el = document.querySelector(`[data-site-text="${chave}"]`);
-    if(!el || conteudo === null || conteudo === undefined || conteudo === '') return;
+    if(!el) return;
+
+    if(/^produto_bts_preco_/.test(chave)){
+      const n=Number(String(conteudo).replace(',','.'));
+      if(Number.isFinite(n)) el.textContent=n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+      return;
+    }
 
     if(chave === 'hero_titulo'){
       const texto = String(conteudo).trim();
@@ -2629,7 +2646,13 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
       if(!r.ok) throw new Error('Falha ao carregar textos');
       const dados = await r.json();
       if(!Array.isArray(dados)) return;
-      dados.forEach(item => aplicarTexto(item.chave,item.conteudo));
+      const mapa={};
+      dados.forEach(item => {
+        mapa[item.chave]=item.conteudo;
+        aplicarTexto(item.chave,item.conteudo);
+      });
+      window.RF_SITE_TEXTS=mapa;
+      document.dispatchEvent(new CustomEvent('rf-site-texts-loaded',{detail:mapa}));
     }catch(err){
       console.warn('Textos do site: usando conteúdo original do HTML.', err);
     }
@@ -2889,7 +2912,7 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
 <script id="featured-product-script">
 (() => {
   const members = ['RM','Jin','SUGA','j-hope','Jimin','V','Jung Kook'];
-  const prices = {
+  let prices = {
     '10': 149.90,
     '14': 179.90,
     '16': 229.90,
@@ -3176,6 +3199,31 @@ Rose Freitas é conteúdo, comunicação, comunidade e empreendedorismo digital.
       }
     }
   });
+
+
+  function applyRemoteBtsPrices(map){
+    if(!map) return;
+    ['10','14','16','18'].forEach(size=>{
+      const raw=map['produto_bts_preco_'+size];
+      if(raw===undefined||raw===null||raw==='') return;
+      const n=Number(String(raw).replace(',','.'));
+      if(Number.isFinite(n)&&n>0) prices[size]=n;
+    });
+
+    picker.querySelectorAll('.member-size').forEach(select=>{
+      const current=select.value;
+      Array.from(select.options).forEach(option=>{
+        if(!option.value) return;
+        option.textContent=option.value+' cm — '+money(prices[option.value]);
+      });
+      const linePrice=document.getElementById('member-price-'+Array.from(picker.querySelectorAll('.member-size')).indexOf(select));
+      if(linePrice) linePrice.textContent=current?money(prices[current]):'—';
+    });
+    updateSummary();
+  }
+
+  document.addEventListener('rf-site-texts-loaded',e=>applyRemoteBtsPrices(e.detail));
+  if(window.RF_SITE_TEXTS) applyRemoteBtsPrices(window.RF_SITE_TEXTS);
 
   updateSummary();
 })();

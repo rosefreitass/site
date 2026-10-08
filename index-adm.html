@@ -76,6 +76,20 @@ html,body{min-height:100%}body{background:var(--page);color:var(--ink);font-fami
 
 </style>
 
+
+<style id="bts-product-admin-style">
+.bts-product-admin-grid{display:grid;grid-template-columns:minmax(260px,.72fr) minmax(0,1.28fr);gap:24px;align-items:start}
+.bts-product-image-card{border:1px solid var(--rf-border);border-radius:9px;padding:18px;background:#fff;position:sticky;top:92px}
+.bts-product-image-preview{margin-top:12px;border:1px dashed #d7d9dd;border-radius:8px;overflow:hidden;background:#f6f6f6;min-height:220px;display:grid;place-items:center}
+.bts-product-image-preview img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain}
+.bts-product-fields{display:grid;gap:7px}
+.bts-product-fields .input{margin-bottom:7px}
+.bts-product-fields textarea{min-height:88px;resize:vertical;line-height:1.45}
+.bts-price-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:4px 0 8px}
+@media(max-width:900px){.bts-product-admin-grid{grid-template-columns:1fr}.bts-product-image-card{position:static}.bts-price-admin-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.bts-price-admin-grid{grid-template-columns:1fr}#produto-bts .panel-head{align-items:flex-start;flex-direction:column}#saveBtsProduct{width:100%}}
+</style>
+
 <style id="bts-orders-admin-style">
 .bts-order-stats{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
 .bts-order-pill{border:1px solid var(--rf-border);background:#fff;padding:9px 12px;border-radius:7px;font-size:.72rem;color:#64676d}
@@ -99,7 +113,7 @@ html,body{min-height:100%}body{background:var(--page);color:var(--ink);font-fami
 <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
 </head><body>
 <section id="login" class="login"><div class="card"><div class="brand">ROSE FREITAS</div><h1>Painel ADM</h1><p class="muted">Área administrativa protegida.</p><label class="label">E-mail</label><input id="email" class="input" type="email"><label class="label">Senha</label><input id="password" class="input" type="password"><button id="loginBtn" type="button" class="btn primary" style="width:100%;margin-top:18px">Entrar</button><div id="loginMsg" class="loginmsg"></div></div></section>
-<section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="pedidosbts">🛒 Pedidos BTS</button><button data-view="afiliados">🔗 Produtos Afiliados</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button><button data-view="textos">✏️ Textos do Site</button><button data-view="relatorios">📄 Relatórios</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
+<section id="app" class="shell hidden"><aside class="side"><div class="brand">RF ADM</div><h2>Rose Freitas</h2><nav id="nav" class="nav"><button class="active" data-view="dashboard">🏠 Dashboard</button><button data-view="produtos">📦 Produtos</button><button data-view="produto-bts">🧸 Produto BTS</button><button data-view="pedidosbts">🛒 Pedidos BTS</button><button data-view="afiliados">🔗 Produtos Afiliados</button><button data-view="cursos">📚 Cursos</button><button data-view="vip">💎 VIP / Assinaturas</button><button data-view="textos">✏️ Textos do Site</button><button data-view="relatorios">📄 Relatórios</button></nav><button id="logout" class="btn secondary logout">↪ Sair</button></aside><main class="main"><div class="top"><div><div class="brand">Painel administrativo</div><h1 id="title">Dashboard</h1></div><div id="user" class="user"></div></div>
 <div id="dashboard" class="view active"><div class="cards"><div class="stat"><small>Produtos</small><strong id="np">0</strong></div><div class="stat"><small>Cursos</small><strong id="nc">0</strong></div><div class="stat"><small>VIP</small><strong id="nv">0</strong></div><div class="stat"><small>Solicitações VIP</small><strong id="nr">0</strong></div></div>
 <div class="panel"><div class="panel-head"><div><h2>Estimativa VIP do mês</h2><div class="meta">Conta 1 vez cada solicitação que clicou em “enviar comprovante”. Não significa pagamento confirmado.</div></div></div>
 <div class="finance-grid">
@@ -110,6 +124,85 @@ html,body{min-height:100%}body{background:var(--page);color:var(--ink);font-fami
 </div>
 <div class="panel"><h2>Solicitações VIP recentes</h2><div id="recentes" class="request-grid"></div></div></div>
 <div id="produtos" class="view"><div class="panel"><div class="panel-head"><h2>Produtos</h2><button class="btn primary add" data-key="produto">+ Adicionar</button></div><div id="lp" class="items"></div></div></div>
+
+
+<div id="produto-bts" class="view">
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Produto BTS em destaque</h2>
+        <div class="meta">Troque a foto, os textos e os preços exibidos no site. As alterações entram no ar assim que forem salvas.</div>
+      </div>
+      <button id="saveBtsProduct" class="btn primary" type="button">Salvar produto</button>
+    </div>
+
+    <div id="btsProductStatus" class="meta" style="margin-bottom:18px"></div>
+
+    <div class="bts-product-admin-grid">
+      <div class="bts-product-image-card">
+        <label class="label" for="btsProductImage">Foto do produto</label>
+        <input id="btsProductImage" class="input" type="file" accept="image/jpeg,image/png,image/webp">
+        <div class="affiliate-help">JPG, PNG ou WEBP, até 5 MB. Se não escolher outra foto, a atual será mantida.</div>
+        <div class="bts-product-image-preview">
+          <img id="btsProductImagePreview" src="assets/bts-miniaturas-produto-20261008.jpg?v=20261008-1040" alt="Prévia da foto do produto BTS">
+        </div>
+        <input id="btsProductImagePath" type="hidden">
+        <input id="btsProductImageUrl" type="hidden">
+      </div>
+
+      <div class="bts-product-fields">
+        <label class="label">Selo</label>
+        <input class="input bts-product-input" data-chave="produto_bts_selo" value="Produto destaque">
+
+        <label class="label">Linha superior</label>
+        <input class="input bts-product-input" data-chave="produto_bts_kicker" value="Coleção especial • BTS">
+
+        <label class="label">Título</label>
+        <input class="input bts-product-input" data-chave="produto_bts_titulo" value="Miniatura membros do BTS">
+
+        <label class="label">Descrição 1</label>
+        <textarea class="input bts-product-input" data-chave="produto_bts_texto_1" rows="3">Miniaturas inspiradas nos integrantes do BTS, produzidas em resina através de impressão 3D, com atenção aos detalhes e acabamento artesanal.</textarea>
+
+        <label class="label">Descrição 2</label>
+        <textarea class="input bts-product-input" data-chave="produto_bts_texto_2" rows="3">Acabamento artesanal: cada peça recebe pintura e acabamento feitos à mão, tornando cada miniatura única e especial.</textarea>
+
+        <label class="label">Descrição 3</label>
+        <textarea class="input bts-product-input" data-chave="produto_bts_texto_3" rows="3">Ideal para colecionadores, fãs do BTS e para decorar seu espaço com uma peça exclusiva.</textarea>
+
+        <label class="label">Descrição 4</label>
+        <textarea class="input bts-product-input" data-chave="produto_bts_texto_4" rows="3">BTS em miniatura, feito com carinho para quem ama cada detalhe!</textarea>
+
+        <div class="bts-price-admin-grid">
+          <div><label class="label">Preço 10 cm</label><input class="input bts-product-input" data-chave="produto_bts_preco_10" inputmode="decimal" value="149,90"></div>
+          <div><label class="label">Preço 14 cm</label><input class="input bts-product-input" data-chave="produto_bts_preco_14" inputmode="decimal" value="179,90"></div>
+          <div><label class="label">Preço 16 cm</label><input class="input bts-product-input" data-chave="produto_bts_preco_16" inputmode="decimal" value="229,90"></div>
+          <div><label class="label">Preço 18 cm</label><input class="input bts-product-input" data-chave="produto_bts_preco_18" inputmode="decimal" value="259,90"></div>
+        </div>
+
+        <label class="label">Texto de produção</label>
+        <input class="input bts-product-input" data-chave="produto_bts_producao" value="Produção sob encomenda: o produto fica pronto em até 15 dias.">
+
+        <label class="label">Texto de frete</label>
+        <input class="input bts-product-input" data-chave="produto_bts_frete" value="Frete: o valor é comunicado após a compra.">
+
+        <label class="label">Botão principal</label>
+        <input class="input bts-product-input" data-chave="produto_bts_botao" value="Escolher membros e comprar →">
+
+        <label class="label">Título pequeno do carrinho</label>
+        <input class="input bts-product-input" data-chave="produto_bts_dialog_kicker" value="Monte seu pedido">
+
+        <label class="label">Título do carrinho</label>
+        <input class="input bts-product-input" data-chave="produto_bts_dialog_titulo" value="Escolha membro + tamanho">
+
+        <label class="label">Texto do carrinho</label>
+        <input class="input bts-product-input" data-chave="produto_bts_dialog_texto" value="Você pode selecionar tamanhos diferentes para cada membro.">
+
+        <label class="label">Texto do botão de pagamento</label>
+        <input class="input bts-product-input" data-chave="produto_bts_botao_pagamento" value="Ir para o pagamento">
+      </div>
+    </div>
+  </div>
+</div>
 
 <div id="pedidosbts" class="view">
   <div class="panel">
@@ -747,6 +840,120 @@ async function saveSiteTexts(){
 
 
 
+
+// ---------- Produto BTS em destaque ----------
+function normalizeBtsPrice(value){
+  const raw=String(value??'').trim().replace(/\s/g,'').replace(/R\$/gi,'').replace(/\./g,'').replace(',','.');
+  const n=Number(raw);
+  if(!Number.isFinite(n)||n<=0) throw new Error('Informe preços válidos e maiores que zero.');
+  return n.toFixed(2);
+}
+
+function btsProductPublicUrl(path){
+  const safe=String(path||'').split('/').map(encodeURIComponent).join('/');
+  return `${URL_SB}/storage/v1/object/public/produtos-afiliados/${safe}`;
+}
+
+async function uploadBtsProductImage(file){
+  if(!file) return null;
+  if(!/^image\/(jpeg|png|webp)$/i.test(file.type||'')) throw new Error('Escolha uma imagem JPG, PNG ou WEBP.');
+  if(file.size>5*1024*1024) throw new Error('A imagem deve ter no máximo 5 MB.');
+  const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,5)||'jpg';
+  const rand=(globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():Math.random().toString(36).slice(2);
+  const path=`bts-destaque/${Date.now()}-${rand}.${ext}`;
+  const encoded=path.split('/').map(encodeURIComponent).join('/');
+  const res=await authenticatedFetch(`${URL_SB}/storage/v1/object/produtos-afiliados/${encoded}`,{
+    method:'POST',
+    headers:{'Content-Type':file.type||'application/octet-stream','x-upsert':'false'},
+    body:file
+  });
+  const txt=await res.text();
+  if(!res.ok){
+    let detail=txt;try{detail=JSON.parse(txt)?.message||txt}catch{}
+    throw new Error('Não foi possível enviar a imagem. '+detail);
+  }
+  return {path,url:btsProductPublicUrl(path)};
+}
+
+async function loadBtsProductSettings(){
+  const status=$('btsProductStatus');
+  if(status) status.textContent='Carregando produto...';
+  try{
+    const dados=await api('/rest/v1/site_textos?select=chave,conteudo');
+    const mapa={};
+    (dados||[]).forEach(x=>mapa[x.chave]=x.conteudo??'');
+
+    document.querySelectorAll('.bts-product-input').forEach(el=>{
+      const chave=el.dataset.chave;
+      if(Object.prototype.hasOwnProperty.call(mapa,chave) && mapa[chave] !== '') el.value=mapa[chave];
+    });
+
+    const url=mapa.produto_bts_imagem_url||'';
+    const path=mapa.produto_bts_imagem_path||'';
+    if($('btsProductImageUrl')) $('btsProductImageUrl').value=url;
+    if($('btsProductImagePath')) $('btsProductImagePath').value=path;
+    if(url && $('btsProductImagePreview')) $('btsProductImagePreview').src=url;
+
+    if(status) status.textContent='Produto carregado.';
+  }catch(e){
+    console.error(e);
+    if(status) status.textContent='Não foi possível carregar o produto: '+e.message;
+  }
+}
+
+async function saveBtsProductSettings(){
+  const btn=$('saveBtsProduct');
+  const status=$('btsProductStatus');
+  if(btn){btn.disabled=true;btn.textContent='Salvando...'}
+  if(status) status.textContent='Salvando alterações...';
+
+  try{
+    const itens=[...document.querySelectorAll('.bts-product-input')].map(el=>{
+      let conteudo=el.value.trim();
+      if(/^produto_bts_preco_/.test(el.dataset.chave)) conteudo=normalizeBtsPrice(conteudo);
+      return {chave:el.dataset.chave,conteudo};
+    });
+
+    const file=$('btsProductImage')?.files?.[0];
+    let newImage=null;
+    if(file){
+      newImage=await uploadBtsProductImage(file);
+      itens.push({chave:'produto_bts_imagem_url',conteudo:newImage.url});
+      itens.push({chave:'produto_bts_imagem_path',conteudo:newImage.path});
+    }
+
+    for(const item of itens){
+      await api('/rest/v1/site_textos?on_conflict=chave',{
+        method:'POST',
+        headers:{Prefer:'resolution=merge-duplicates,return=minimal'},
+        body:JSON.stringify({
+          chave:item.chave,
+          conteudo:item.conteudo,
+          atualizado_em:new Date().toISOString()
+        })
+      });
+    }
+
+    if(newImage){
+      const oldPath=$('btsProductImagePath')?.value||'';
+      if(oldPath && oldPath!==newImage.path) removeAffiliateImage(oldPath);
+      $('btsProductImagePath').value=newImage.path;
+      $('btsProductImageUrl').value=newImage.url;
+      $('btsProductImagePreview').src=newImage.url+'?v='+Date.now();
+      $('btsProductImage').value='';
+    }
+
+    if(status) status.textContent='Salvo. As alterações já estão disponíveis no site.';
+  }catch(e){
+    console.error(e);
+    if(status) status.textContent='Erro ao salvar: '+e.message;
+    alert('Erro ao salvar o produto: '+e.message);
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='Salvar produto'}
+  }
+}
+
+
 // ---------- Produtos de afiliada ----------
 let affiliateItems=[];
 let editingAffiliate=null;
@@ -1090,8 +1297,8 @@ async function loadBtsOrders(){
   }
 }
 
-async function refresh(){await loadMain();await loadReq();await loadFinanceiro();await loadSiteTexts();await loadAffiliateProducts();await loadBtsOrders()}
-$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;$('saveSiteTexts').onclick=saveSiteTexts;if($('novoAfiliado'))$('novoAfiliado').onclick=()=>affiliateForm();if($('refreshBtsOrders'))$('refreshBtsOrders').onclick=loadBtsOrders;
+async function refresh(){await loadMain();await loadReq();await loadFinanceiro();await loadSiteTexts();await loadBtsProductSettings();await loadAffiliateProducts();await loadBtsOrders()}
+$('logout').onclick=logout;$('close').onclick=closeModal;$('filter').onchange=loadReq;$('filterVip').onchange=loadReq;$('saveSiteTexts').onclick=saveSiteTexts;if($('saveBtsProduct'))$('saveBtsProduct').onclick=saveBtsProductSettings;if($('novoAfiliado'))$('novoAfiliado').onclick=()=>affiliateForm();if($('refreshBtsOrders'))$('refreshBtsOrders').onclick=loadBtsOrders;if($('btsProductImage'))$('btsProductImage').onchange=()=>{const file=$('btsProductImage').files?.[0];if(file){const url=URL.createObjectURL(file);$('btsProductImagePreview').src=url;}};
 
 const agoraRel=new Date();
 $('reportMes').value=agoraRel.getFullYear()+'-'+String(agoraRel.getMonth()+1).padStart(2,'0');

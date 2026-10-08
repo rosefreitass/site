@@ -843,7 +843,12 @@ async function saveSiteTexts(){
 
 // ---------- Produto BTS em destaque ----------
 function normalizeBtsPrice(value){
-  const raw=String(value??'').trim().replace(/\s/g,'').replace(/R\$/gi,'').replace(/\./g,'').replace(',','.');
+  let raw=String(value??'').trim().replace(/\s/g,'').replace(/R\$/gi,'');
+  if(raw.includes(',')){
+    raw=raw.replace(/\./g,'').replace(',','.');
+  }else if((raw.match(/\./g)||[]).length>1){
+    raw=raw.replace(/\./g,'');
+  }
   const n=Number(raw);
   if(!Number.isFinite(n)||n<=0) throw new Error('Informe preços válidos e maiores que zero.');
   return n.toFixed(2);
